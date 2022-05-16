@@ -13,23 +13,13 @@ final class HomeViewController: UIViewController, Stepper {
     var homeView: HomeView!
 
     private let disposeBag = DisposeBag()
-
-    override func viewDidLoad() {
-        configureView()
-        
+    
+    func setup(with homeView: HomeView) {
+        self.homeView = homeView
+        self.view.addSubview(self.homeView)
+        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
         setupViewModelBindings()
         setupViewBindings()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
-    }
-    
-    private func configureView() {
-        homeView = HomeView()
-        self.view.addSubview(homeView)
-        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 }
 
@@ -37,8 +27,7 @@ final class HomeViewController: UIViewController, Stepper {
 extension HomeViewController {
     private func setupViewModelBindings() {
         viewModel.onTransition
-            .subscribe(onNext: { [unowned self] in
-                steps.accept($0) })
+            .subscribe(onNext: { [unowned self] in steps.accept($0) })
             .disposed(by: disposeBag)
  
         viewModel.onLoader

@@ -15,7 +15,6 @@
 		3B392A4C282E5E320055F6E9 /* CreateStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A47282E5E320055F6E9 /* CreateStep.swift */; };
 		3B392A4F282E75090055F6E9 /* AppRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A4E282E75090055F6E9 /* AppRepository.swift */; };
 		3B392A52282E96390055F6E9 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A51282E96390055F6E9 /* Repository.swift */; };
-		3B392A54282E99B60055F6E9 /* UpdateableWithUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A53282E99B60055F6E9 /* UpdateableWithUser.swift */; };
 		3B392A56282EA6600055F6E9 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A55282EA6600055F6E9 /* Manager.swift */; };
 		3B9CFA93282E4D350037A8DB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA6E282E4D350037A8DB /* SettingsViewModel.swift */; };
 		3B9CFA94282E4D350037A8DB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA70282E4D350037A8DB /* SettingsViewController.swift */; };
@@ -37,6 +36,7 @@
 		3B9CFAA5282E4D350037A8DB /* ToAppFlowNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA8F282E4D350037A8DB /* ToAppFlowNavigation.swift */; };
 		3B9CFAA6282E4D350037A8DB /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA90282E4D350037A8DB /* AppFlow.swift */; };
 		3B9CFAA7282E4D350037A8DB /* AppStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA91282E4D350037A8DB /* AppStep.swift */; };
+		3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +48,6 @@
 		3B392A47282E5E320055F6E9 /* CreateStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateStep.swift; sourceTree = "<group>"; };
 		3B392A4E282E75090055F6E9 /* AppRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRepository.swift; sourceTree = "<group>"; };
 		3B392A51282E96390055F6E9 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		3B392A53282E99B60055F6E9 /* UpdateableWithUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateableWithUser.swift; sourceTree = "<group>"; };
 		3B392A55282EA6600055F6E9 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		3B5F8603282E461A00913C3B /* NavigationTemplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavigationTemplate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B9CFA6E282E4D350037A8DB /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -72,6 +71,7 @@
 		3B9CFA90282E4D350037A8DB /* AppFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		3B9CFA91282E4D350037A8DB /* AppStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStep.swift; sourceTree = "<group>"; };
 		3B9CFAA9282E4EF60037A8DB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewModel.swift; sourceTree = "<group>"; };
 		6D9E4232392C8930D5D940B1 /* Pods-NavigationTemplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavigationTemplate.debug.xcconfig"; path = "Target Support Files/Pods-NavigationTemplate/Pods-NavigationTemplate.debug.xcconfig"; sourceTree = "<group>"; };
 		EBCA4BF8AD032EEDC855836A /* Pods-NavigationTemplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavigationTemplate.release.xcconfig"; path = "Target Support Files/Pods-NavigationTemplate/Pods-NavigationTemplate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,7 +146,6 @@
 			isa = PBXGroup;
 			children = (
 				3B9CFA88282E4D350037A8DB /* User.swift */,
-				3B392A53282E99B60055F6E9 /* UpdateableWithUser.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -286,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				3B9CFA79282E4D350037A8DB /* HomeViewModel.swift */,
+				3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -510,6 +510,7 @@
 				3B9CFA9C282E4D350037A8DB /* HomeAboutViewController.swift in Sources */,
 				3B392A4A282E5E320055F6E9 /* CreateView.swift in Sources */,
 				3B9CFAA0282E4D350037A8DB /* User.swift in Sources */,
+				3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */,
 				3B9CFA9E282E4D350037A8DB /* HomeFlow.swift in Sources */,
 				3B9CFA9A282E4D350037A8DB /* HomeView.swift in Sources */,
 				3B9CFA99282E4D350037A8DB /* HomeViewController.swift in Sources */,
@@ -521,7 +522,6 @@
 				3B9CFAA4282E4D350037A8DB /* SceneDelegate.swift in Sources */,
 				3B9CFA9D282E4D350037A8DB /* HomeAboutView.swift in Sources */,
 				3B9CFA93282E4D350037A8DB /* SettingsViewModel.swift in Sources */,
-				3B392A54282E99B60055F6E9 /* UpdateableWithUser.swift in Sources */,
 				3B392A48282E5E320055F6E9 /* CreateViewModel.swift in Sources */,
 				3B9CFA9F282E4D350037A8DB /* HomeStep.swift in Sources */,
 				3B9CFA96282E4D350037A8DB /* SettingsFlow.swift in Sources */,

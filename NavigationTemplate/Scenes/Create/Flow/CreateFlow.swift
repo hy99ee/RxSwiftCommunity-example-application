@@ -1,12 +1,13 @@
 import UIKit
+import RxSwift
 import RxFlow
 
 class CreateFlow {
     private let viewController: CreateViewController
 
-    init() {
+    init(save saveTransaction: PublishSubject<User>) {
         viewController = CreateViewController()
-        let viewModel = CreateViewModel()
+        let viewModel = CreateViewModel(save: saveTransaction)
         viewController.viewModel = viewModel
     }
 }
@@ -21,8 +22,6 @@ extension CreateFlow: Flow {
         switch step {
         case .start:
             return .one(flowContributor: .contribute(withNextPresentable: viewController, withNextStepper: viewController))
-        case let .create(user):
-            return navigateFromAppFlow(AppStep.fromCreate(user: user))
         case .close:
             return navigateToRoot()
         }

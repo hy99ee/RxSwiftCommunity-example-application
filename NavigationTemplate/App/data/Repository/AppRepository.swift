@@ -2,10 +2,7 @@ import RxCocoa
 import RxSwift
 
 class AppRepository: Repository<User> {
-    
-    static let shared = AppRepository()
-    
-    private override init() {
+    override init() {
         super.init()
 
         _elements = [

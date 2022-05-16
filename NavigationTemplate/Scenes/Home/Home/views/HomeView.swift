@@ -3,6 +3,8 @@ import RxCocoa
 import RxSwift
 
 class HomeView: UIView {
+    var viewModel: HomeViewViewModel!
+    
     private let nextText: String = "Home"
     
     let onTapNext: Signal<Void>
@@ -29,11 +31,12 @@ class HomeView: UIView {
         return indicator
     }()
     
-    private lazy var nextButton: UIButton = {
+    private lazy var acceptButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 37)
+        button.setTitle("Create", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.clipsToBounds = true
         button.layer.cornerRadius = 20
 
@@ -59,16 +62,25 @@ class HomeView: UIView {
         return button
     }()
     
-    lazy var showViews = AnyObserver<Bool>(eventHandler: { [weak self] in
-        self?.nextButton.isHidden = !$0.element!
-        self?.welcomeLabel.isHidden = !$0.element!
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView
+            .translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+    
+    lazy var showViews = AnyObserver<Bool>(eventHandler: { [weak self] event in
+        guard let event = event.element else { return }
+        self?.views.forEach({ view in view.isHidden = !event })
     })
+    
+    private var views: [UIView] = []
 
-    convenience init() {
-        self.init(frame: .zero)
-    }
+    init(viewModel: HomeViewViewModel) {
+        self.viewModel = viewModel
 
-    override init(frame: CGRect) {
         tapNext = PublishRelay<Void>()
         onTapNext = tapNext.asSignal()
 
@@ -78,7 +90,7 @@ class HomeView: UIView {
         tapCreate = PublishRelay<Void>()
         onTapCreate = tapCreate.asSignal()
         
-        super.init(frame: frame)
+        super.init(frame: .zero)
 
         configure()
     }
@@ -94,7 +106,8 @@ private extension HomeView {
         backgroundColor = .yellow
         
         configureWelcomeLabel()
-        configureLoginButton()
+        configureAcceptButton()
+        configureCollectionView()
         configureLoadingView()
         configureAboutButton()
         configureCreateButton()
@@ -108,6 +121,7 @@ private extension HomeView {
             maker.centerX.equalToSuperview()
             maker.centerY.equalToSuperview().offset(50)
         }
+        views.append(welcomeLabel)
     }
     
     func configureLoadingView() {
@@ -119,15 +133,25 @@ private extension HomeView {
         loadingView.startAnimating()
     }
     
-    func configureLoginButton() {
-        addSubview(nextButton)
-        nextButton.snp.makeConstraints { maker in
-            maker.centerX.equalToSuperview()
-            maker.centerY.equalToSuperview()
-            maker.width.equalTo(150)
+    func configureAcceptButton() {
+        addSubview(acceptButton)
+        acceptButton.snp.makeConstraints { maker in
+            maker.bottom.equalToSuperview().inset(30)
+            maker.trailing.equalToSuperview().inset(20)
+            maker.width.equalTo(100)
+        }
+        views.append(acceptButton)
+    }
+
+    func configureCollectionView() {
+        addSubview(tableView)
+        tableView.snp.makeConstraints { maker in
+            maker.top.equalToSuperview().offset(200)
+            maker.leading.trailing.equalToSuperview()
+            maker.bottom.equalTo(acceptButton.snp_topMargin).offset(-20)
         }
     }
-    
+
     func configureAboutButton() {
         addSubview(aboutButton)
         aboutButton.snp.makeConstraints { maker in
@@ -136,6 +160,7 @@ private extension HomeView {
             maker.width.equalTo(40)
             maker.height.equalTo(40)
         }
+        views.append(aboutButton)
     }
     
     func configureCreateButton() {
@@ -146,13 +171,20 @@ private extension HomeView {
             maker.width.equalTo(40)
             maker.height.equalTo(40)
         }
+        views.append(createButton)
     }
 }
 
 //MARK: Bindings
 extension HomeView {
     private func setupBindings() {
-        nextButton.rx.tap
+        viewModel.elements
+            .bind(to: tableView.rx.items(cellIdentifier: "Cell")) { indexPath, title, cell in
+                cell.textLabel?.text = title.name
+            }
+            .disposed(by: disposeBag)
+
+        acceptButton.rx.tap
             .bind(to: tapNext)
             .disposed(by: disposeBag)
                 

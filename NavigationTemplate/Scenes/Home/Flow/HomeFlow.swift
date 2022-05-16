@@ -1,16 +1,25 @@
 import UIKit
+import RxSwift
 import RxFlow
 
 class HomeFlow {
-    var rootViewController: UINavigationController
+//    var rootViewController: UINavigationController
+    private let onUsers: Observable<[User]?>
+    
     private let viewController: HomeViewController
 
-    init(root rootViewController: UINavigationController) {
-        self.rootViewController = rootViewController
+    
+    init(onUsers: Observable<[User]?>) {
+        self.onUsers = onUsers
 
         viewController = HomeViewController()
         let viewModel = HomeViewModel()
         viewController.viewModel = viewModel
+        
+        let viewViewModel = HomeViewViewModel(elements: self.onUsers)
+        let view = HomeView(viewModel: viewViewModel)
+        
+        viewController.setup(with: view)
     }
 }
 
@@ -44,7 +53,7 @@ private extension HomeFlow {
         let viewModel = HomeAboutViewModel()
         viewController.viewModel = viewModel
 
-        rootViewController.present(viewController, animated: true)
+        self.viewController.present(viewController, animated: true)
 
         return .none
     }

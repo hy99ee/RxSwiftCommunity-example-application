@@ -15,9 +15,13 @@ class CreateViewModel {
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
     
+    private let saveTransaction: PublishSubject<User>
+    
     let disposeBag = DisposeBag()
     
-    init() {
+    init(save saveTransaction: PublishSubject<User>) {
+        self.saveTransaction = saveTransaction
+        
         let transition = PublishSubject<Step>()
         self.transition = transition.asObserver()
         self.onTransition = transition.asObservable()
@@ -36,19 +40,11 @@ class CreateViewModel {
         setupBindings()
     }
 
-    private func requestUser() -> Single<Step> {
+    private func saveUser() -> Single<User> {
         Single
-            .just(CreateStep.create(user: User.init(id: 88, name: "Example", age: 00)))
+            .just(User.init(id: 111, name: "RX TEMPLATE", age: 100))
             .delay(.seconds(1), scheduler: MainScheduler.instance)
-            .do(onSuccess: { [weak self] _ in self?.close.onNext(()) })
-
-//        request
-//            .map({ _ -> Void in })
-////            .asObservable()
-//            .subscribe(close)
-//            .disposed(by: disposeBag)
-
-//        return request
+//            .do(onSuccess: { [weak self] _ in self?.close.onNext(()) })
     }
 }
 
@@ -57,12 +53,12 @@ extension CreateViewModel {
     private func setupBindings() {
         onTapCreate
             .do(onNext: { [weak self] in self?.loader.accept(false) })
-            .flatMap { [unowned self] in self.requestUser() }
+            .flatMap { [unowned self] in self.saveUser() }
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
-            .bind(to: transition)
+            .bind(to: saveTransaction)
             .disposed(by: disposeBag)
                 
-        onClose
+        saveTransaction
             .map { _ -> Step in CreateStep.close }
             .bind(to: transition)
             .disposed(by: disposeBag)

@@ -3,24 +3,23 @@ import RxSwift
 import RxFlow
 
 class HomeViewModel {
-
     let tapNext: AnyObserver<Void>
     private let onTapNext: Observable<Void>
 
     let tapAbout: AnyObserver<Void>
     private let onTapAbout: Observable<Void>
-    
+
     let tapCreate: AnyObserver<Void>
     private let onTapCreate: Observable<Void>
 
     private let transition: AnyObserver<Step>
     let onTransition: Observable<Step>
-    
+
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
-    
+
     let disposeBag = DisposeBag()
-    
+
     init() {
         let transition = PublishSubject<Step>()
         self.transition = transition.asObserver()

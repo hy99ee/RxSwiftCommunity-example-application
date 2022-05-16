@@ -1,19 +1,21 @@
 import UIKit
+import RxSwift
 import RxFlow
 
 class AppFlow {
     static let shared = AppFlow()
-    var openStep: Step!
     let rootViewController: UINavigationController
     
     let manager: Manager<Repository<User>>
+    
+    private let disposeBag = DisposeBag()
 
     private init() {
         let rootViewController = UINavigationController()
         rootViewController.setNavigationBarHidden(false, animated: false)
         self.rootViewController = rootViewController
 
-        manager = Manager(repository: AppRepository.shared)
+        manager = Manager(repository: AppRepository())
     }
 }
 
@@ -31,8 +33,6 @@ extension AppFlow: Flow {
         case .toHome: return openHome()
         case .toCreate: return openCreate()
         case .toSettings: return openSettings()
-
-        case let .fromCreate(user): return manager.add(user)
         }
     }
 }
@@ -46,7 +46,7 @@ private extension AppFlow {
     }
 
     func openHome() -> FlowContributors {
-        let homeFlow = HomeFlow(root: rootViewController)
+        let homeFlow = HomeFlow(onUsers: manager.elements.asObservable())
 
         Flows.use(homeFlow, when: .created) { [unowned self] root in
             self.rootViewController.pushViewController(root, animated: true)
@@ -57,7 +57,7 @@ private extension AppFlow {
     }
 
     func openCreate() -> FlowContributors {
-        let createFlow = CreateFlow()
+        let createFlow = CreateFlow(save: manager.saveTransaction)
 
         Flows.use(createFlow, when: .created) { [unowned self] root in
             self.rootViewController.pushViewController(root, animated: true)
@@ -77,9 +77,20 @@ private extension AppFlow {
         return .one(flowContributor: .contribute(withNextPresentable: settingsFlow,
                                                  withNextStepper: OneStepper(withSingleStep: SettingsStep.start(user: manager.first))))
     }
-
-    func fromCreate(_ user: User) -> FlowContributors {
-        
-        return manager.add(user)
-    }
 }
+
+//// MARK: - Bindings
+//private extension AppFlow {
+//    func bindFlow(_ flow: Flow) {
+//        switch flow {
+//        case let flow as HomeFlow:
+//            manager.elements()
+//                .debug("----------> ")
+//                .subscribe(flow.users)
+//                .disposed(by: disposeBag)
+//        default: break
+//        }
+//    }
+//}
+    
+    
