@@ -2,14 +2,13 @@ import UIKit
 import RxSwift
 import RxFlow
 
-class HomeFlow {
-//    var rootViewController: UINavigationController
-    private let onUsers: Observable<[User]?>
-    
+final class HomeFlow {
+    private let onUsers: Observable<[User]>
+
     private let viewController: HomeViewController
 
     
-    init(onUsers: Observable<[User]?>) {
+    init(onUsers: Observable<[User]>) {
         self.onUsers = onUsers
 
         viewController = HomeViewController()

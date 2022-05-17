@@ -4,7 +4,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-final class HomeAboutViewController: UIViewController, Stepper {
+final class HomeAboutViewController: UINavigationController, Stepper {
 
     let steps = PublishRelay<Step>()
 

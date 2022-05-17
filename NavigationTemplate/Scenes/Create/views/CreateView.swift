@@ -103,16 +103,5 @@ extension CreateView {
         closeButton.rx.tap
             .bind(to: tapClose)
             .disposed(by: disposeBag)
-//
-//        nextButton.rx.tap
-//            .map({ _ -> CGFloat in 0.75 })
-//            .bind(to: nextButton.rx.alpha)
-//            .disposed(by: disposeBag)
-//
-//        nextButton.rx.tap
-//            .delay(.milliseconds(250), scheduler: MainScheduler.instance)
-//            .map({ _ -> CGFloat in 1 })
-//            .bind(to: nextButton.rx.alpha)
-//            .disposed(by: disposeBag)
     }
 }

@@ -12,7 +12,7 @@ class AppFlow {
 
     private init() {
         let rootViewController = UINavigationController()
-        rootViewController.setNavigationBarHidden(false, animated: false)
+        rootViewController.setNavigationBarHidden(true, animated: false)
         self.rootViewController = rootViewController
 
         manager = Manager(repository: AppRepository())
@@ -78,19 +78,3 @@ private extension AppFlow {
                                                  withNextStepper: OneStepper(withSingleStep: SettingsStep.start(user: manager.first))))
     }
 }
-
-//// MARK: - Bindings
-//private extension AppFlow {
-//    func bindFlow(_ flow: Flow) {
-//        switch flow {
-//        case let flow as HomeFlow:
-//            manager.elements()
-//                .debug("----------> ")
-//                .subscribe(flow.users)
-//                .disposed(by: disposeBag)
-//        default: break
-//        }
-//    }
-//}
-    
-    
