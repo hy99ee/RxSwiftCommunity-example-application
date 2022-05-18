@@ -19,8 +19,8 @@ class AppFlow {
         self.rootViewController = rootViewController
 
         manager = Manager(repository: AppRepository())
-        saveTransaction = (manager.save, manager.onUploaded)
-        loadTransaction = (manager.onElements, manager.onLoad)
+        saveTransaction = (manager.save, manager.onIsLoad)
+        loadTransaction = (manager.onElements, manager.onIsLoad)
         
     }
 }

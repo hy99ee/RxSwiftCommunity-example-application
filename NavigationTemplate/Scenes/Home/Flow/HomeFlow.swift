@@ -9,8 +9,8 @@ final class HomeFlow {
     private let viewController: HomeViewController
 
     init(manager: Manager<Repository<User>>) {
-        self.loadTransaction = (manager.onElements, manager.onLoad)
-        self.refreshTransaction = (manager.refresh, manager.onUploaded)
+        self.loadTransaction = (manager.onElements, manager.onIsLoad)
+        self.refreshTransaction = (manager.refresh, manager.onIsLoad)
 
         viewController = HomeViewController()
         let viewModel = HomeViewModel()
@@ -20,7 +20,8 @@ final class HomeFlow {
         let homeView = HomeView()
 
         let tableViewModel = HomeViewTableViewModel(refresh: refreshTransaction)
-        let tableView = HomeViewTableView(viewModel: tableViewModel)
+        let tableView = HomeViewTableView()
+        tableView.viewModel = tableViewModel
 
         homeView.viewModel = homeViewViewModel
         homeView.tableView = tableView.configured()

@@ -10,7 +10,15 @@ final class HomeViewController: UIViewController, Stepper {
 
     var viewModel: HomeViewModel!
     
+    private let didDisappear = PublishSubject<Void>()
+    
     var homeView: HomeView!
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+    
+        didDisappear.onNext(())
+    }
 
     private let disposeBag = DisposeBag()
     
@@ -40,6 +48,11 @@ extension HomeViewController {
     }
     
     private func setupViewBindings() {
+        didDisappear
+            .map({ false })
+            .bind(to: homeView.tableView.pullToRefresh.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
         homeView.onTapNext
             .emit(to: viewModel.tapNext)
             .disposed(by: disposeBag)

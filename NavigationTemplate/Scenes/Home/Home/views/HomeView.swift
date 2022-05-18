@@ -215,12 +215,14 @@ extension HomeView {
             }
             .disposed(by: disposeBag)
 
-        viewModel.loadTransaction.onElements
+        viewModel.loadTransaction.onIsLoad
+            .filter({ !$0 })
             .map({ _ -> CGFloat in 1 })
             .bind(to: tableView.rx.alpha)
             .disposed(by: disposeBag)
 
-        viewModel.loadTransaction.onLoad
+        viewModel.loadTransaction.onIsLoad
+            .filter({ $0 })
             .map({ _ -> CGFloat in 0.5 })
             .bind(to: tableView.rx.alpha)
             .disposed(by: disposeBag)

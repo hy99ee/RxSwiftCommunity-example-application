@@ -57,7 +57,6 @@ private extension HomeViewTableViewCell {
     func configureDateLabel() {
         contentView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints { maker in
-            
             maker.top.bottom.equalToSuperview()
             maker.trailing.equalToSuperview()
             maker.leading.equalTo(titleLabel.snp_trailingMargin)

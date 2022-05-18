@@ -19,12 +19,9 @@ class Manager<T: RepositoryType>: ManagerType {
     
     let refresh: AnyObserver<Void>
     private let onRefresh: Observable<Void>
-
-    let onUploaded: Observable<Void>
-    private let uploaded: AnyObserver<Void>
     
-    let onLoad: Observable<Void>
-    private let load: AnyObserver<Void>
+    let onIsLoad: Observable<Bool>
+    private let isLoad: AnyObserver<Bool>
 
     private let disposeBag = DisposeBag()
 
@@ -42,14 +39,10 @@ class Manager<T: RepositoryType>: ManagerType {
         let save = PublishSubject<RepositoryT.Element>()
         self.save = save.asObserver()
         self.onSave = save.asObservable()
-        
-        let uploaded = PublishSubject<Void>()
-        self.uploaded = uploaded.asObserver()
-        self.onUploaded = uploaded.asObservable()
 
-        let load = PublishSubject<Void>()
-        self.load = load.asObserver()
-        self.onLoad = load.asObservable()
+        let isLoad = PublishSubject<Bool>()
+        self.isLoad = isLoad.asObserver()
+        self.onIsLoad = isLoad.asObservable()
 
         setupBindings()
     }
@@ -78,13 +71,8 @@ extension Manager {
             .bind(to: elements)
             .disposed(by: disposeBag)
         
-        repository.onUploaded
-            .bind(to: uploaded)
+        repository.onIsLoad
+            .bind(to: isLoad)
             .disposed(by: disposeBag)
-        
-        repository.onLoad
-            .bind(to: load)
-            .disposed(by: disposeBag)
-
     }
 }
