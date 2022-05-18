@@ -14,9 +14,9 @@ final class HomeViewController: UIViewController, Stepper {
 
     private let disposeBag = DisposeBag()
     
-    func setup(with homeView: HomeView) {
+    func setupView(_ homeView: HomeView) {
         self.homeView = homeView
-        self.view.addSubview(self.homeView)
+        view.addSubview(self.homeView)
         homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
         setupViewModelBindings()
         setupViewBindings()

@@ -5,8 +5,8 @@ import RxSwift
 class CreateView: UIView {
     private let nextText: String = "Home"
     
-    let onTapClose: Signal<Void>
-    private let tapClose: PublishRelay<Void>
+    let onTapCreate: Signal<Void>
+    private let tapCreate: PublishRelay<Void>
 
     let disposeBag = DisposeBag()
 
@@ -23,7 +23,7 @@ class CreateView: UIView {
         return indicator
     }()
     
-    private lazy var closeButton: UIButton = {
+    private lazy var createButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .red
         button.setTitleColor(.black, for: .normal)
@@ -35,7 +35,7 @@ class CreateView: UIView {
     }()
     
     lazy var showViews = AnyObserver<Bool>(eventHandler: { [weak self] in
-        self?.closeButton.isHidden = !$0.element!
+        self?.createButton.isHidden = !$0.element!
         self?.welcomeLabel.isHidden = !$0.element!
     })
 
@@ -44,8 +44,8 @@ class CreateView: UIView {
     }
 
     override init(frame: CGRect) {
-        tapClose = PublishRelay<Void>()
-        onTapClose = tapClose.asSignal()
+        tapCreate = PublishRelay<Void>()
+        onTapCreate = tapCreate.asSignal()
         
         super.init(frame: frame)
 
@@ -57,13 +57,13 @@ class CreateView: UIView {
     }
 }
 
-//MARK: Configure views
+//MARK: Configure UI
 private extension CreateView {
     func configure() {
         backgroundColor = .blue
         
         configureWelcomeLabel()
-        configureCloseButton()
+        configureCreateButton()
         configureLoadingView()
         
         setupBindings()
@@ -88,9 +88,9 @@ private extension CreateView {
         loadingView.startAnimating()
     }
     
-    func configureCloseButton() {
-        addSubview(closeButton)
-        closeButton.snp.makeConstraints { maker in
+    func configureCreateButton() {
+        addSubview(createButton)
+        createButton.snp.makeConstraints { maker in
             maker.centerX.centerY.equalToSuperview().inset(30)
             maker.height.width.equalTo(60)
         }
@@ -100,8 +100,8 @@ private extension CreateView {
 //MARK: Bindings
 extension CreateView {
     private func setupBindings() {
-        closeButton.rx.tap
-            .bind(to: tapClose)
+        createButton.rx.tap
+            .bind(to: tapCreate)
             .disposed(by: disposeBag)
     }
 }

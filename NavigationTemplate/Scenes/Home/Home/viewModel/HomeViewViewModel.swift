@@ -1,10 +1,10 @@
 import RxSwift
 
 
-class HomeViewViewModel {
-    let elements: Observable<[User]>
-    
-    init(elements: Observable<[User]>) {
-        self.elements = elements
+class HomeViewViewModel: ManagerLoaderType {
+    let loadTransaction: LoadTransaction
+
+    init(load loadTransaction: LoadTransaction) {
+        self.loadTransaction = loadTransaction
     }
 }

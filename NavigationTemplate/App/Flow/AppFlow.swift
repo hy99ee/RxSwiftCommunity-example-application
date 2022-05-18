@@ -7,7 +7,10 @@ class AppFlow {
     let rootViewController: UINavigationController
     
     let manager: Manager<Repository<User>>
-    
+
+    let saveTransaction: SaveTransaction
+    let loadTransaction: LoadTransaction
+
     private let disposeBag = DisposeBag()
 
     private init() {
@@ -16,6 +19,9 @@ class AppFlow {
         self.rootViewController = rootViewController
 
         manager = Manager(repository: AppRepository())
+        saveTransaction = (manager.save, manager.onUploaded)
+        loadTransaction = (manager.onElements, manager.onLoad)
+        
     }
 }
 
@@ -46,7 +52,7 @@ private extension AppFlow {
     }
 
     func openHome() -> FlowContributors {
-        let homeFlow = HomeFlow(onUsers: manager.elements.asObservable())
+        let homeFlow = HomeFlow(manager: manager)
 
         Flows.use(homeFlow, when: .created) { [unowned self] root in
             self.rootViewController.pushViewController(root, animated: true)
@@ -57,7 +63,7 @@ private extension AppFlow {
     }
 
     func openCreate() -> FlowContributors {
-        let createFlow = CreateFlow(save: manager.saveTransaction)
+        let createFlow = CreateFlow(save: saveTransaction)
 
         Flows.use(createFlow, when: .created) { [unowned self] root in
             self.rootViewController.pushViewController(root, animated: true)

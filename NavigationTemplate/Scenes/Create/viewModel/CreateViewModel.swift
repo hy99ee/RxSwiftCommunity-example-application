@@ -2,7 +2,7 @@ import RxCocoa
 import RxSwift
 import RxFlow
 
-class CreateViewModel {
+class CreateViewModel: ManagerSaverType {
     let tapCreate: AnyObserver<Void>
     private let onTapCreate: Observable<Void>
     
@@ -15,11 +15,11 @@ class CreateViewModel {
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
     
-    private let saveTransaction: PublishSubject<User>
+    let saveTransaction: SaveTransaction
     
     let disposeBag = DisposeBag()
     
-    init(save saveTransaction: PublishSubject<User>) {
+    init(save saveTransaction: SaveTransaction) {
         self.saveTransaction = saveTransaction
         
         let transition = PublishSubject<Step>()
@@ -43,8 +43,6 @@ class CreateViewModel {
     private func saveUser() -> Single<User> {
         Single
             .just(User.init(id: 111, name: "RX TEMPLATE", age: 100))
-            .delay(.seconds(1), scheduler: MainScheduler.instance)
-//            .do(onSuccess: { [weak self] _ in self?.close.onNext(()) })
     }
 }
 
@@ -54,12 +52,12 @@ extension CreateViewModel {
         onTapCreate
             .do(onNext: { [weak self] in self?.loader.accept(false) })
             .flatMap { [unowned self] in self.saveUser() }
-            .do(onNext: { [weak self] _ in self?.loader.accept(true) })
-            .bind(to: saveTransaction)
+            .bind(to: saveTransaction.save)
             .disposed(by: disposeBag)
-                
-        saveTransaction
+
+        saveTransaction.onUploaded
             .map { _ -> Step in CreateStep.close }
+            .do(onNext: { [weak self] _ in self?.loader.accept(true) })
             .bind(to: transition)
             .disposed(by: disposeBag)
     }

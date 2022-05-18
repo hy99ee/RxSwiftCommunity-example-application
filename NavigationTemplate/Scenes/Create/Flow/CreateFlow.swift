@@ -5,7 +5,7 @@ import RxFlow
 class CreateFlow {
     private let viewController: CreateViewController
 
-    init(save saveTransaction: PublishSubject<User>) {
+    init(save saveTransaction: SaveTransaction) {
         viewController = CreateViewController()
         let viewModel = CreateViewModel(save: saveTransaction)
         viewController.viewModel = viewModel

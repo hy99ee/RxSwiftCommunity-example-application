@@ -3,8 +3,10 @@ import RxCocoa
 import RxSwift
 
 class HomeView: UIView {
-    var viewModel: HomeViewViewModel!
-    
+    var viewModel: ManagerLoaderType!
+
+    var tableView: HomeViewTableView!
+
     private let nextText: String = "Home"
     
     let onTapNext: Signal<Void>
@@ -62,15 +64,6 @@ class HomeView: UIView {
         return button
     }()
     
-    lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView
-            .translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        tableView.tableFooterView = UIView()
-        return tableView
-    }()
-    
     lazy var showViews = AnyObserver<Bool>(eventHandler: { [weak self] event in
         guard let event = event.element else { return }
         self?.views.forEach({ view in view.isHidden = !event })
@@ -78,9 +71,7 @@ class HomeView: UIView {
     
     private var views: [UIView] = []
 
-    init(viewModel: HomeViewViewModel) {
-        self.viewModel = viewModel
-
+    init() {
         tapNext = PublishRelay<Void>()
         onTapNext = tapNext.asSignal()
 
@@ -91,30 +82,33 @@ class HomeView: UIView {
         onTapCreate = tapCreate.asSignal()
         
         super.init(frame: .zero)
-
-        configure()
+        backgroundColor = .yellow
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func cofigured() -> Self {
+        configure()
+        return self
     }
 }
 
 //MARK: View
 private extension HomeView {
     func configure() {
-        backgroundColor = .yellow
-        
         configureWelcomeLabel()
         configureAcceptButton()
-        configureCollectionView()
         configureLoadingView()
         configureAboutButton()
         configureCreateButton()
-
+        configureCollectionView()
+        
         setupBindings()
+        setupTableBindings()
     }
-
+    
     func configureWelcomeLabel() {
         addSubview(welcomeLabel)
         welcomeLabel.snp.makeConstraints { maker in
@@ -178,12 +172,6 @@ private extension HomeView {
 //MARK: Bindings
 extension HomeView {
     private func setupBindings() {
-        viewModel.elements
-            .bind(to: tableView.rx.items(cellIdentifier: "Cell")) { indexPath, title, cell in
-                cell.textLabel?.text = title.name
-            }
-            .disposed(by: disposeBag)
-
         acceptButton.rx.tap
             .bind(to: tapNext)
             .disposed(by: disposeBag)
@@ -216,6 +204,25 @@ extension HomeView {
             .delay(.milliseconds(250), scheduler: MainScheduler.instance)
             .map({ _ -> CGFloat in 1 })
             .bind(to: createButton.rx.alpha)
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupTableBindings() {
+        viewModel.loadTransaction.onElements
+            .bind(to: tableView.rx.items(cellIdentifier: "HomeCell", cellType: HomeViewTableViewCell.self)) { indexPath, title, cell in
+                cell.titleLabel.text = title.name
+                cell.dateLabel.text = String(title.age)
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.loadTransaction.onElements
+            .map({ _ -> CGFloat in 1 })
+            .bind(to: tableView.rx.alpha)
+            .disposed(by: disposeBag)
+
+        viewModel.loadTransaction.onLoad
+            .map({ _ -> CGFloat in 0.5 })
+            .bind(to: tableView.rx.alpha)
             .disposed(by: disposeBag)
     }
 }

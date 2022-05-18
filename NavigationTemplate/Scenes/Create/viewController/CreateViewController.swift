@@ -51,7 +51,7 @@ extension CreateViewController {
     }
     
     private func setupViewBindings() {
-        createView.onTapClose
+        createView.onTapCreate
             .emit(to: viewModel.tapCreate)
             .disposed(by: disposeBag)
     }
