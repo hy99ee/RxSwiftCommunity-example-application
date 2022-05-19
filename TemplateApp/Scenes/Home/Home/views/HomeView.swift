@@ -2,7 +2,12 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class HomeView: UIView {
+protocol HomeViewType: onTapCreateView, onTapNextView, LoadingProcessView where Self: UIView {
+    var tableView: HomeViewTableView! { get }
+    var onTapAbout: Signal<Void> { get }
+}
+
+class HomeView: UIView, HomeViewType {
     var viewModel: ManagerLoaderType!
 
     var tableView: HomeViewTableView!
@@ -64,7 +69,7 @@ class HomeView: UIView {
         return button
     }()
     
-    lazy var showViews = AnyObserver<Bool>(eventHandler: { [weak self] event in
+    lazy var endLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
         guard let event = event.element else { return }
         self?.views.forEach({ view in view.isHidden = !event })
     })

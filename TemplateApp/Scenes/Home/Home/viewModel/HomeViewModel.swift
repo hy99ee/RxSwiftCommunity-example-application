@@ -2,7 +2,11 @@ import RxCocoa
 import RxSwift
 import RxFlow
 
-class HomeViewModel {
+protocol HomeViewModelType: StepperViewModel, WithLoaderViewModel, TapNextViewModel, TapCreateViewModel {
+    var tapAbout: AnyObserver<Void> { get }
+}
+
+class HomeViewModel: HomeViewModelType {
     let tapNext: AnyObserver<Void>
     private let onTapNext: Observable<Void>
 

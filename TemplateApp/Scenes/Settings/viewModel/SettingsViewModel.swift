@@ -2,7 +2,9 @@ import RxCocoa
 import RxSwift
 import RxFlow
 
-class SettingsViewModel {
+protocol SettingsViewModelType: StepperViewModel, WithLoaderViewModel, TapNextViewModel {}
+
+class SettingsViewModel: SettingsViewModelType {
     var user: User?
 
     let tapNext: AnyObserver<Void>

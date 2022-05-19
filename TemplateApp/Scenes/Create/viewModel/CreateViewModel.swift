@@ -2,7 +2,9 @@ import RxCocoa
 import RxSwift
 import RxFlow
 
-class CreateViewModel: ManagerSaverType {
+protocol CreateViewModelType: StepperViewModel, WithLoaderViewModel, TapCreateViewModel {}
+
+class CreateViewModel: CreateViewModelType, ManagerSaverType {
     let tapCreate: AnyObserver<Void>
     private let onTapCreate: Observable<Void>
     

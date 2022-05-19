@@ -5,22 +5,20 @@ import RxCocoa
 import SnapKit
 
 final class HomeViewController: UIViewController, Stepper {
-
     let steps = PublishRelay<Step>()
 
-    var viewModel: HomeViewModel!
-    
+    var viewModel: HomeViewModelType!
+
+    var homeView: HomeViewType!
+
+    private let disposeBag = DisposeBag()
+
     private let didDisappear = PublishSubject<Void>()
-    
-    var homeView: HomeView!
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     
         didDisappear.onNext(())
     }
-
-    private let disposeBag = DisposeBag()
     
     func setupView(_ homeView: HomeView) {
         self.homeView = homeView
@@ -39,7 +37,7 @@ extension HomeViewController {
             .disposed(by: disposeBag)
  
         viewModel.onLoader
-            .drive(homeView.showViews)
+            .drive(homeView.endLoadingProcess)
             .disposed(by: disposeBag)
 
         viewModel.onLoader

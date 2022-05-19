@@ -1,6 +1,8 @@
 import UIKit
 
-class HomeAboutView: UIView {
+protocol HomeAboutViewType where Self: UIView {}
+
+class HomeAboutView: UIView, HomeAboutViewType {
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .red

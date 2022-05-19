@@ -2,7 +2,9 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class SettingsView: UIView {
+protocol SettingViewType: onTapNextView, LoadingProcessView where Self: UIView { }
+
+class SettingsView: UIView, SettingViewType {
     private let nextText: String = "Home"
     
     let onTapNext: Signal<Void>
@@ -34,7 +36,7 @@ class SettingsView: UIView {
         return button
     }()
     
-    lazy var showViews = AnyObserver<Bool>(eventHandler: { [weak self] in
+    lazy var endLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] in
         self?.nextButton.isHidden = !$0.element!
         self?.welcomeLabel.isHidden = !$0.element!
     })

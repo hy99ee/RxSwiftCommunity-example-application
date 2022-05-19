@@ -8,9 +8,9 @@ final class CreateViewController: UIViewController, Stepper {
 
     let steps = PublishRelay<Step>()
 
-    var viewModel: CreateViewModel!
+    var viewModel: CreateViewModelType!
     
-    var createView: CreateView!
+    var createView: CreateViewType!
 
     private let disposeBag = DisposeBag()
 
@@ -42,7 +42,7 @@ extension CreateViewController {
             .disposed(by: disposeBag)
  
         viewModel.onLoader
-            .drive(createView.showViews)
+            .drive(createView.endLoadingProcess)
             .disposed(by: disposeBag)
 
         viewModel.onLoader

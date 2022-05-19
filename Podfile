@@ -14,22 +14,22 @@ def rx_pods
     pod 'RxSwift'
     pod 'RxCocoa'
     pod 'RxFlow'
-#    pod 'RxGesture'
-#    pod 'RxDataSources'
+    pod 'RxGesture'
+    pod 'RxDataSources'
 end
 
 def network_pods 
-#    pod 'RxAlamofire', '5.7.1'
-#    pod 'Moya/RxSwift', '14.0.0'
+    pod 'RxAlamofire', '5.7.1'
+    pod 'Moya/RxSwift', '14.0.0'
 end
 
 def datababe_pods
-#    pod 'RealmSwift', '10.20.1'
-#    pod 'RxRealm', '4.0.3'
+    pod 'RealmSwift', '10.20.1'
+    pod 'RxRealm', '4.0.3'
 end
 
 def utility_pods
-#    pod 'SwiftLint', '0.45.1'
+    pod 'SwiftLint', '0.45.1'
 end
 
 
@@ -40,7 +40,12 @@ def default_pods
     datababe_pods
 end
 
+def temp_pods
+    ui_pods
+    rx_pods
+end
+
 # init()
 target 'TemplateApp' do
-    default_pods
+    temp_pods
 end

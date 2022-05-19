@@ -40,6 +40,8 @@
 		3B9CFAA5282E4D350037A8DB /* ToAppFlowNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA8F282E4D350037A8DB /* ToAppFlowNavigation.swift */; };
 		3B9CFAA6282E4D350037A8DB /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA90282E4D350037A8DB /* AppFlow.swift */; };
 		3B9CFAA7282E4D350037A8DB /* AppStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA91282E4D350037A8DB /* AppStep.swift */; };
+		3BCBA48B283685DA000A6A69 /* ViewsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */; };
+		3BCBA48D2836925D000A6A69 /* ViewModelsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */; };
 		3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */; };
 		CA497DD593954F76EE47F855 /* Pods_TemplateApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1422D6B42BCB82BE4ECEFE23 /* Pods_TemplateApp.framework */; };
 /* End PBXBuildFile section */
@@ -81,6 +83,8 @@
 		3B9CFA90282E4D350037A8DB /* AppFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		3B9CFA91282E4D350037A8DB /* AppStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStep.swift; sourceTree = "<group>"; };
 		3B9CFAA9282E4EF60037A8DB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsTypes.swift; sourceTree = "<group>"; };
+		3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelsTypes.swift; sourceTree = "<group>"; };
 		3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewModel.swift; sourceTree = "<group>"; };
 		5D629B1EFA6E1EF8F8764A7F /* Pods_TemplateApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TemplateApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D9E4232392C8930D5D940B1 /* Pods-TemplateApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateApp.debug.xcconfig"; path = "Target Support Files/Pods-TemplateApp/Pods-TemplateApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -227,6 +231,8 @@
 				3B392A3E282E5E320055F6E9 /* Create */,
 				3B9CFA6B282E4D350037A8DB /* Settings */,
 				3B9CFA76282E4D350037A8DB /* Home */,
+				3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */,
+				3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				3B9CFAA0282E4D350037A8DB /* User.swift in Sources */,
 				3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */,
 				3B9CFA9E282E4D350037A8DB /* HomeFlow.swift in Sources */,
+				3BCBA48D2836925D000A6A69 /* ViewModelsTypes.swift in Sources */,
 				3B9CFA9A282E4D350037A8DB /* HomeView.swift in Sources */,
 				3B76C4172834DF2B00526F2C /* HomeViewTableViewCell.swift in Sources */,
 				3B9CFA99282E4D350037A8DB /* HomeViewController.swift in Sources */,
@@ -542,6 +549,7 @@
 				3B9CFA94282E4D350037A8DB /* SettingsViewController.swift in Sources */,
 				3B392A4F282E75090055F6E9 /* AppRepository.swift in Sources */,
 				3B9CFAA4282E4D350037A8DB /* SceneDelegate.swift in Sources */,
+				3BCBA48B283685DA000A6A69 /* ViewsTypes.swift in Sources */,
 				3B9CFA9D282E4D350037A8DB /* HomeAboutView.swift in Sources */,
 				3B9CFA93282E4D350037A8DB /* SettingsViewModel.swift in Sources */,
 				3B76C41D28350B0500526F2C /* HomeViewTableViewModel.swift in Sources */,

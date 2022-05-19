@@ -8,9 +8,9 @@ final class SettingsViewController: UIViewController, Stepper {
 
     let steps = PublishRelay<Step>()
 
-    var viewModel: SettingsViewModel!
+    var viewModel: SettingsViewModelType!
     
-    var settingView: SettingsView!
+    var settingView: SettingViewType!
 
     private let disposeBag = DisposeBag()
 
@@ -42,7 +42,7 @@ extension SettingsViewController {
             .disposed(by: disposeBag)
  
         viewModel.onLoader
-            .drive(settingView.showViews)
+            .drive(settingView.endLoadingProcess)
             .disposed(by: disposeBag)
 
         viewModel.onLoader
