@@ -56,7 +56,7 @@ extension CreateViewModel {
             .disposed(by: disposeBag)
 
         saveTransaction.onIsLoad
-//            .filter({ !$0 })
+            .filter({ !$0 })
             .map { _ -> Step in CreateStep.close }
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
             .bind(to: transition)

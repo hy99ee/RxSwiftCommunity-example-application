@@ -42,7 +42,8 @@ class Repository<Element>: RepositoryType {
 
     func add(_ element: Element) {
         isLoad.onNext(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        // Request imitation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.elements.append(element)
             self.isLoad.onNext(false)
         }
@@ -50,15 +51,20 @@ class Repository<Element>: RepositoryType {
 
     func remove(at index: Int) {
         isLoad.onNext(true)
-        if(elements.count > index) {
-            elements.remove(at: index)
-            isLoad.onNext(false)
+        // Request imitation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self = self else { return }
+            if(self.elements.count > index) {
+                self.elements.remove(at: index)
+                self.isLoad.onNext(false)
+            }
         }
     }
 
     func refresh() {
         isLoad.onNext(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {[weak self] in
+        // Request imitation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self = self else { return }
             let elements = self.elements
             self.elements = elements
