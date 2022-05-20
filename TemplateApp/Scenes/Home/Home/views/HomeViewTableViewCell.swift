@@ -49,19 +49,16 @@ private extension HomeViewTableViewCell {
     func configureTitleLabel() {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { maker in
-            maker.top.bottom.leading.equalToSuperview()
-            maker.trailing.equalToSuperview().inset(50)
+            maker.top.bottom.equalToSuperview()
+            maker.leading.equalToSuperview().inset(50)
         }
     }
     
     func configureDateLabel() {
         contentView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints { maker in
-            
             maker.top.bottom.equalToSuperview()
-            maker.trailing.equalToSuperview()
-            maker.leading.equalTo(titleLabel.snp_trailingMargin)
-//            maker.width.equalTo(titleLabel.snp_leadingMargin)
+            maker.trailing.equalToSuperview().inset(50)
         }
     }
 }

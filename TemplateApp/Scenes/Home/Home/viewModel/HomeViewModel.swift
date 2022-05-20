@@ -2,7 +2,7 @@ import RxCocoa
 import RxSwift
 import RxFlow
 
-protocol HomeViewModelType: StepperViewModel, WithLoaderViewModel, TapNextViewModel, TapCreateViewModel, SelectedViewModel {
+protocol HomeViewModelType: StepableViewModel, LoadableViewModel, NextTapperViewModel, CreateTapperViewModel, UserSelecterViewModel, CloserViewModel {
     var tapAbout: AnyObserver<Void> { get }
 }
 
@@ -24,6 +24,8 @@ class HomeViewModel: HomeViewModelType {
 
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
+    
+    let close: PublishRelay<Void>
 
     let disposeBag = DisposeBag()
 
@@ -47,6 +49,8 @@ class HomeViewModel: HomeViewModelType {
         let create = PublishSubject<Void>()
         self.tapCreate = create.asObserver()
         self.onTapCreate = create.asObservable()
+        
+        close = PublishRelay()
 
         loader = BehaviorRelay(value: true)
         onLoader = loader.asDriver()
@@ -81,6 +85,11 @@ extension HomeViewModel {
             .bind(to: transition)
             .disposed(by: disposeBag)
         
+        close
+            .map({ _ -> Step in HomeStep.toCloseUser })
+            .bind(to: transition)
+            .disposed(by: disposeBag)
+        
         onTapNext
             .do(onNext: { [weak self] in self?.loader.accept(false) })
             .flatMap { [unowned self] in self.createNextStep() }
@@ -101,5 +110,7 @@ extension HomeViewModel {
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
             .bind(to: transition)
             .disposed(by: disposeBag)
+                
+
     }
 }

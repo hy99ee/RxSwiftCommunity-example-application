@@ -38,12 +38,9 @@ private extension HomeViewTableView {
                 cell.dateLabel.text = String(title.age)
             }
             .disposed(by: disposeBag)
-        
-//        self.rx.modelSelected(User.self).subscribe(onNext: { item in
-//             print("SelectedItem: \(item.name)")
-//         }).disposed(by: disposeBag)
 
-        self.rx.modelSelected(User.self).bind(to: viewModel.selected)
+        self.rx.modelSelected(User.self)
+            .bind(to: viewModel.selected)
             .disposed(by: disposeBag)
 
         viewModel.loadTransaction.onIsLoad

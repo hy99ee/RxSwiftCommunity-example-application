@@ -1,6 +1,6 @@
 import RxSwift
 
-protocol HomeViewTableViewModelType: RefreshHandlerType, SelectedViewModel, onSelectedViewModel {}
+protocol HomeViewTableViewModelType: RefreshHandlerType, UserSelecterViewModel, SelectableViewModel {}
 
 class HomeViewTableViewModel: HomeViewTableViewModelType {
     let onSelected: Observable<User>

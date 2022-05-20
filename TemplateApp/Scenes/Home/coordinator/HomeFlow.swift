@@ -4,6 +4,8 @@ import RxFlow
 
 final class HomeFlow: ToAppFlowNavigation {
     private let viewController: HomeViewController
+    private let viewModel: HomeViewModelType
+
     private let disposeBag = DisposeBag()
     
     init(manager: Manager<Repository<User>>) {
@@ -11,23 +13,25 @@ final class HomeFlow: ToAppFlowNavigation {
         let refreshTransaction = (manager.refresh, manager.onIsLoad)
 
         viewController = HomeViewController()
-        let homeViewModel = HomeViewModel()
-        viewController.viewModel = homeViewModel
+        viewModel = HomeViewModel()
+        viewController.viewModel = viewModel
 
         let homeViewViewModel = HomeViewViewModel()
         let homeView = HomeView()
+        homeView.viewModel = homeViewViewModel
 
         let tableHandler = TableViewHandler(load: loadTransaction, refresh: refreshTransaction)
         let tableViewModel = HomeViewTableViewModel(handler: tableHandler)
         let tableView = HomeViewTableView()
         tableView.viewModel = tableViewModel
-
-        homeView.viewModel = homeViewViewModel
         homeView.tableView = tableView.configured()
+        
+ 
     
         viewController.setupView(homeView.cofigured())
         
-        bindSelected(on: tableViewModel, to: homeViewModel)
+        bindSelectable(on: tableViewModel, to: viewModel)
+
     }
 }
 
@@ -44,6 +48,9 @@ extension HomeFlow: Flow {
             
         case let .toUser(user):
             return navigateToOpenUser(user)
+        
+        case .toCloseUser:
+            return navigateToCloseUser()
 
         case .toAbout:
             return navigateToAbout()
@@ -60,19 +67,22 @@ extension HomeFlow: Flow {
 // MARK: Navigation
 private extension HomeFlow {
     func navigateToOpenUser(_ user: User) -> FlowContributors {
+        let openView = HomeOpenView(user: user)
+        let openViewModel = HomeOpenViewModel()
+        openView.viewModel = openViewModel
         let viewController = UIViewController()
-        viewController.view.backgroundColor = .lightGray
-        
-        let view = UILabel()
-        viewController.view.addSubview(view)
-        view.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        view.text = user.name
-        
+        viewController.view = openView.configured()
+        viewController.isModalInPresentation = true
+
+        bindClosable(on: openViewModel, to: viewModel)
 
         self.viewController.present(viewController, animated: true)
 
+        return .none
+    }
+    
+    func navigateToCloseUser() -> FlowContributors {
+        self.viewController.presentedViewController?.dismiss(animated: true)
         return .none
     }
     
@@ -89,9 +99,16 @@ private extension HomeFlow {
 
 // MARK: Bindings
 private extension HomeFlow {
-    func bindSelected(on onSelected: onSelectedViewModel, to selected: SelectedViewModel) {
+    func bindSelectable(on onSelected: SelectableViewModel, to selected: UserSelecterViewModel) {
         onSelected.onSelected
             .bind(to: selected.selected)
+            .disposed(by: disposeBag)
+        
+    }
+    
+    func bindClosable(on onClose: ClosableViewModel, to close: CloserViewModel) {
+        onClose.onClose
+            .emit(to: close.close)
             .disposed(by: disposeBag)
     }
 }

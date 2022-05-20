@@ -2,26 +2,35 @@ import RxFlow
 import RxCocoa
 import RxSwift
 
-protocol StepperViewModel {
-    var onTransition: Observable<Step> { get }
-}
-
-protocol WithLoaderViewModel {
-    var onLoader: Driver<Bool> { get }
-}
-
-protocol TapNextViewModel {
+// Observer view model types
+protocol NextTapperViewModel {
     var tapNext: AnyObserver<Void> { get }
 }
 
-protocol TapCreateViewModel {
+protocol CreateTapperViewModel {
     var tapCreate: AnyObserver<Void> { get }
 }
 
-protocol SelectedViewModel {
+protocol UserSelecterViewModel {
     var selected: AnyObserver<User> { get }
 }
+protocol CloserViewModel {
+    var close: PublishRelay<Void> { get }
+}
 
-protocol onSelectedViewModel {
+// Obseravable view model types
+protocol StepableViewModel {
+    var onTransition: Observable<Step> { get }
+}
+
+protocol SelectableViewModel {
     var onSelected: Observable<User> { get }
+}
+
+protocol LoadableViewModel {
+    var onLoader: Driver<Bool> { get }
+}
+
+protocol ClosableViewModel {
+    var onClose: Signal<Void> { get }
 }
