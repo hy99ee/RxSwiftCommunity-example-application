@@ -45,8 +45,6 @@ extension HomeViewController {
     }
     
     private func setupViewBindings() {
-        
-        
         didDisappear
             .map({ false })
             .bind(to: homeView.tableView.pullToRefresh.rx.isRefreshing)

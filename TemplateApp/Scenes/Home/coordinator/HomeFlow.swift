@@ -2,22 +2,23 @@ import UIKit
 import RxSwift
 import RxFlow
 
-final class HomeFlow {
+final class HomeFlow: ToAppFlowNavigation {
     private let viewController: HomeViewController
-
+    private let disposeBag = DisposeBag()
+    
     init(manager: Manager<Repository<User>>) {
         let loadTransaction = (manager.onElements, manager.onIsLoad)
         let refreshTransaction = (manager.refresh, manager.onIsLoad)
 
         viewController = HomeViewController()
-        let viewModel = HomeViewModel()
-        viewController.viewModel = viewModel
+        let homeViewModel = HomeViewModel()
+        viewController.viewModel = homeViewModel
 
         let homeViewViewModel = HomeViewViewModel()
         let homeView = HomeView()
 
-        let tableManager = TableViewHandler(load: loadTransaction, refresh: refreshTransaction)
-        let tableViewModel = HomeViewTableViewModel(handler: tableManager)
+        let tableHandler = TableViewHandler(load: loadTransaction, refresh: refreshTransaction)
+        let tableViewModel = HomeViewTableViewModel(handler: tableHandler)
         let tableView = HomeViewTableView()
         tableView.viewModel = tableViewModel
 
@@ -25,6 +26,8 @@ final class HomeFlow {
         homeView.tableView = tableView.configured()
     
         viewController.setupView(homeView.cofigured())
+        
+        bindSelected(on: tableViewModel, to: homeViewModel)
     }
 }
 
@@ -38,6 +41,9 @@ extension HomeFlow: Flow {
         switch step {
         case .start:
             return .one(flowContributor: .contribute(withNextPresentable: viewController, withNextStepper: viewController))
+            
+        case let .toUser(user):
+            return navigateToOpenUser(user)
 
         case .toAbout:
             return navigateToAbout()
@@ -50,9 +56,26 @@ extension HomeFlow: Flow {
         }
     }
 }
-extension HomeFlow: ToAppFlowNavigation {}
 
+// MARK: Navigation
 private extension HomeFlow {
+    func navigateToOpenUser(_ user: User) -> FlowContributors {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .lightGray
+        
+        let view = UILabel()
+        viewController.view.addSubview(view)
+        view.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        view.text = user.name
+        
+
+        self.viewController.present(viewController, animated: true)
+
+        return .none
+    }
+    
     func navigateToAbout() -> FlowContributors {
         let viewController = HomeAboutViewController()
         let viewModel = HomeAboutViewModel()
@@ -61,6 +84,15 @@ private extension HomeFlow {
         self.viewController.present(viewController, animated: true)
 
         return .none
+    }
+}
+
+// MARK: Bindings
+private extension HomeFlow {
+    func bindSelected(on onSelected: onSelectedViewModel, to selected: SelectedViewModel) {
+        onSelected.onSelected
+            .bind(to: selected.selected)
+            .disposed(by: disposeBag)
     }
 }
 

@@ -39,9 +39,12 @@ private extension HomeViewTableView {
             }
             .disposed(by: disposeBag)
         
-        self.rx.modelSelected(User.self).subscribe(onNext: { item in
-             print("SelectedItem: \(item.name)")
-         }).disposed(by: disposeBag)
+//        self.rx.modelSelected(User.self).subscribe(onNext: { item in
+//             print("SelectedItem: \(item.name)")
+//         }).disposed(by: disposeBag)
+
+        self.rx.modelSelected(User.self).bind(to: viewModel.selected)
+            .disposed(by: disposeBag)
 
         viewModel.loadTransaction.onIsLoad
             .filter({ !$0 })

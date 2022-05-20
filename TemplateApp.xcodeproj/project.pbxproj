@@ -40,6 +40,7 @@
 		3B9CFAA5282E4D350037A8DB /* ToAppFlowNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA8F282E4D350037A8DB /* ToAppFlowNavigation.swift */; };
 		3B9CFAA6282E4D350037A8DB /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA90282E4D350037A8DB /* AppFlow.swift */; };
 		3B9CFAA7282E4D350037A8DB /* AppStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9CFA91282E4D350037A8DB /* AppStep.swift */; };
+		3BAD5A652837A18D0076589A /* HomeOpenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAD5A642837A18D0076589A /* HomeOpenView.swift */; };
 		3BCBA48B283685DA000A6A69 /* ViewsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */; };
 		3BCBA48D2836925D000A6A69 /* ViewModelsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */; };
 		3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */; };
@@ -83,6 +84,7 @@
 		3B9CFA90282E4D350037A8DB /* AppFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		3B9CFA91282E4D350037A8DB /* AppStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStep.swift; sourceTree = "<group>"; };
 		3B9CFAA9282E4EF60037A8DB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BAD5A642837A18D0076589A /* HomeOpenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeOpenView.swift; sourceTree = "<group>"; };
 		3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsTypes.swift; sourceTree = "<group>"; };
 		3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelsTypes.swift; sourceTree = "<group>"; };
 		3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewModel.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				3B9CFA7D282E4D350037A8DB /* HomeView.swift */,
 				3B76C4162834DF2B00526F2C /* HomeViewTableViewCell.swift */,
 				3B76C4182834E3CF00526F2C /* HomeViewTableView.swift */,
+				3BAD5A642837A18D0076589A /* HomeOpenView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 				3B9CFA9B282E4D350037A8DB /* HomeAboutViewModel.swift in Sources */,
 				3B9CFAA7282E4D350037A8DB /* AppStep.swift in Sources */,
 				3B392A52282E96390055F6E9 /* Repository.swift in Sources */,
+				3BAD5A652837A18D0076589A /* HomeOpenView.swift in Sources */,
 				3B392A4B282E5E320055F6E9 /* CreateFlow.swift in Sources */,
 				3B9CFAA5282E4D350037A8DB /* ToAppFlowNavigation.swift in Sources */,
 				3B76C41B283502F500526F2C /* ManagerWorkerTypes.swift in Sources */,

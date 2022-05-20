@@ -17,3 +17,11 @@ protocol TapNextViewModel {
 protocol TapCreateViewModel {
     var tapCreate: AnyObserver<Void> { get }
 }
+
+protocol SelectedViewModel {
+    var selected: AnyObserver<User> { get }
+}
+
+protocol onSelectedViewModel {
+    var onSelected: Observable<User> { get }
+}
