@@ -3,23 +3,21 @@ import RxSwift
 import RxFlow
 
 final class HomeFlow {
-    private let loadTransaction: LoadTransaction
-    private let refreshTransaction: RefreshTransaction
-
     private let viewController: HomeViewController
 
     init(manager: Manager<Repository<User>>) {
-        self.loadTransaction = (manager.onElements, manager.onIsLoad)
-        self.refreshTransaction = (manager.refresh, manager.onIsLoad)
+        let loadTransaction = (manager.onElements, manager.onIsLoad)
+        let refreshTransaction = (manager.refresh, manager.onIsLoad)
 
         viewController = HomeViewController()
         let viewModel = HomeViewModel()
         viewController.viewModel = viewModel
 
-        let homeViewViewModel = HomeViewViewModel(load: loadTransaction)
+        let homeViewViewModel = HomeViewViewModel()
         let homeView = HomeView()
 
-        let tableViewModel = HomeViewTableViewModel(refresh: refreshTransaction)
+        let tableManager = TableViewHandler(load: loadTransaction, refresh: refreshTransaction)
+        let tableViewModel = HomeViewTableViewModel(handler: tableManager)
         let tableView = HomeViewTableView()
         tableView.viewModel = tableViewModel
 

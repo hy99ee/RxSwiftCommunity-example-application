@@ -4,7 +4,7 @@ import RxFlow
 
 protocol CreateViewModelType: StepperViewModel, WithLoaderViewModel, TapCreateViewModel {}
 
-class CreateViewModel: CreateViewModelType, ManagerSaverType {
+class CreateViewModel: CreateViewModelType, SaveHandlerType {
     let tapCreate: AnyObserver<Void>
     private let onTapCreate: Observable<Void>
     

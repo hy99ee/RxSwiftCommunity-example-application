@@ -7,19 +7,18 @@ import SnapKit
 final class HomeViewController: UIViewController, Stepper {
     let steps = PublishRelay<Step>()
 
-    var viewModel: HomeViewModelType!
-
     var homeView: HomeViewType!
+    var viewModel: HomeViewModelType!
 
     private let disposeBag = DisposeBag()
 
     private let didDisappear = PublishSubject<Void>()
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-    
+
         didDisappear.onNext(())
     }
-    
+
     func setupView(_ homeView: HomeView) {
         self.homeView = homeView
         view.addSubview(self.homeView)
@@ -46,11 +45,13 @@ extension HomeViewController {
     }
     
     private func setupViewBindings() {
+        
+        
         didDisappear
             .map({ false })
             .bind(to: homeView.tableView.pullToRefresh.rx.isRefreshing)
             .disposed(by: disposeBag)
-        
+    
         homeView.onTapNext
             .emit(to: viewModel.tapNext)
             .disposed(by: disposeBag)
@@ -58,7 +59,7 @@ extension HomeViewController {
         homeView.onTapAbout
             .emit(to: viewModel.tapAbout)
             .disposed(by: disposeBag)
-        
+
         homeView.onTapCreate
             .emit(to: viewModel.tapCreate)
             .disposed(by: disposeBag)

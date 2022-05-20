@@ -1,16 +1,13 @@
 import RxSwift
 
-class HomeViewTableViewModel: ManagerRefreshType {
-    let refreshTransaction: RefreshTransaction
-    
-    private let pullRefresh: Observable<Void>
-    private let onPullRefresh: Observable<Void>
+protocol HomeViewTableViewModelType: RefreshHandlerType {}
 
-    init(refresh refreshTransaction: RefreshTransaction) {
-        self.refreshTransaction = refreshTransaction
-        
-        let pullRefresh = PublishSubject<Void>()
-        self.pullRefresh = pullRefresh.asObserver()
-        self.onPullRefresh = pullRefresh.asObservable()
+class HomeViewTableViewModel: HomeViewTableViewModelType {
+    var refreshTransaction: RefreshTransaction
+    var loadTransaction: LoadTransaction
+    
+    init(handler refreshHandler: TableViewHandler) {
+        self.loadTransaction = refreshHandler.loadTransaction
+        self.refreshTransaction = refreshHandler.refreshTransaction
     }
 }

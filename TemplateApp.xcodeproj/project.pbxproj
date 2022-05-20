@@ -110,7 +110,7 @@
 			children = (
 				3B392A50282E750E0055F6E9 /* data */,
 				3B392A4D282E74F50055F6E9 /* model */,
-				3B9CFA8E282E4D350037A8DB /* Flow */,
+				3B9CFA8E282E4D350037A8DB /* coordinator */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -121,7 +121,7 @@
 				3B392A3F282E5E320055F6E9 /* viewModel */,
 				3B392A41282E5E320055F6E9 /* viewController */,
 				3B392A43282E5E320055F6E9 /* views */,
-				3B392A45282E5E320055F6E9 /* Flow */,
+				3B392A45282E5E320055F6E9 /* coordinator */,
 			);
 			path = Create;
 			sourceTree = "<group>";
@@ -150,13 +150,13 @@
 			path = views;
 			sourceTree = "<group>";
 		};
-		3B392A45282E5E320055F6E9 /* Flow */ = {
+		3B392A45282E5E320055F6E9 /* coordinator */ = {
 			isa = PBXGroup;
 			children = (
 				3B392A46282E5E320055F6E9 /* CreateFlow.swift */,
 				3B392A47282E5E320055F6E9 /* CreateStep.swift */,
 			);
-			path = Flow;
+			path = coordinator;
 			sourceTree = "<group>";
 		};
 		3B392A4D282E74F50055F6E9 /* model */ = {
@@ -243,7 +243,7 @@
 				3B9CFA71282E4D350037A8DB /* views */,
 				3B9CFA6F282E4D350037A8DB /* viewController */,
 				3B9CFA6D282E4D350037A8DB /* viewModel */,
-				3B9CFA73282E4D350037A8DB /* Flow */,
+				3B9CFA73282E4D350037A8DB /* coordinator */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -272,13 +272,13 @@
 			path = views;
 			sourceTree = "<group>";
 		};
-		3B9CFA73282E4D350037A8DB /* Flow */ = {
+		3B9CFA73282E4D350037A8DB /* coordinator */ = {
 			isa = PBXGroup;
 			children = (
 				3B9CFA74282E4D350037A8DB /* SettingsFlow.swift */,
 				3B9CFA75282E4D350037A8DB /* SettingsStep.swift */,
 			);
-			path = Flow;
+			path = coordinator;
 			sourceTree = "<group>";
 		};
 		3B9CFA76282E4D350037A8DB /* Home */ = {
@@ -286,7 +286,7 @@
 			children = (
 				3B9CFA77282E4D350037A8DB /* Home */,
 				3B9CFA7E282E4D350037A8DB /* About */,
-				3B9CFA85282E4D350037A8DB /* Flow */,
+				3B9CFA85282E4D350037A8DB /* coordinator */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -363,13 +363,13 @@
 			path = views;
 			sourceTree = "<group>";
 		};
-		3B9CFA85282E4D350037A8DB /* Flow */ = {
+		3B9CFA85282E4D350037A8DB /* coordinator */ = {
 			isa = PBXGroup;
 			children = (
 				3B9CFA86282E4D350037A8DB /* HomeFlow.swift */,
 				3B9CFA87282E4D350037A8DB /* HomeStep.swift */,
 			);
-			path = Flow;
+			path = coordinator;
 			sourceTree = "<group>";
 		};
 		3B9CFA89282E4D350037A8DB /* Extensions */ = {
@@ -380,14 +380,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		3B9CFA8E282E4D350037A8DB /* Flow */ = {
+		3B9CFA8E282E4D350037A8DB /* coordinator */ = {
 			isa = PBXGroup;
 			children = (
 				3B9CFA8F282E4D350037A8DB /* ToAppFlowNavigation.swift */,
 				3B9CFA90282E4D350037A8DB /* AppFlow.swift */,
 				3B9CFA91282E4D350037A8DB /* AppStep.swift */,
 			);
-			path = Flow;
+			path = coordinator;
 			sourceTree = "<group>";
 		};
 		5D0527FAECFF1ED27E6B510A /* Frameworks */ = {

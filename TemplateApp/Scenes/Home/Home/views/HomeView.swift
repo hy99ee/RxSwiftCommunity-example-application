@@ -8,11 +8,8 @@ protocol HomeViewType: onTapCreateView, onTapNextView, LoadingProcessView where 
 }
 
 class HomeView: UIView, HomeViewType {
-    var viewModel: ManagerLoaderType!
-
+    var viewModel: HomeViewViewModelType!
     var tableView: HomeViewTableView!
-
-    private let nextText: String = "Home"
     
     let onTapNext: Signal<Void>
     private let tapNext: PublishRelay<Void>
@@ -24,6 +21,11 @@ class HomeView: UIView, HomeViewType {
     private let tapCreate: PublishRelay<Void>
 
     let disposeBag = DisposeBag()
+
+    lazy var endLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
+        guard let event = event.element else { return }
+        self?.views.forEach({ view in view.isHidden = !event })
+    })
 
     lazy var welcomeLabel: UILabel = {
         let label = UILabel()
@@ -69,12 +71,8 @@ class HomeView: UIView, HomeViewType {
         return button
     }()
     
-    lazy var endLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
-        guard let event = event.element else { return }
-        self?.views.forEach({ view in view.isHidden = !event })
-    })
-    
     private var views: [UIView] = []
+    private let nextText: String = "Home"
 
     init() {
         tapNext = PublishRelay<Void>()
@@ -111,7 +109,6 @@ private extension HomeView {
         configureCollectionView()
         
         setupBindings()
-        setupTableBindings()
     }
     
     func configureWelcomeLabel() {
@@ -209,27 +206,6 @@ extension HomeView {
             .delay(.milliseconds(250), scheduler: MainScheduler.instance)
             .map({ _ -> CGFloat in 1 })
             .bind(to: createButton.rx.alpha)
-            .disposed(by: disposeBag)
-    }
-    
-    private func setupTableBindings() {
-        viewModel.loadTransaction.onElements
-            .bind(to: tableView.rx.items(cellIdentifier: "HomeCell", cellType: HomeViewTableViewCell.self)) { indexPath, title, cell in
-                cell.titleLabel.text = title.name
-                cell.dateLabel.text = String(title.age)
-            }
-            .disposed(by: disposeBag)
-
-        viewModel.loadTransaction.onIsLoad
-            .filter({ !$0 })
-            .map({ _ -> CGFloat in 1 })
-            .bind(to: tableView.rx.alpha)
-            .disposed(by: disposeBag)
-
-        viewModel.loadTransaction.onIsLoad
-            .filter({ $0 })
-            .map({ _ -> CGFloat in 0.5 })
-            .bind(to: tableView.rx.alpha)
             .disposed(by: disposeBag)
     }
 }

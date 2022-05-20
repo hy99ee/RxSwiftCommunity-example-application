@@ -1,10 +1,7 @@
 import RxSwift
 
+protocol HomeViewViewModelType {}
 
-class HomeViewViewModel: ManagerLoaderType {
-    let loadTransaction: LoadTransaction
+class HomeViewViewModel: HomeViewViewModelType {
 
-    init(load loadTransaction: LoadTransaction) {
-        self.loadTransaction = loadTransaction
-    }
 }
