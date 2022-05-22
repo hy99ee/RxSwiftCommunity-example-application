@@ -21,6 +21,7 @@ class SettingsView: UIView, SettingViewType {
     lazy var loadingView: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        
 
         return indicator
     }()

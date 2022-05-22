@@ -25,13 +25,11 @@ final class HomeFlow: ToAppFlowNavigation {
         let tableView = HomeViewTableView()
         tableView.viewModel = tableViewModel
         homeView.tableView = tableView.configured()
-        
- 
-    
-        viewController.setupView(homeView.cofigured())
-        
-        bindSelectable(on: tableViewModel, to: viewModel)
 
+        viewController.setupView(homeView.cofigured())
+        bindSelectable(on: tableViewModel, to: viewModel)
+        
+        manager.refresh.onNext(())
     }
 }
 
@@ -42,22 +40,24 @@ extension HomeFlow: Flow {
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? HomeStep else { return navigateFromAppFlow(step) }
 
+        viewController.titleLabel.text = step.stepDescription
+
         switch step {
         case .start:
             return .one(flowContributor: .contribute(withNextPresentable: viewController, withNextStepper: viewController))
-            
+
         case let .toUser(user):
             return navigateToOpenUser(user)
-        
+
         case .toCloseUser:
             return navigateToCloseUser()
 
         case .toAbout:
             return navigateToAbout()
-            
+
         case .toSettings:
             return navigateFromAppFlow(AppStep.toSettings)
-            
+
         case .toCreate:
             return navigateFromAppFlow(AppStep.toCreate)
         }

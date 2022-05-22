@@ -36,7 +36,8 @@ class HomeView: UIView, HomeViewType {
     lazy var loadingView: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-
+        indicator.color = .black
+        
         return indicator
     }()
     
@@ -146,6 +147,8 @@ private extension HomeView {
             maker.leading.trailing.equalToSuperview()
             maker.bottom.equalTo(acceptButton.snp_topMargin).offset(-20)
         }
+
+        sendSubviewToBack(tableView)
     }
 
     func configureAboutButton() {

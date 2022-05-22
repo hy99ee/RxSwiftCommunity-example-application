@@ -40,6 +40,9 @@ private extension HomeViewTableView {
             .disposed(by: disposeBag)
 
         self.rx.modelSelected(User.self)
+            .withLatestFrom(viewModel.loadTransaction.onIsLoad) {($0, $1)}
+            .filter({ !$0.1 })
+            .map({ $0.0 })
             .bind(to: viewModel.selected)
             .disposed(by: disposeBag)
 

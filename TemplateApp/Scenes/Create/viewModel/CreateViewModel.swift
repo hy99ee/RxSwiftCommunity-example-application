@@ -56,6 +56,12 @@ extension CreateViewModel {
             .flatMap { [unowned self] in self.saveUser() }
             .bind(to: saveTransaction.save)
             .disposed(by: disposeBag)
+        
+//        onTapCreate
+//            .map { _ -> Step in CreateStep.close }
+//            .do(onNext: { [weak self] _ in self?.loader.accept(true) })
+//            .bind(to: transition)
+//            .disposed(by: disposeBag)
 
         saveTransaction.onIsLoad
             .filter({ !$0 })

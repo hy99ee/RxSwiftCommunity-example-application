@@ -12,7 +12,9 @@ final class HomeViewController: UIViewController, Stepper {
 
     private let disposeBag = DisposeBag()
 
+    let titleLabel = UILabel()
     private let didDisappear = PublishSubject<Void>()
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
@@ -21,10 +23,21 @@ final class HomeViewController: UIViewController, Stepper {
 
     func setupView(_ homeView: HomeView) {
         self.homeView = homeView
-        view.addSubview(self.homeView)
-        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        configure()
         setupViewModelBindings()
         setupViewBindings()
+    }
+}
+
+private extension HomeViewController {
+    func configure() {
+        view.addSubview(homeView)
+        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        
+        self.view.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { maker in
+            maker.top.centerX.equalToSuperview().inset(100)
+        }
     }
 }
 
