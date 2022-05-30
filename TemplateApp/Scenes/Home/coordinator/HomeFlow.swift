@@ -22,12 +22,12 @@ final class HomeFlow: ToAppFlowNavigation {
 
         let tableHandler = TableViewHandler(load: loadTransaction, refresh: refreshTransaction)
         let tableViewModel = HomeViewTableViewModel(handler: tableHandler)
+        tableViewModel.bind(selected: viewModel).disposed(by: disposeBag)
         let tableView = HomeViewTableView()
         tableView.viewModel = tableViewModel
         homeView.tableView = tableView.configured()
 
         viewController.setupView(homeView.cofigured())
-        bindSelectable(on: tableViewModel, to: viewModel)
         
         manager.refresh.onNext(())
     }
@@ -73,8 +73,7 @@ private extension HomeFlow {
         let viewController = UIViewController()
         viewController.view = openView.configured()
         viewController.isModalInPresentation = true
-
-        bindClosable(on: openViewModel, to: viewModel)
+        openViewModel.bind(closer: viewModel).disposed(by: disposeBag)
 
         self.viewController.present(viewController, animated: true)
 
@@ -96,21 +95,4 @@ private extension HomeFlow {
         return .none
     }
 }
-
-// MARK: Bindings
-private extension HomeFlow {
-    func bindSelectable(on onSelected: SelectableViewModel, to selected: UserSelecterViewModel) {
-        onSelected.onSelected
-            .bind(to: selected.selected)
-            .disposed(by: disposeBag)
-        
-    }
-    
-    func bindClosable(on onClose: ClosableViewModel, to close: CloserViewModel) {
-        onClose.onClose
-            .emit(to: close.close)
-            .disposed(by: disposeBag)
-    }
-}
-
 

@@ -37,7 +37,7 @@ class SettingsView: UIView, SettingViewType {
         return button
     }()
     
-    lazy var endLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] in
+    lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] in
         self?.nextButton.isHidden = !$0.element!
         self?.welcomeLabel.isHidden = !$0.element!
     })

@@ -10,8 +10,8 @@ class SettingsViewModel: SettingsViewModelType {
     let tapNext: AnyObserver<Void>
     private let onTapNext: Observable<Void>
 
-    private let transition: AnyObserver<Step>
-    let onTransition: Observable<Step>
+    private let stepper: AnyObserver<Step>
+    let onStepper: Observable<Step>
     
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
@@ -21,9 +21,9 @@ class SettingsViewModel: SettingsViewModelType {
     init(user: User?) {
         self.user = user
 
-        let transition = PublishSubject<Step>()
-        self.transition = transition.asObserver()
-        self.onTransition = transition.asObservable()
+        let stepper = PublishSubject<Step>()
+        self.stepper = stepper.asObserver()
+        self.onStepper = stepper.asObservable()
 
         let next = PublishSubject<Void>()
         self.tapNext = next.asObserver()
@@ -55,7 +55,7 @@ extension SettingsViewModel {
             .do(onNext: { [weak self] in self?.loader.accept(false) })
             .flatMap { [unowned self] in self.requestUser() }
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
-            .subscribe(transition)
+            .subscribe(stepper)
             .disposed(by: disposeBag)
     }
 }

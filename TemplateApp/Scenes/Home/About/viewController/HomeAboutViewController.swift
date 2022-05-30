@@ -31,7 +31,7 @@ final class HomeAboutViewController: UINavigationController, Stepper {
 //MARK: Bindings
 extension HomeAboutViewController {
     private func setupViewModelBindings() {
-//        viewModel.onTransition
+//        viewModel.onStepper
 //            .subscribe(onNext: { [unowned self] in
 //                steps.accept($0) })
 //            .disposed(by: disposeBag)

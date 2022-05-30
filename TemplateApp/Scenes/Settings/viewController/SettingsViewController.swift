@@ -36,13 +36,13 @@ final class SettingsViewController: UIViewController, Stepper {
 //MARK: Bindings
 extension SettingsViewController {
     private func setupViewModelBindings() {
-        viewModel.onTransition
+        viewModel.onStepper
             .subscribe(onNext: { [unowned self] in
                 steps.accept($0) })
             .disposed(by: disposeBag)
  
         viewModel.onLoader
-            .drive(settingView.endLoadingProcess)
+            .drive(settingView.viewsLoadingProcess)
             .disposed(by: disposeBag)
 
         viewModel.onLoader

@@ -2,8 +2,9 @@ import RxCocoa
 import RxSwift
 import RxFlow
 
-protocol HomeViewModelType: StepableViewModel, LoadableViewModel, NextTapperViewModel, CreateTapperViewModel, UserSelecterViewModel, CloserViewModel {
+protocol HomeViewModelType: StepableViewModel, LoadableViewModel, NextTapperViewModel, UserSelecterViewModel, CloserViewModel {
     var tapAbout: AnyObserver<Void> { get }
+    var tapCreate: AnyObserver<Void> { get }
 }
 
 class HomeViewModel: HomeViewModelType {
@@ -19,8 +20,8 @@ class HomeViewModel: HomeViewModelType {
     let tapCreate: AnyObserver<Void>
     private let onTapCreate: Observable<Void>
 
-    private let transition: AnyObserver<Step>
-    let onTransition: Observable<Step>
+    private let stepper: AnyObserver<Step>
+    let onStepper: Observable<Step>
 
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
@@ -30,9 +31,9 @@ class HomeViewModel: HomeViewModelType {
     let disposeBag = DisposeBag()
 
     init() {
-        let transition = PublishSubject<Step>()
-        self.transition = transition.asObserver()
-        self.onTransition = transition.asObservable()
+        let stepper = PublishSubject<Step>()
+        self.stepper = stepper.asObserver()
+        self.onStepper = stepper.asObservable()
         
         let selected = PublishSubject<User>()
         self.selected = selected.asObserver()
@@ -82,33 +83,33 @@ extension HomeViewModel {
     private func setupBindings() {
         onSelected
             .map ({ user -> Step in return HomeStep.toUser(user: user) })
-            .bind(to: transition)
+            .bind(to: stepper)
             .disposed(by: disposeBag)
         
         close
             .map({ _ -> Step in HomeStep.toCloseUser })
-            .bind(to: transition)
+            .bind(to: stepper)
             .disposed(by: disposeBag)
         
         onTapNext
             .do(onNext: { [weak self] in self?.loader.accept(false) })
             .flatMap { [unowned self] in self.createNextStep() }
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
-            .bind(to: transition)
+            .bind(to: stepper)
             .disposed(by: disposeBag)
 
         onTapAbout
             .do(onNext: { [weak self] in self?.loader.accept(false) })
             .flatMap { [unowned self] in self.createAboutStep() }
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
-            .bind(to: transition)
+            .bind(to: stepper)
             .disposed(by: disposeBag)
                 
         onTapCreate
             .do(onNext: { [weak self] in self?.loader.accept(false) })
             .map { HomeStep.toCreate }
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
-            .bind(to: transition)
+            .bind(to: stepper)
             .disposed(by: disposeBag)
                 
 

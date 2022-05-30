@@ -16,6 +16,7 @@
 		3B392A4F282E75090055F6E9 /* AppRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A4E282E75090055F6E9 /* AppRepository.swift */; };
 		3B392A52282E96390055F6E9 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A51282E96390055F6E9 /* Repository.swift */; };
 		3B392A56282EA6600055F6E9 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A55282EA6600055F6E9 /* Manager.swift */; };
+		3B42E5D82844AA6E00F78470 /* CreateViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42E5D72844AA6E00F78470 /* CreateViewViewModel.swift */; };
 		3B76C4172834DF2B00526F2C /* HomeViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76C4162834DF2B00526F2C /* HomeViewTableViewCell.swift */; };
 		3B76C4192834E3CF00526F2C /* HomeViewTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76C4182834E3CF00526F2C /* HomeViewTableView.swift */; };
 		3B76C41B283502F500526F2C /* ManagerWorkerTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B76C41A283502F500526F2C /* ManagerWorkerTypes.swift */; };
@@ -59,6 +60,7 @@
 		3B392A4E282E75090055F6E9 /* AppRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRepository.swift; sourceTree = "<group>"; };
 		3B392A51282E96390055F6E9 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		3B392A55282EA6600055F6E9 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		3B42E5D72844AA6E00F78470 /* CreateViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewViewModel.swift; sourceTree = "<group>"; };
 		3B5F8603282E461A00913C3B /* TemplateApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TemplateApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B76C4162834DF2B00526F2C /* HomeViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTableViewCell.swift; sourceTree = "<group>"; };
 		3B76C4182834E3CF00526F2C /* HomeViewTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTableView.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				3B392A40282E5E320055F6E9 /* CreateViewModel.swift */,
+				3B42E5D72844AA6E00F78470 /* CreateViewViewModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -184,7 +187,6 @@
 			isa = PBXGroup;
 			children = (
 				3B392A55282EA6600055F6E9 /* Manager.swift */,
-				3B76C41A283502F500526F2C /* ManagerWorkerTypes.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -236,6 +238,7 @@
 				3B9CFA6B282E4D350037A8DB /* Settings */,
 				3B9CFA76282E4D350037A8DB /* Home */,
 				3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */,
+				3B76C41A283502F500526F2C /* ManagerWorkerTypes.swift */,
 				3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */,
 			);
 			path = Scenes;
@@ -561,6 +564,7 @@
 				3B9CFA9D282E4D350037A8DB /* HomeAboutView.swift in Sources */,
 				3B9CFA93282E4D350037A8DB /* SettingsViewModel.swift in Sources */,
 				3B76C41D28350B0500526F2C /* HomeViewTableViewModel.swift in Sources */,
+				3B42E5D82844AA6E00F78470 /* CreateViewViewModel.swift in Sources */,
 				3B392A48282E5E320055F6E9 /* CreateViewModel.swift in Sources */,
 				3B9CFA9F282E4D350037A8DB /* HomeStep.swift in Sources */,
 				3B9CFA96282E4D350037A8DB /* SettingsFlow.swift in Sources */,

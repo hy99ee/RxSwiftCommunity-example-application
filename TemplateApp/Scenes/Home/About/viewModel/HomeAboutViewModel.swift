@@ -6,8 +6,8 @@ class HomeAboutViewModel {
     let mover: AnyObserver<Void>
     private let onMover: Observable<Void>
 
-    private let transition: AnyObserver<Step>
-    let onTransition: Observable<Step>
+    private let stepper: AnyObserver<Step>
+    let onStepper: Observable<Step>
     
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
@@ -19,9 +19,9 @@ class HomeAboutViewModel {
         mover = moverSubj.asObserver()
         onMover = moverSubj.asObservable()
 
-        let transitionSubj = PublishSubject<Step>()
-        transition = transitionSubj.asObserver()
-        onTransition = transitionSubj.asObservable()
+        let stepperSubj = PublishSubject<Step>()
+        stepper = stepperSubj.asObserver()
+        onStepper = stepperSubj.asObservable()
 
         loader = BehaviorRelay(value: true)
         onLoader = loader.asDriver()
@@ -43,7 +43,7 @@ extension HomeAboutViewModel {
             .do(onNext: { [weak self] in self?.loader.accept(false) })
             .flatMap { [unowned self] in self.createStep() }
             .do(onNext: { [weak self] _ in self?.loader.accept(true) })
-            .subscribe(transition)
+            .subscribe(stepper)
             .disposed(by: disposeBag)
     }
 }

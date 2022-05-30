@@ -1,16 +1,24 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
-protocol CreateViewType: onTapCreateView, LoadingProcessView where Self: UIView { }
+protocol CreateViewType: onTapCreateView, LoadingProcessView where Self: UIView {
+    var viewModel: CreateViewViewModelType! { get }
+}
 
 class CreateView: UIView, CreateViewType {
-    private let nextText: String = "Home"
+    var viewModel: CreateViewViewModelType!
+
+    private let nextText = "Create"
+    private let closeText = "Close"
     
     let onTapCreate: Signal<Void>
     private let tapCreate: PublishRelay<Void>
 
     let disposeBag = DisposeBag()
+
+    private var loadingViews: [UIView] = []
 
     lazy var welcomeLabel: UILabel = {
         let label = UILabel()
@@ -28,17 +36,32 @@ class CreateView: UIView, CreateViewType {
     private lazy var createButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .red
+        button.setTitle(nextText, for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 37)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        button.titleLabel?.snp.makeConstraints { $0.edges.equalToSuperview().inset(20) }
         button.clipsToBounds = true
         button.layer.cornerRadius = 20
 
         return button
     }()
     
-    lazy var endLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] in
-        self?.createButton.isHidden = !$0.element!
-        self?.welcomeLabel.isHidden = !$0.element!
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .red
+        button.setTitle(closeText, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        button.titleLabel?.snp.makeConstraints { $0.edges.equalToSuperview().inset(20) }
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 20
+
+        return button
+    }()
+    
+    lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
+        guard let event = event.element else { return }
+        self?.loadingViews.forEach({ view in view.isHidden = !event })
     })
 
     convenience init() {
@@ -50,12 +73,16 @@ class CreateView: UIView, CreateViewType {
         onTapCreate = tapCreate.asSignal()
         
         super.init(frame: frame)
-
-        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configured() -> Self {
+        self.configure()
+
+        return self
     }
 }
 
@@ -66,6 +93,7 @@ private extension CreateView {
         
         configureWelcomeLabel()
         configureCreateButton()
+        configureCloseButton()
         configureLoadingView()
         
         setupBindings()
@@ -77,6 +105,7 @@ private extension CreateView {
             maker.centerX.equalToSuperview()
             maker.centerY.equalToSuperview().offset(50)
         }
+        loadingViews.append(welcomeLabel)
     }
     
     func configureLoadingView() {
@@ -93,9 +122,18 @@ private extension CreateView {
     func configureCreateButton() {
         addSubview(createButton)
         createButton.snp.makeConstraints { maker in
-            maker.centerX.centerY.equalToSuperview().inset(30)
-            maker.height.width.equalTo(60)
+            maker.centerX.centerY.equalToSuperview().inset(50)
         }
+        loadingViews.append(createButton)
+    }
+
+    func configureCloseButton() {
+        addSubview(closeButton)
+        closeButton.snp.makeConstraints { maker in
+            maker.centerY.equalToSuperview().offset(100)
+            maker.centerX.equalToSuperview()
+        }
+        loadingViews.append(closeButton)
     }
 }
 
@@ -103,7 +141,19 @@ private extension CreateView {
 extension CreateView {
     private func setupBindings() {
         createButton.rx.tap
-            .bind(to: tapCreate)
+            .bind(to: viewModel.tapCreate)
+            .disposed(by: disposeBag)
+        
+        closeButton.rx.tap
+            .bind(to: viewModel.close)
+            .disposed(by: disposeBag)
+
+        viewModel.onLoader
+            .drive(viewsLoadingProcess)
+            .disposed(by: disposeBag)
+
+        viewModel.onLoader
+            .drive(loadingView.rx.isHidden)
             .disposed(by: disposeBag)
     }
 }

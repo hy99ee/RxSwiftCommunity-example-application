@@ -22,9 +22,9 @@ class HomeView: UIView, HomeViewType {
 
     let disposeBag = DisposeBag()
 
-    lazy var endLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
+    lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
         guard let event = event.element else { return }
-        self?.views.forEach({ view in view.isHidden = !event })
+        self?.loadingViews.forEach({ view in view.isHidden = !event })
     })
 
     lazy var welcomeLabel: UILabel = {
@@ -72,7 +72,7 @@ class HomeView: UIView, HomeViewType {
         return button
     }()
     
-    private var views: [UIView] = []
+    private var loadingViews: [UIView] = []
     private let nextText: String = "Home"
 
     init() {
@@ -118,7 +118,7 @@ private extension HomeView {
             maker.centerX.equalToSuperview()
             maker.centerY.equalToSuperview().offset(50)
         }
-        views.append(welcomeLabel)
+        loadingViews.append(welcomeLabel)
     }
     
     func configureLoadingView() {
@@ -137,7 +137,7 @@ private extension HomeView {
             maker.trailing.equalToSuperview().inset(20)
             maker.width.equalTo(100)
         }
-        views.append(acceptButton)
+        loadingViews.append(acceptButton)
     }
 
     func configureCollectionView() {
@@ -159,7 +159,7 @@ private extension HomeView {
             maker.width.equalTo(40)
             maker.height.equalTo(40)
         }
-        views.append(aboutButton)
+        loadingViews.append(aboutButton)
     }
     
     func configureCreateButton() {
@@ -170,7 +170,7 @@ private extension HomeView {
             maker.width.equalTo(40)
             maker.height.equalTo(40)
         }
-        views.append(createButton)
+        loadingViews.append(createButton)
     }
 }
 

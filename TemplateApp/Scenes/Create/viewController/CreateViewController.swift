@@ -14,20 +14,16 @@ final class CreateViewController: UIViewController, Stepper {
 
     private let disposeBag = DisposeBag()
 
-    override func viewDidLoad() {
-        configureView()
-        
-        setupViewModelBindings()
-        setupViewBindings()
+    func configure() {
+        self.configureView()
+        self.setupViewModelBindings()
+        self.setupViewBindings()
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-    }
-    
-    private func configureView() {
-        createView = CreateView()
+}
+
+//MARK: UI
+private extension CreateViewController {
+     func configureView() {
         self.view.addSubview(createView)
         createView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
@@ -36,24 +32,14 @@ final class CreateViewController: UIViewController, Stepper {
 //MARK: Bindings
 extension CreateViewController {
     private func setupViewModelBindings() {
-        viewModel.onTransition
+        viewModel.onStepper
             .subscribe(onNext: { [unowned self] in
                 steps.accept($0) })
-            .disposed(by: disposeBag)
- 
-        viewModel.onLoader
-            .drive(createView.endLoadingProcess)
-            .disposed(by: disposeBag)
-
-        viewModel.onLoader
-            .drive(createView.loadingView.rx.isHidden)
             .disposed(by: disposeBag)
     }
     
     private func setupViewBindings() {
-        createView.onTapCreate
-            .emit(to: viewModel.tapCreate)
-            .disposed(by: disposeBag)
+
     }
 }
 

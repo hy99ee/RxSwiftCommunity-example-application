@@ -44,12 +44,12 @@ private extension HomeViewController {
 //MARK: Bindings
 extension HomeViewController {
     private func setupViewModelBindings() {
-        viewModel.onTransition
+        viewModel.onStepper
             .subscribe(onNext: { [unowned self] in steps.accept($0) })
             .disposed(by: disposeBag)
  
         viewModel.onLoader
-            .drive(homeView.endLoadingProcess)
+            .drive(homeView.viewsLoadingProcess)
             .disposed(by: disposeBag)
 
         viewModel.onLoader

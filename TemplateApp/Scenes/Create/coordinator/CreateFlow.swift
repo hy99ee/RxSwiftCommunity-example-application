@@ -5,12 +5,23 @@ import RxFlow
 class CreateFlow {
     private let viewController: CreateViewController
 
+    private let disposeBag = DisposeBag()
+
     init(save saveTransaction: SaveTransaction) {
         viewController = CreateViewController()
-        let viewModel = CreateViewModel(save: saveTransaction)
-        viewController.viewModel = viewModel
+        let controllerViewModel = CreateViewModel()
+        viewController.viewModel = controllerViewModel
+        
+        let createView = CreateView()
+        let createViewViewModel = CreateViewViewModel(save: saveTransaction)
+        createView.viewModel = createViewViewModel
+        createViewViewModel.bind(closer: controllerViewModel).disposed(by: disposeBag)
+        
+        viewController.createView = createView.configured()
+        viewController.configure()
     }
 }
+
 
 // MARK: - RxFlow
 extension CreateFlow: Flow {

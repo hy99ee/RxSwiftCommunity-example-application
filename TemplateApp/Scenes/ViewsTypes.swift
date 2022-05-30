@@ -11,5 +11,5 @@ protocol onTapCreateView {
 
 protocol LoadingProcessView {
     var loadingView: UIActivityIndicatorView { get }
-    var endLoadingProcess: AnyObserver<Bool> { get }
+    var viewsLoadingProcess: AnyObserver<Bool> { get }
 }
