@@ -17,6 +17,13 @@ class CreateView: UIView, CreateViewType {
     private let tapCreate: PublishRelay<Void>
 
     let disposeBag = DisposeBag()
+    
+    private lazy var fieldsView: CreateFieldsView = {
+        let view = CreateFieldsView()
+        view.viewModel = CreateFieldsViewModel()
+
+        return view.configured()
+    }()
 
     private var loadingViews: [UIView] = []
 
@@ -91,12 +98,22 @@ private extension CreateView {
     func configure() {
         backgroundColor = .blue
         
+        configureFieldsView()
         configureWelcomeLabel()
         configureCreateButton()
         configureCloseButton()
         configureLoadingView()
         
         setupBindings()
+    }
+    
+    func configureFieldsView() {
+        addSubview(fieldsView)
+        fieldsView.snp.makeConstraints { maker in
+            maker.top.leading.trailing.equalTo(safeAreaLayoutGuide)
+            maker.bottom.equalTo(snp.centerY).offset(10)
+        }
+        loadingViews.append(fieldsView)
     }
 
     func configureWelcomeLabel() {

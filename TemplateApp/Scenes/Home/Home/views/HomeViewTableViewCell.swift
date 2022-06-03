@@ -37,11 +37,7 @@ class HomeViewTableViewCell: UITableViewCell {
 private extension HomeViewTableViewCell {
     func configure() {
         backgroundColor = .lightGray
-        contentView.snp.makeConstraints { maker in
-            maker.edges.equalToSuperview()
-            maker.height.equalTo(50)
-        }
-        
+
         configureTitleLabel()
         configureDateLabel()
     }

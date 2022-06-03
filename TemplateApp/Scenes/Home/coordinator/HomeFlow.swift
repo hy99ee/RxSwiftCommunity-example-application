@@ -22,7 +22,7 @@ final class HomeFlow: ToAppFlowNavigation {
 
         let tableHandler = TableViewHandler(load: loadTransaction, refresh: refreshTransaction)
         let tableViewModel = HomeViewTableViewModel(handler: tableHandler)
-        tableViewModel.bind(selected: viewModel).disposed(by: disposeBag)
+        tableViewModel.bind(to: viewModel).disposed(by: disposeBag)
         let tableView = HomeViewTableView()
         tableView.viewModel = tableViewModel
         homeView.tableView = tableView.configured()
@@ -67,21 +67,15 @@ extension HomeFlow: Flow {
 // MARK: Navigation
 private extension HomeFlow {
     func navigateToOpenUser(_ user: User) -> FlowContributors {
-        let openView = HomeOpenView(user: user)
-        let openViewModel = HomeOpenViewModel()
-        openView.viewModel = openViewModel
-        let viewController = UIViewController()
-        viewController.view = openView.configured()
-        viewController.isModalInPresentation = true
-        openViewModel.bind(closer: viewModel).disposed(by: disposeBag)
+        let detailFlow = DetailFlow(root: viewController)
 
-        self.viewController.present(viewController, animated: true)
-
-        return .none
+        return .one(flowContributor: .contribute(withNextPresentable: detailFlow,
+                                                 withNextStepper: OneStepper(withSingleStep: DetailtStep.start(user: user))))
     }
     
     func navigateToCloseUser() -> FlowContributors {
         self.viewController.presentedViewController?.dismiss(animated: true)
+        
         return .none
     }
     

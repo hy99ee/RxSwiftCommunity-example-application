@@ -15,7 +15,7 @@ class CreateFlow {
         let createView = CreateView()
         let createViewViewModel = CreateViewViewModel(save: saveTransaction)
         createView.viewModel = createViewViewModel
-        createViewViewModel.bind(closer: controllerViewModel).disposed(by: disposeBag)
+        createViewViewModel.bind(to: controllerViewModel).disposed(by: disposeBag)
         
         viewController.createView = createView.configured()
         viewController.configure()

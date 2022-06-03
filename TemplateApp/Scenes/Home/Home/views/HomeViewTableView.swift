@@ -11,6 +11,7 @@ class HomeViewTableView: UITableView {
     func configured() -> Self {
         register(HomeViewTableViewCell.self, forCellReuseIdentifier: "HomeCell")
 
+        rowHeight = 50.0
         translatesAutoresizingMaskIntoConstraints = false
         refreshControl = pullToRefresh
 
@@ -43,7 +44,12 @@ private extension HomeViewTableView {
             .withLatestFrom(viewModel.loadTransaction.onIsLoad) {($0, $1)}
             .filter({ !$0.1 })
             .map({ $0.0 })
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .bind(to: viewModel.selected)
+            .disposed(by: disposeBag)
+        
+        self.rx.itemSelected
+            .subscribe( onNext: { self.deselectRow(at: $0, animated: true) })
             .disposed(by: disposeBag)
 
         viewModel.loadTransaction.onIsLoad

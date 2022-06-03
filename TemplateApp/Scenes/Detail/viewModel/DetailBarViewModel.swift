@@ -1,11 +1,11 @@
 import RxCocoa
 import RxSwift
 
-protocol HomeOpenViewModelType: ClosableViewModel, CloserViewModel {}
+protocol DetailBarViewModelType: CloserViewModel, ClosableViewModel {}
 
-class HomeOpenViewModel: HomeOpenViewModelType {
-    let onClose: Signal<Void>
+class DetailBarViewModel: DetailBarViewModelType {
     let close: PublishRelay<Void>
+    let onClose: Signal<Void>
 
     init() {
         close = PublishRelay()

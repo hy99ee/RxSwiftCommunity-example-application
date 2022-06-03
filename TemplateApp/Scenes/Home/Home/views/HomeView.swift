@@ -143,12 +143,11 @@ private extension HomeView {
     func configureCollectionView() {
         addSubview(tableView)
         tableView.snp.makeConstraints { maker in
-            maker.top.equalToSuperview().offset(200)
+            maker.top.equalTo(createButton.snp_bottomMargin).offset(20)
             maker.leading.trailing.equalToSuperview()
-            maker.bottom.equalTo(acceptButton.snp_topMargin).offset(-20)
+            maker.bottom.equalTo(acceptButton.snp_topMargin).inset(-20)
         }
 
-        sendSubviewToBack(tableView)
     }
 
     func configureAboutButton() {
