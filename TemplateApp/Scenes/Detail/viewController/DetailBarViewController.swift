@@ -22,7 +22,10 @@ final class DetailBarViewController: UIViewController, Stepper {
 //MARK: UI
 private extension DetailBarViewController {
     func configureView() {
-
+        view.snp.makeConstraints { maker in
+//            maker.top.leading.trailing.equalToSuperview()
+            maker.height.equalTo(50)
+        }
         view.addSubview(detailBarView)
         detailBarView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }

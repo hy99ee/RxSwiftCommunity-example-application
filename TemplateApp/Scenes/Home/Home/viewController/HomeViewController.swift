@@ -8,42 +8,54 @@ final class HomeViewController: UIViewController, Stepper {
     let steps = PublishRelay<Step>()
 
     var homeView: HomeViewType!
+    var homeNavigationItem: HomeNavigationItem!
     var viewModel: HomeViewModelType!
 
     private let disposeBag = DisposeBag()
 
-    let titleLabel = UILabel()
-    private let didDisappear = PublishSubject<Void>()
+    private let viewVisibleState = PublishSubject<Bool>()
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        didDisappear.onNext(())
+        viewVisibleState.onNext((false))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        viewVisibleState.onNext((true))
+    }
+    
+    override var navigationItem: UINavigationItem {
+        homeNavigationItem
     }
 
-    func setupView(_ homeView: HomeView) {
-        self.homeView = homeView
+    @discardableResult
+    func configured() -> Self {
         configure()
         setupViewModelBindings()
         setupViewBindings()
+        setupNavigationViewBindings()
+
+        return self
     }
 }
 
 private extension HomeViewController {
     func configure() {
-        view.addSubview(homeView)
-        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        view.backgroundColor = .white
         
-        self.view.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { maker in
-            maker.top.centerX.equalToSuperview().inset(100)
+        view.addSubview(homeView)
+        homeView.snp.makeConstraints { maker in
+            maker.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
 
 //MARK: Bindings
-extension HomeViewController {
-    private func setupViewModelBindings() {
+private extension HomeViewController {
+    func setupViewModelBindings() {
         viewModel.onStepper
             .subscribe(onNext: { [unowned self] in steps.accept($0) })
             .disposed(by: disposeBag)
@@ -57,23 +69,26 @@ extension HomeViewController {
             .disposed(by: disposeBag)
     }
     
-    private func setupViewBindings() {
-        didDisappear
-            .map({ false })
-            .bind(to: homeView.tableView.pullToRefresh.rx.isRefreshing)
-            .disposed(by: disposeBag)
-    
-        homeView.onTapNext
-            .emit(to: viewModel.tapNext)
-            .disposed(by: disposeBag)
-
-        homeView.onTapAbout
-            .emit(to: viewModel.tapAbout)
-            .disposed(by: disposeBag)
-
+    func setupViewBindings() {
         homeView.onTapCreate
             .emit(to: viewModel.tapCreate)
             .disposed(by: disposeBag)
+
+        viewVisibleState
+            .filter({ !$0 })
+            .bind(to: homeView.tableView.pullToRefresh.rx.isRefreshing)
+            .disposed(by: disposeBag)
+    }
+    
+    func setupNavigationViewBindings() {
+        homeNavigationItem.onTapNext
+            .emit(to: viewModel.tapNext)
+            .disposed(by: disposeBag)
+        
+        homeNavigationItem.onTapAbout
+            .emit(to: viewModel.tapAbout)
+            .disposed(by: disposeBag)
+        
     }
 }
 

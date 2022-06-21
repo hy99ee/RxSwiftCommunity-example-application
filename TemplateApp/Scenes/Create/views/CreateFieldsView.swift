@@ -15,7 +15,7 @@ class CreateFieldsView: UIView {
 //MARK: Configure UI
 private extension CreateFieldsView {
     func configureView() {
-        backgroundColor = .green
+//        backgroundColor = .green
     }
 }
 

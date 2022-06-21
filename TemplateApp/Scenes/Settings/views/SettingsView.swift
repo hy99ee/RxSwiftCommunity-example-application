@@ -17,7 +17,7 @@ class SettingsView: UIView, SettingViewType {
 
         return label
     }()
-    
+
     lazy var loadingView: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -25,7 +25,8 @@ class SettingsView: UIView, SettingViewType {
 
         return indicator
     }()
-    
+    var loadingViews: [UIView] = []
+
     private lazy var nextButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white

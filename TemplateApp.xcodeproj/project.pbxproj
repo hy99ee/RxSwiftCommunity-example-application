@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		06236362B364CDB034F449CC /* Pods_TemplateApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D629B1EFA6E1EF8F8764A7F /* Pods_TemplateApp.framework */; };
+		3B1D82B7285B67A200C24937 /* HomeNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1D82B6285B67A200C24937 /* HomeNavigationBar.swift */; };
+		3B1D82B9285E469C00C24937 /* RxCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1D82B8285E469C00C24937 /* RxCocoa.swift */; };
 		3B392A48282E5E320055F6E9 /* CreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A40282E5E320055F6E9 /* CreateViewModel.swift */; };
 		3B392A49282E5E320055F6E9 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A42282E5E320055F6E9 /* CreateViewController.swift */; };
 		3B392A4A282E5E320055F6E9 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A44282E5E320055F6E9 /* CreateView.swift */; };
@@ -60,6 +62,8 @@
 /* Begin PBXFileReference section */
 		1422D6B42BCB82BE4ECEFE23 /* Pods_TemplateApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TemplateApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C210C8C3E98403444FCB50F /* Pods-TemplateApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateApp.debug.xcconfig"; path = "Target Support Files/Pods-TemplateApp/Pods-TemplateApp.debug.xcconfig"; sourceTree = "<group>"; };
+		3B1D82B6285B67A200C24937 /* HomeNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationBar.swift; sourceTree = "<group>"; };
+		3B1D82B8285E469C00C24937 /* RxCocoa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxCocoa.swift; sourceTree = "<group>"; };
 		3B392A40282E5E320055F6E9 /* CreateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewModel.swift; sourceTree = "<group>"; };
 		3B392A42282E5E320055F6E9 /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		3B392A44282E5E320055F6E9 /* CreateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
@@ -252,6 +256,7 @@
 		3B9CFA6A282E4D350037A8DB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3B9CFA7E282E4D350037A8DB /* About */,
 				3BAA4DBC2847AC9100F22DB6 /* Detail */,
 				3B392A3E282E5E320055F6E9 /* Create */,
 				3B9CFA6B282E4D350037A8DB /* Settings */,
@@ -311,7 +316,6 @@
 			isa = PBXGroup;
 			children = (
 				3B9CFA77282E4D350037A8DB /* Home */,
-				3B9CFA7E282E4D350037A8DB /* About */,
 				3B9CFA85282E4D350037A8DB /* coordinator */,
 			);
 			path = Home;
@@ -351,6 +355,7 @@
 				3B9CFA7D282E4D350037A8DB /* HomeView.swift */,
 				3B76C4162834DF2B00526F2C /* HomeViewTableViewCell.swift */,
 				3B76C4182834E3CF00526F2C /* HomeViewTableView.swift */,
+				3B1D82B6285B67A200C24937 /* HomeNavigationBar.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -402,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				3B9CFA8A282E4D350037A8DB /* UIKit.swift */,
+				3B1D82B8285E469C00C24937 /* RxCocoa.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -604,6 +610,7 @@
 				3B9CFAA6282E4D350037A8DB /* AppFlow.swift in Sources */,
 				3B9CFA9B282E4D350037A8DB /* HomeAboutViewModel.swift in Sources */,
 				3BAA4DC72847AC9100F22DB6 /* DetailMainViewModel.swift in Sources */,
+				3B1D82B7285B67A200C24937 /* HomeNavigationBar.swift in Sources */,
 				3B9CFAA7282E4D350037A8DB /* AppStep.swift in Sources */,
 				3B392A52282E96390055F6E9 /* Repository.swift in Sources */,
 				3B392A4B282E5E320055F6E9 /* CreateFlow.swift in Sources */,
@@ -617,6 +624,7 @@
 				3B9CFAA0282E4D350037A8DB /* User.swift in Sources */,
 				3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */,
 				3B42E5DA2846056E00F78470 /* CreateFieldsView.swift in Sources */,
+				3B1D82B9285E469C00C24937 /* RxCocoa.swift in Sources */,
 				3B9CFA9E282E4D350037A8DB /* HomeFlow.swift in Sources */,
 				3BCBA48D2836925D000A6A69 /* ViewModelsTypes.swift in Sources */,
 				3B42E5DD284605F600F78470 /* CreateFieldsViewModel.swift in Sources */,
@@ -777,6 +785,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -806,6 +815,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -25,7 +25,7 @@ class CreateView: UIView, CreateViewType {
         return view.configured()
     }()
 
-    private var loadingViews: [UIView] = []
+    private(set) var loadingViews: [UIView] = []
 
     lazy var welcomeLabel: UILabel = {
         let label = UILabel()

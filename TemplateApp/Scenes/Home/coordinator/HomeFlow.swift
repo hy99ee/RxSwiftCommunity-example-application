@@ -5,6 +5,7 @@ import RxFlow
 final class HomeFlow: ToAppFlowNavigation {
     private let viewController: HomeViewController
     private let viewModel: HomeViewModelType
+    var rootViewController: UINavigationController!
 
     private let disposeBag = DisposeBag()
     
@@ -15,6 +16,9 @@ final class HomeFlow: ToAppFlowNavigation {
         viewController = HomeViewController()
         viewModel = HomeViewModel()
         viewController.viewModel = viewModel
+
+        let navigationItem = HomeNavigationItem()
+        viewController.homeNavigationItem = navigationItem
 
         let homeViewViewModel = HomeViewViewModel()
         let homeView = HomeView()
@@ -27,8 +31,9 @@ final class HomeFlow: ToAppFlowNavigation {
         tableView.viewModel = tableViewModel
         homeView.tableView = tableView.configured()
 
-        viewController.setupView(homeView.cofigured())
-        
+        viewController.homeView = homeView.cofigured()
+        viewController.configured()
+
         manager.refresh.onNext(())
     }
 }
@@ -40,7 +45,7 @@ extension HomeFlow: Flow {
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? HomeStep else { return navigateFromAppFlow(step) }
 
-        viewController.titleLabel.text = step.stepDescription
+        print("Flow will be chancged by step: \(step.stepDescription)")
 
         switch step {
         case .start:

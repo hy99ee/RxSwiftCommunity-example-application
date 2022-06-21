@@ -1,6 +1,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 protocol DetailBarViewType where Self: UIView {
     var viewModel: DetailBarViewModelType! { get }
@@ -11,17 +12,20 @@ class DetailBarView: UIView, DetailBarViewType {
     
     private let disposeBag = DisposeBag()
     
-    private lazy var closeButton: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .lightGray
-        button.layer.cornerRadius = 20
-
-        return button
+    private let tapOffset = 10
+    private lazy var closeButton: UIView = {
+        let button = UIImageView(image: UIImage(systemName: "xmark.circle"))
+        let view = UIView()
+        view.addSubview(button)
+        button.snp.makeConstraints { maker in
+            maker.top.leading.equalToSuperview().offset(tapOffset)
+            maker.bottom.trailing.equalToSuperview().inset(tapOffset)
+        }
+        return view
     }()
 
     func configured() -> Self {
-        backgroundColor = .brown
-        configureView()
+        configureButton()
         setupBindings()
 
         return self
@@ -30,13 +34,13 @@ class DetailBarView: UIView, DetailBarViewType {
 
 // MARK: UI
 private extension DetailBarView {
-    func configureView() {
+    func configureButton() {
         addSubview(closeButton)
         closeButton.snp.makeConstraints { maker in
-            maker.top.equalToSuperview().offset(80)
-            maker.trailing.equalToSuperview().inset(30)
-            maker.width.equalTo(40)
-            maker.height.equalTo(40)
+            maker.centerY.equalToSuperview()
+            maker.trailing.equalToSuperview().inset(4)
+            maker.width.equalTo(25 + 2 * tapOffset)
+            maker.height.equalTo(25 + 2 * tapOffset)
         }
     }
 }
@@ -44,8 +48,8 @@ private extension DetailBarView {
 //MARK: Bindings
 private extension DetailBarView {
     func setupBindings() {
-        closeButton.rx.tap
-            .bind(to: viewModel.close)
+        closeButton.rx.tapView()
+            .emit(to: viewModel.close)
             .disposed(by: disposeBag)
     }
 }

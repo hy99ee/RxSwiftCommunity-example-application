@@ -2,25 +2,30 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-protocol HomeViewType: onTapCreateView, onTapNextView, LoadingProcessView where Self: UIView {
+protocol HomeViewType: onTapCreateView, LoadingProcessView where Self: UIView {
     var tableView: HomeViewTableView! { get }
-    var onTapAbout: Signal<Void> { get }
 }
 
 class HomeView: UIView, HomeViewType {
     var viewModel: HomeViewViewModelType!
     var tableView: HomeViewTableView!
-    
-    let onTapNext: Signal<Void>
-    private let tapNext: PublishRelay<Void>
 
-    let onTapAbout: Signal<Void>
-    private let tapAbout: PublishRelay<Void>
-    
     let onTapCreate: Signal<Void>
     private let tapCreate: PublishRelay<Void>
 
     let disposeBag = DisposeBag()
+
+    private let tapOffset = 10
+    private lazy var createButton: UIView = {
+        let button = UIImageView(image: UIImage(systemName: "plus.app"))
+        let view = UIView()
+        view.addSubview(button)
+        button.snp.makeConstraints { maker in
+            maker.top.leading.equalToSuperview().offset(tapOffset)
+            maker.bottom.trailing.equalToSuperview().inset(tapOffset)
+        }
+        return view
+    }()
 
     lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
         guard let event = event.element else { return }
@@ -40,51 +45,13 @@ class HomeView: UIView, HomeViewType {
         
         return indicator
     }()
-    
-    private lazy var acceptButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        button.setTitle("Create", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 20
 
-        return button
-    }()
-    
-    private lazy var aboutButton: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .lightGray
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 20
-
-        return button
-    }()
-    
-    private lazy var createButton: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .lightGray
-        button.setTitle("New", for: .normal)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 20
-
-        return button
-    }()
-    
-    private var loadingViews: [UIView] = []
-    private let nextText: String = "Home"
+    var loadingViews: [UIView] = []
 
     init() {
-        tapNext = PublishRelay<Void>()
-        onTapNext = tapNext.asSignal()
-
-        tapAbout = PublishRelay<Void>()
-        onTapAbout = tapAbout.asSignal()
-        
         tapCreate = PublishRelay<Void>()
         onTapCreate = tapCreate.asSignal()
-        
+
         super.init(frame: .zero)
         backgroundColor = .yellow
     }
@@ -103,13 +70,21 @@ class HomeView: UIView, HomeViewType {
 private extension HomeView {
     func configure() {
         configureWelcomeLabel()
-        configureAcceptButton()
         configureLoadingView()
-        configureAboutButton()
-        configureCreateButton()
-        configureCollectionView()
+        configureTableView()
+        configureCreateButtonView()
         
         setupBindings()
+    }
+    
+    func configureCreateButtonView() {
+        addSubview(createButton)
+        createButton.snp.makeConstraints { maker in
+            maker.trailing.equalToSuperview().inset(15)
+            maker.bottom.equalToSuperview().inset(5)
+            maker.height.equalTo(40 + 2 * tapOffset)
+            maker.width.equalTo(42 + 2 * tapOffset)
+        }
     }
     
     func configureWelcomeLabel() {
@@ -129,85 +104,33 @@ private extension HomeView {
         }
         loadingView.startAnimating()
     }
-    
-    func configureAcceptButton() {
-        addSubview(acceptButton)
-        acceptButton.snp.makeConstraints { maker in
-            maker.bottom.equalToSuperview().inset(30)
-            maker.trailing.equalToSuperview().inset(20)
-            maker.width.equalTo(100)
-        }
-        loadingViews.append(acceptButton)
-    }
 
-    func configureCollectionView() {
+    func configureTableView() {
         addSubview(tableView)
         tableView.snp.makeConstraints { maker in
-            maker.top.equalTo(createButton.snp_bottomMargin).offset(20)
-            maker.leading.trailing.equalToSuperview()
-            maker.bottom.equalTo(acceptButton.snp_topMargin).inset(-20)
+            maker.edges.equalToSuperview()
         }
 
     }
 
-    func configureAboutButton() {
-        addSubview(aboutButton)
-        aboutButton.snp.makeConstraints { maker in
-            maker.top.equalToSuperview().offset(80)
-            maker.trailing.equalToSuperview().inset(30)
-            maker.width.equalTo(40)
-            maker.height.equalTo(40)
-        }
-        loadingViews.append(aboutButton)
-    }
-    
-    func configureCreateButton() {
-        addSubview(createButton)
-        createButton.snp.makeConstraints { maker in
-            maker.top.equalToSuperview().offset(80)
-            maker.leading.equalToSuperview().inset(30)
-            maker.width.equalTo(40)
-            maker.height.equalTo(40)
-        }
-        loadingViews.append(createButton)
-    }
 }
 
 //MARK: Bindings
 extension HomeView {
     private func setupBindings() {
-        acceptButton.rx.tap
-            .bind(to: tapNext)
-            .disposed(by: disposeBag)
-                
-        aboutButton.rx.tap
-            .map({ _ -> CGFloat in 0.75 })
-            .bind(to: aboutButton.rx.alpha)
-            .disposed(by: disposeBag)
-                
-        aboutButton.rx.tap
-            .delay(.milliseconds(250), scheduler: MainScheduler.instance)
-            .map({ _ -> CGFloat in 1 })
-            .bind(to: aboutButton.rx.alpha)
-            .disposed(by: disposeBag)
-                
-        aboutButton.rx.tap
-            .bind(to: tapAbout)
+        createButton.rx.tapView()
+            .emit(to: tapCreate)
             .disposed(by: disposeBag)
         
-        createButton.rx.tap
-            .bind(to: tapCreate)
-            .disposed(by: disposeBag)
-        
-        createButton.rx.tap
+        createButton.rx.tapView()
             .map({ _ -> CGFloat in 0.3 })
-            .bind(to: createButton.rx.alpha)
+            .emit(to: createButton.rx.alpha)
             .disposed(by: disposeBag)
                 
-        createButton.rx.tap
-            .delay(.milliseconds(250), scheduler: MainScheduler.instance)
+        createButton.rx.tapView()
+            .delay(.milliseconds(250))
             .map({ _ -> CGFloat in 1 })
-            .bind(to: createButton.rx.alpha)
+            .emit(to: createButton.rx.alpha)
             .disposed(by: disposeBag)
     }
 }

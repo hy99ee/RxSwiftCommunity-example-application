@@ -9,10 +9,14 @@ final class DetailMainViewController: UIViewController, Stepper {
     let steps = PublishRelay<Step>()
     
     var detailView: DetailMainViewType!
+    var barViewController: DetailBarViewController!
 
     private let disposeBag = DisposeBag()
 
     func configure() {
+        view.backgroundColor = .white
+
+        configureBarView()
         configureView()
         
         setupViewModelBindings()
@@ -22,9 +26,20 @@ final class DetailMainViewController: UIViewController, Stepper {
 
 //MARK: UI
 private extension DetailMainViewController {
+    func configureBarView() {
+        view.addSubview(barViewController.view)
+        barViewController.detailBarView.snp.makeConstraints { maker in
+            maker.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            
+        }
+    }
+    
     func configureView() {
         view.addSubview(detailView)
-        detailView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        detailView.snp.makeConstraints { maker in
+            maker.top.equalTo(barViewController.view.snp_bottomMargin)
+            maker.trailing.leading.bottom.equalToSuperview()
+        }
     }
 }
 

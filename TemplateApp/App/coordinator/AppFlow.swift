@@ -12,7 +12,7 @@ class AppFlow {
 
     private init() {
         let rootViewController = UINavigationController()
-        rootViewController.setNavigationBarHidden(true, animated: false)
+
         self.rootViewController = rootViewController
 
         manager = Manager(repository: AppRepository())
@@ -27,7 +27,7 @@ extension AppFlow: Flow {
 
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? AppStep else { return .none }
-
+        showNavigationBar()
         switch step {
         case .toRoot: return openRoot()
         case .toHome: return openHome()
@@ -59,8 +59,10 @@ private extension AppFlow {
     func openCreate() -> FlowContributors {
         let saveTransaction = (manager.save, manager.onIsLoad)
         let createFlow = CreateFlow(save: saveTransaction)
-
+        hideNavigationBar()
         Flows.use(createFlow, when: .created) { [unowned self] root in
+//
+            
             self.rootViewController.pushViewController(root, animated: true)
         }
 
@@ -78,4 +80,39 @@ private extension AppFlow {
         return .one(flowContributor: .contribute(withNextPresentable: settingsFlow,
                                                  withNextStepper: OneStepper(withSingleStep: SettingsStep.start(user: manager.first))))
     }
+}
+
+private extension AppFlow {
+    var navigationBarTransition: CATransition {
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = CATransitionType.moveIn
+        transition.subtype = CATransitionSubtype.fromBottom
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+
+        return transition
+    }
+    
+    func hideNavigationBar() {
+
+        rootViewController.navigationBar.layer.add(navigationBarTransition, forKey: kCATransition)
+
+        rootViewController.setNavigationBarHidden(true, animated: false)
+    }
+    
+    func showNavigationBar() {
+        rootViewController.navigationBar.layer.add(navigationBarTransition, forKey: kCATransition)
+
+        rootViewController.setNavigationBarHidden(false, animated: false)
+  
+    }
+    
+//    func showNavigationBar() {
+//
+//        CATransaction.begin()
+//        CATransaction.setAnimationDuration(2)
+//        CATransaction.setCompletionBlock {
+//            self.navigationBar.layer.removeFromSuperlayer()
+//        }
+//    }
 }
