@@ -24,8 +24,9 @@ final class CreateViewController: UIViewController, Stepper {
 //MARK: UI
 private extension CreateViewController {
      func configureView() {
-        self.view.addSubview(createView)
-        createView.snp.makeConstraints { $0.edges.equalToSuperview() }
+         view.backgroundColor = .white
+         self.view.addSubview(createView)
+         createView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
     }
 }
 

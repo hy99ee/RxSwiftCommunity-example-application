@@ -38,9 +38,9 @@ private extension DetailBarView {
         addSubview(closeButton)
         closeButton.snp.makeConstraints { maker in
             maker.centerY.equalToSuperview()
-            maker.trailing.equalToSuperview().inset(4)
-            maker.width.equalTo(25 + 2 * tapOffset)
-            maker.height.equalTo(25 + 2 * tapOffset)
+            maker.trailing.equalToSuperview().inset(6)
+            maker.width.equalTo(26 + 2 * tapOffset)
+            maker.height.equalTo(26 + 2 * tapOffset)
         }
     }
 }

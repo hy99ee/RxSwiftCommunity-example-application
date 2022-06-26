@@ -18,11 +18,11 @@ class CreateView: UIView, CreateViewType {
 
     let disposeBag = DisposeBag()
     
-    private lazy var fieldsView: CreateFieldsView = {
-        let view = CreateFieldsView()
-        view.viewModel = CreateFieldsViewModel()
+    private lazy var fieldsView: FormViewController = {
+        let view = FormViewController()
+        view.viewModel = CreateFieldsViewModel().configured()
 
-        return view.configured()
+        return view
     }()
 
     private(set) var loadingViews: [UIView] = []
@@ -45,10 +45,10 @@ class CreateView: UIView, CreateViewType {
         button.backgroundColor = .red
         button.setTitle(nextText, for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
-        button.titleLabel?.snp.makeConstraints { $0.edges.equalToSuperview().inset(20) }
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 23)
+        button.titleLabel?.snp.makeConstraints { $0.centerY.centerX.equalToSuperview() }
         button.clipsToBounds = true
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 13
 
         return button
     }()
@@ -61,7 +61,7 @@ class CreateView: UIView, CreateViewType {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         button.titleLabel?.snp.makeConstraints { $0.edges.equalToSuperview().inset(20) }
         button.clipsToBounds = true
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 10
 
         return button
     }()
@@ -108,12 +108,12 @@ private extension CreateView {
     }
     
     func configureFieldsView() {
-        addSubview(fieldsView)
-        fieldsView.snp.makeConstraints { maker in
+        addSubview(fieldsView.view)
+        fieldsView.view.snp.makeConstraints { maker in
             maker.top.leading.trailing.equalTo(safeAreaLayoutGuide)
             maker.bottom.equalTo(snp.centerY).offset(10)
         }
-        loadingViews.append(fieldsView)
+        loadingViews.append(fieldsView.view)
     }
 
     func configureWelcomeLabel() {
@@ -139,18 +139,19 @@ private extension CreateView {
     func configureCreateButton() {
         addSubview(createButton)
         createButton.snp.makeConstraints { maker in
-            maker.centerX.centerY.equalToSuperview().inset(50)
+            maker.leading.trailing.equalToSuperview().inset(20)
+            maker.bottom.equalToSuperview()
         }
         loadingViews.append(createButton)
     }
 
     func configureCloseButton() {
-        addSubview(closeButton)
-        closeButton.snp.makeConstraints { maker in
-            maker.centerY.equalToSuperview().offset(100)
-            maker.centerX.equalToSuperview()
-        }
-        loadingViews.append(closeButton)
+//        addSubview(closeButton)
+//        closeButton.snp.makeConstraints { maker in
+//            maker.centerY.equalToSuperview().offset(100)
+//            maker.centerX.equalToSuperview()
+//        }
+//        loadingViews.append(closeButton)
     }
 }
 
