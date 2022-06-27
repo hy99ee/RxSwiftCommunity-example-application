@@ -39,6 +39,7 @@ class SettingsViewModel: SettingsViewModelType {
         user = User(
             id: Int.random(in: ClosedRange(uncheckedBounds: (lower: 0, upper: 100))),
             name: "emaN",
+            description: "WeWE",
             age: 99
         )
 

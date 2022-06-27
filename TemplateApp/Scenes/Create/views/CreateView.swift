@@ -22,6 +22,10 @@ class CreateView: UIView, CreateViewType {
         let view = FormViewController()
         view.viewModel = CreateFieldsViewModel().configured()
 
+        view.viewModel.onUser
+            .bind(to: viewModel.selected)
+            .disposed(by: disposeBag)
+
         return view
     }()
 

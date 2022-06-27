@@ -31,31 +31,59 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
     
     let onUser: Observable<User>
     private let user: AnyObserver<User>
+    
+    private let nameText: PublishSubject<String>
+    private let descriptionText: PublishSubject<String>
+    
     private let disposeBag = DisposeBag()
     
     init() {
-
-        
         let user = PublishSubject<User>()
         self.user = user.asObserver()
         self.onUser = user.asObservable()
+
+        self.nameText = PublishSubject()
+        self.descriptionText = PublishSubject()
     }
     
     func configured() -> Self {
         model = Form(sections: [
             FormSection(items: [
                 bindingsForName(TextInputFormItem(placeholder: "Add title")),
-                TextInputFormItem(placeholder: "Add description")
+                bindingsForDescription(TextInputFormItem(placeholder: "Add description"))
                 ])
             ])
+        
+        setupBindings()
 
         return self
+    }
+}
+
+private extension CreateFieldsViewModel {
+    func setupBindings() {
+        Observable.combineLatest(nameText, descriptionText)
+            .throttle(.milliseconds(1500), scheduler: MainScheduler.instance)
+            .filter { $0 != "" && $1 != "" }
+            .map{ User(id: 01, name: $0, description: $1, age: 10) }
+            .debug("_________")
+            .bind(to: user)
+            .disposed(by: disposeBag)
     }
     
     func bindingsForName(_ item: TextInputFormItem) -> TextInputFormItem {
         item.text.asObservable()
-            .map { User(id: 10, name: $0, age: 10) }
-            .bind(to: user)
+            .distinctUntilChanged()
+            .bind(to: nameText)
+            .disposed(by: disposeBag)
+
+        return item
+    }
+    
+    func bindingsForDescription(_ item: TextInputFormItem) -> TextInputFormItem {
+        item.text.asObservable()
+            .distinctUntilChanged()
+            .bind(to: descriptionText)
             .disposed(by: disposeBag)
 
         return item

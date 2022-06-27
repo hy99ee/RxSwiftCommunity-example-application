@@ -2,11 +2,14 @@ import RxCocoa
 import RxFlow
 import RxSwift
 
-protocol CreateViewViewModelType: LoadableViewModel, ClosableViewModel, CloserViewModel, SaveHandlerType {
+protocol CreateViewViewModelType: LoadableViewModel, ClosableViewModel, CloserViewModel, SaveHandlerType, UserSelecterViewModel {
     var tapCreate: AnyObserver<Void> { get }
 }
 
 class CreateViewViewModel: CreateViewViewModelType {
+    let selected: AnyObserver<User>
+    private let onUser: Observable<User>
+    
     let tapCreate: AnyObserver<Void>
     private let onTapCreate: Observable<Void>
 
@@ -32,25 +35,20 @@ class CreateViewViewModel: CreateViewViewModelType {
 
         self.loader = BehaviorRelay(value: true)
         self.onLoader = loader.asDriver()
+        
+        let user = PublishSubject<User>()
+        self.selected = user.asObserver()
+        self.onUser = user.asObservable()
 
         setupBindings()
     }
 }
 
-//MARK: Validate and save
-extension CreateViewViewModel {
-    private func saveUser() -> Single<User> {
-        Single
-            .just(User.init(id: 111, name: "RX TEMPLATE", age: 100))
-    }
-}
-
-
 //MARK: Bindings
 extension CreateViewViewModel {
     private func setupBindings() {
         onTapCreate
-            .flatMap { [unowned self] in self.saveUser() }
+            .withLatestFrom(onUser)
             .bind(to: saveTransaction.save)
             .disposed(by: disposeBag)
 

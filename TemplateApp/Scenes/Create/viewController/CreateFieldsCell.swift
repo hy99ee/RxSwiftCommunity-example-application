@@ -39,7 +39,6 @@ private extension TextInputTableViewCell {
     func setupBindings() {
         editableTextField.rx.text.asObservable()
             .compactMap { $0 }
-            .debug("________")
             .subscribe(formItem.text)
             .disposed(by: disposeBag)
     }
