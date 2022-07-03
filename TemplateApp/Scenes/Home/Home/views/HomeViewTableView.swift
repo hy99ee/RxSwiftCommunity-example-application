@@ -45,7 +45,7 @@ private extension HomeViewTableView {
             .filter({ !$0.1 })
             .map({ $0.0 })
             .delay(.milliseconds(100), scheduler: MainScheduler.instance)
-            .bind(to: viewModel.selected)
+            .bind(to: viewModel.user)
             .disposed(by: disposeBag)
         
         self.rx.itemSelected

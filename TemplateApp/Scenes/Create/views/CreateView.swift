@@ -22,10 +22,6 @@ class CreateView: UIView, CreateViewType {
         let view = FormViewController()
         view.viewModel = CreateFieldsViewModel().configured()
 
-        view.viewModel.onUser
-            .bind(to: viewModel.selected)
-            .disposed(by: disposeBag)
-
         return view
     }()
 
@@ -51,8 +47,7 @@ class CreateView: UIView, CreateViewType {
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 23)
         button.titleLabel?.snp.makeConstraints { $0.centerY.centerX.equalToSuperview() }
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 13
+        button.layer.cornerRadius = 11
 
         return button
     }()
@@ -64,7 +59,6 @@ class CreateView: UIView, CreateViewType {
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         button.titleLabel?.snp.makeConstraints { $0.edges.equalToSuperview().inset(20) }
-        button.clipsToBounds = true
         button.layer.cornerRadius = 10
 
         return button
@@ -91,7 +85,8 @@ class CreateView: UIView, CreateViewType {
     }
     
     func configured() -> Self {
-        self.configure()
+        configure()
+        setupBindings()
 
         return self
     }
@@ -100,22 +95,38 @@ class CreateView: UIView, CreateViewType {
 //MARK: Configure UI
 private extension CreateView {
     func configure() {
-        backgroundColor = .blue
+        backgroundColor = .white
         
-        configureFieldsView()
-        configureWelcomeLabel()
         configureCreateButton()
         configureCloseButton()
+        configureFieldsView()
+        configureWelcomeLabel()
         configureLoadingView()
-        
-        setupBindings()
     }
     
+    func configureCreateButton() {
+        addSubview(createButton)
+        createButton.snp.makeConstraints { maker in
+            maker.leading.trailing.equalToSuperview().inset(20)
+            maker.bottom.equalToSuperview()
+        }
+        loadingViews.append(createButton)
+    }
+
+    func configureCloseButton() {
+//        addSubview(closeButton)
+//        closeButton.snp.makeConstraints { maker in
+//            maker.centerY.equalToSuperview().offset(100)
+//            maker.centerX.equalToSuperview()
+//        }
+//        loadingViews.append(closeButton)
+    }
+
     func configureFieldsView() {
         addSubview(fieldsView.view)
         fieldsView.view.snp.makeConstraints { maker in
             maker.top.leading.trailing.equalTo(safeAreaLayoutGuide)
-            maker.bottom.equalTo(snp.centerY).offset(10)
+            maker.bottom.equalTo(createButton.snp.top)
         }
         loadingViews.append(fieldsView.view)
     }
@@ -139,29 +150,20 @@ private extension CreateView {
         
         loadingView.startAnimating()
     }
-    
-    func configureCreateButton() {
-        addSubview(createButton)
-        createButton.snp.makeConstraints { maker in
-            maker.leading.trailing.equalToSuperview().inset(20)
-            maker.bottom.equalToSuperview()
-        }
-        loadingViews.append(createButton)
-    }
-
-    func configureCloseButton() {
-//        addSubview(closeButton)
-//        closeButton.snp.makeConstraints { maker in
-//            maker.centerY.equalToSuperview().offset(100)
-//            maker.centerX.equalToSuperview()
-//        }
-//        loadingViews.append(closeButton)
-    }
 }
 
 //MARK: Bindings
 extension CreateView {
     private func setupBindings() {
+        fieldsView.viewModel.onIsValidUser
+            .map { !$0 }
+            .drive(createButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        fieldsView.viewModel.onUser
+            .bind(to: viewModel.user)
+            .disposed(by: disposeBag)
+
         createButton.rx.tap
             .bind(to: viewModel.tapCreate)
             .disposed(by: disposeBag)

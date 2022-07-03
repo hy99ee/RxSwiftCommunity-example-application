@@ -8,7 +8,7 @@ protocol HomeViewModelType: StepableViewModel, LoadableViewModel, NextTapperView
 }
 
 class HomeViewModel: HomeViewModelType {
-    let selected: AnyObserver<User>
+    let user: AnyObserver<User>
     private let onSelected: Observable<User>
     
     let tapNext: AnyObserver<Void>
@@ -36,7 +36,7 @@ class HomeViewModel: HomeViewModelType {
         self.onStepper = stepper.asObservable()
         
         let selected = PublishSubject<User>()
-        self.selected = selected.asObserver()
+        self.user = selected.asObserver()
         self.onSelected = selected.asObservable()
         
         let next = PublishSubject<Void>()

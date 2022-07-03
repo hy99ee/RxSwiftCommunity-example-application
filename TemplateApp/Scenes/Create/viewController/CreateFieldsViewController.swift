@@ -28,7 +28,6 @@ final class FormViewController: UITableViewController {
     }
     
     // MARK: Providing Table View Content
-    
     private func model(at indexPath: IndexPath) -> FormItem {
         viewModel.model.sections[indexPath.section].items[indexPath.item]
     }

@@ -4,7 +4,7 @@ protocol HomeViewTableViewModelType: RefreshHandlerType, UserSelecterViewModel, 
 
 class HomeViewTableViewModel: HomeViewTableViewModelType {
     let onSelected: Observable<User>
-    let selected: AnyObserver<User>
+    let user: AnyObserver<User>
 
     var refreshTransaction: RefreshTransaction
     var loadTransaction: LoadTransaction
@@ -14,7 +14,7 @@ class HomeViewTableViewModel: HomeViewTableViewModelType {
         self.refreshTransaction = refreshHandler.refreshTransaction
         
         let selected = PublishSubject<User>()
-        self.selected = selected.asObserver()
+        self.user = selected.asObserver()
         self.onSelected = selected.asObservable()
     }
 }

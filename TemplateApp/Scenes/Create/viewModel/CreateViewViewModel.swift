@@ -7,7 +7,7 @@ protocol CreateViewViewModelType: LoadableViewModel, ClosableViewModel, CloserVi
 }
 
 class CreateViewViewModel: CreateViewViewModelType {
-    let selected: AnyObserver<User>
+    let user: AnyObserver<User>
     private let onUser: Observable<User>
     
     let tapCreate: AnyObserver<Void>
@@ -37,7 +37,7 @@ class CreateViewViewModel: CreateViewViewModelType {
         self.onLoader = loader.asDriver()
         
         let user = PublishSubject<User>()
-        self.selected = user.asObserver()
+        self.user = user.asObserver()
         self.onUser = user.asObservable()
 
         setupBindings()
@@ -47,8 +47,7 @@ class CreateViewViewModel: CreateViewViewModelType {
 //MARK: Bindings
 extension CreateViewViewModel {
     private func setupBindings() {
-        onTapCreate
-            .withLatestFrom(onUser)
+        onUser
             .bind(to: saveTransaction.save)
             .disposed(by: disposeBag)
 

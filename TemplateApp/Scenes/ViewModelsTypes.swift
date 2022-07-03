@@ -14,12 +14,12 @@ extension StepperViewModel {
 }
 
 protocol UserSelecterViewModel {
-    var selected: AnyObserver<User> { get }
+    var user: AnyObserver<User> { get }
 }
 extension UserSelecterViewModel {
     func bind(on selectableViewModelType: SelectableViewModel) -> Disposable {
         selectableViewModelType.onSelected
-            .bind(to: selected)
+            .bind(to: user)
     }
 }
 
@@ -54,7 +54,7 @@ protocol SelectableViewModel {
 extension SelectableViewModel {
     func bind(to selecterViewModelType: UserSelecterViewModel) -> Disposable {
         self.onSelected
-            .bind(to: selecterViewModelType.selected)
+            .bind(to: selecterViewModelType.user)
     }
 }
 
