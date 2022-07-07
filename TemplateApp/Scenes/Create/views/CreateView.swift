@@ -36,6 +36,7 @@ class CreateView: UIView, CreateViewType {
     lazy var loadingView: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        indicator.tintColor = .black
 
         return indicator
     }()
@@ -155,13 +156,19 @@ private extension CreateView {
 //MARK: Bindings
 extension CreateView {
     private func setupBindings() {
-        fieldsView.viewModel.onIsValidUser
-            .map { !$0 }
-            .drive(createButton.rx.isHidden)
+        self.rx.tapView()
+            .emit (onNext: { [weak self] in self?.endEditing(true) })
             .disposed(by: disposeBag)
         
         fieldsView.viewModel.onUser
-            .bind(to: viewModel.user)
+            .map{ $0 == nil ? true : false }
+            .drive(createButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        createButton.rx.tap.asDriver()
+            .flatMap {[unowned self] in fieldsView.viewModel.onUser }
+            .compactMap { $0 }
+            .drive(viewModel.user)
             .disposed(by: disposeBag)
 
         createButton.rx.tap

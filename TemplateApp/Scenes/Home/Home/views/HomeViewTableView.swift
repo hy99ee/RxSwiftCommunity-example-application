@@ -14,6 +14,9 @@ class HomeViewTableView: UITableView {
         rowHeight = 50.0
         translatesAutoresizingMaskIntoConstraints = false
         refreshControl = pullToRefresh
+        backgroundColor = .white
+        
+        pullToRefresh.tintColor = .black
 
         setupBindings()
 
@@ -60,7 +63,7 @@ private extension HomeViewTableView {
 
         viewModel.loadTransaction.onIsLoad
             .filter({ $0 })
-            .map({ _ -> CGFloat in 0.5 })
+            .map({ _ -> CGFloat in 0.9 })
             .bind(to: self.rx.alpha)
             .disposed(by: disposeBag)
     }

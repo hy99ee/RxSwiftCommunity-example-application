@@ -3,39 +3,24 @@ import RxCocoa
 import RxFlow
 
 protocol CreateFieldsViewModelType {
-    var onUser: Observable<User> { get }
-    var onIsValidUser: Driver<Bool> { get }
+    var onUser: Driver<User?> { get }
     var model: Form! { get }
 }
 
-//class TextValidator {
-//    var input: Observable<String>
-//    var condition: (String) -> Bool
-//
-//    init(input: Observable<String>, condition: @escaping (String) -> Bool) {
-//       self.input = input
-//       self.condition = condition
-//    }
-//
-//    func validate() -> Observable<Bool> {
-//        return input.map {[weak self] in self?.condition($0) ?? false }
-//    }
-//}
-
 extension Observable where Element == String {
-    func validateString(condition: @escaping (String) -> Bool = { !$0.isEmpty }) -> Observable<Bool> {
-        self.map { condition($0) }
+    func checkWithCondition(_ condition: @escaping (Element) -> Bool  = { !$0.isEmpty } ) -> Observable<Element?> {
+        self.map { condition($0) ? $0 : nil }
     }
 }
 
 class CreateFieldsViewModel: CreateFieldsViewModelType {
     var model: Form!
     
-    let onIsValidUser: Driver<Bool>
-    private let isValidUser: BehaviorRelay<Bool>
+//    let onIsValidUser: Driver<Bool>
+//    private let isValidUser: BehaviorRelay<Bool>
 
-    let onUser: Observable<User>
-    private let user: AnyObserver<User>
+    let onUser: Driver<User?>
+    private let user: BehaviorRelay<User?>
     
     private let nameText: PublishSubject<String>
     private let descriptionText: PublishSubject<String>
@@ -43,13 +28,9 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
     private let disposeBag = DisposeBag()
     
     init() {
-        let user = PublishSubject<User>()
-        self.user = user.asObserver()
-        self.onUser = user.asObservable()
-        
-        self.isValidUser = BehaviorRelay(value: false)
-        self.onIsValidUser = isValidUser.asDriver()
-        
+        self.user = BehaviorRelay(value: nil)
+        self.onUser = self.user.asDriver()
+
 
         self.nameText = PublishSubject()
         self.descriptionText = PublishSubject()
@@ -68,32 +49,27 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
 
         return self
     }
-    
-//    private let validateFields: Observable<Bool> = {
-//
-//        return .just(false)
-//    }()
+
 }
 
 private extension CreateFieldsViewModel {
     func setupBindings() {
-//        Observable.combineLatest(nameText, descriptionText)
-//            .throttle(.milliseconds(1500), scheduler: MainScheduler.instance)
-//            .filter { $0 != "" && $1 != "" }
-//            .map{ _ in false }
-//            .bind(to: isValidUser)
-//            .disposed(by: disposeBag)
+
         
         
         Observable.combineLatest(
-            nameText.validateString(),
-            descriptionText.validateString())
-//            TextValidator(input: nameText, condition: { !$0.isEmpty } ).validate(),
-//            TextValidator(input: descriptionText, condition: { !$0.isEmpty } ).validate())
-//            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .map { $0 && $1 ? true : false }
-            .bind(to: isValidUser)
-            .disposed(by: disposeBag)
+            nameText.checkWithCondition(),
+            descriptionText.checkWithCondition()
+        )
+        .map { element -> User? in
+            guard
+                let name = element.0,
+                let description = element.1
+            else { return nil }
+            return User(id: 1, name: name, description: description, age: 0)
+        }
+        .bind(to: user)
+        .disposed(by: disposeBag)
     }
     
     func bindingsForName(_ item: TextInputFormItem) -> TextInputFormItem {
@@ -107,7 +83,6 @@ private extension CreateFieldsViewModel {
     
     func bindingsForDescription(_ item: TextInputFormItem) -> TextInputFormItem {
         item.text.asObservable()
-            
             .distinctUntilChanged()
             .bind(to: descriptionText)
             .disposed(by: disposeBag)

@@ -53,7 +53,7 @@ class HomeView: UIView, HomeViewType {
         onTapCreate = tapCreate.asSignal()
 
         super.init(frame: .zero)
-        backgroundColor = .yellow
+        backgroundColor = .init(white: 0, alpha: 0.3)
     }
 
     required init?(coder aDecoder: NSCoder) {
