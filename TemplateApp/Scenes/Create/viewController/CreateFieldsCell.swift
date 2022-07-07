@@ -24,6 +24,7 @@ final class TextInputTableViewCell: UITableViewCell {
 // MARK: UI
 private extension TextInputTableViewCell {
     func configure() {
+        editableTextField.textColor = .gray
         editableTextField.placeholder = formItem.placeholder
         contentView.addSubview(editableTextField)
         editableTextField.snp.makeConstraints { maker in

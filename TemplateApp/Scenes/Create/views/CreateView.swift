@@ -18,11 +18,14 @@ class CreateView: UIView, CreateViewType {
 
     let disposeBag = DisposeBag()
     
-    private lazy var fieldsView: FormViewController = {
-        let view = FormViewController()
-        view.viewModel = CreateFieldsViewModel().configured()
+    private let tapOffset = 10
 
-        return view
+    private lazy var fieldsView: FormViewController = {
+        let viewController = FormViewController()
+        viewController.view.backgroundColor = .white
+        viewController.viewModel = CreateFieldsViewModel().configured()
+
+        return viewController
     }()
 
     private(set) var loadingViews: [UIView] = []
@@ -41,28 +44,27 @@ class CreateView: UIView, CreateViewType {
         return indicator
     }()
     
-    private lazy var createButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .red
-        button.setTitle(nextText, for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 23)
-        button.titleLabel?.snp.makeConstraints { $0.centerY.centerX.equalToSuperview() }
-        button.layer.cornerRadius = 11
-
-        return button
+    private lazy var createButton: UIView = {
+        let button = UIImageView(image: UIImage(systemName: "checkmark.square"))
+        let view = UIView()
+        view.addSubview(button)
+        button.snp.makeConstraints { maker in
+            maker.top.leading.equalToSuperview().offset(tapOffset)
+            maker.bottom.trailing.equalToSuperview().inset(tapOffset)
+        }
+        return view
     }()
     
-    private lazy var closeButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .red
-        button.setTitle(closeText, for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
-        button.titleLabel?.snp.makeConstraints { $0.edges.equalToSuperview().inset(20) }
-        button.layer.cornerRadius = 10
+    private lazy var closeButton: UIView = {
+        let button = UIImageView(image: UIImage(systemName: "chevron.backward.square"))
+        let view = UIView()
+        view.addSubview(button)
+        button.snp.makeConstraints { maker in
+            maker.top.leading.equalToSuperview().offset(tapOffset)
+            maker.bottom.trailing.equalToSuperview().inset(tapOffset)
+        }
 
-        return button
+        return view
     }()
     
     lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
@@ -108,19 +110,23 @@ private extension CreateView {
     func configureCreateButton() {
         addSubview(createButton)
         createButton.snp.makeConstraints { maker in
-            maker.leading.trailing.equalToSuperview().inset(20)
-            maker.bottom.equalToSuperview()
+            maker.trailing.equalToSuperview().inset(15)
+            maker.bottom.equalToSuperview().inset(5)
+            maker.height.equalTo(40 + 2 * tapOffset)
+            maker.width.equalTo(42 + 2 * tapOffset)
         }
         loadingViews.append(createButton)
     }
 
     func configureCloseButton() {
-//        addSubview(closeButton)
-//        closeButton.snp.makeConstraints { maker in
-//            maker.centerY.equalToSuperview().offset(100)
-//            maker.centerX.equalToSuperview()
-//        }
-//        loadingViews.append(closeButton)
+        addSubview(closeButton)
+        closeButton.snp.makeConstraints { maker in
+            maker.leading.equalToSuperview().offset(15)
+            maker.bottom.equalToSuperview().inset(5)
+            maker.height.equalTo(40 + 2 * tapOffset)
+            maker.width.equalTo(42 + 2 * tapOffset)
+        }
+        loadingViews.append(closeButton)
     }
 
     func configureFieldsView() {
@@ -161,22 +167,28 @@ extension CreateView {
             .disposed(by: disposeBag)
         
         fieldsView.viewModel.onUser
-            .map{ $0 == nil ? true : false }
-            .drive(createButton.rx.isHidden)
+            .map{ $0 == nil ? false : true }
+            .drive(createButton.rx.isUserInteractionEnabled)
+            .disposed(by: disposeBag)
+
+        fieldsView.viewModel.onUser
+            .map{ $0 == nil ? 0.5 : 1 }
+            .drive(createButton.rx.alpha)
             .disposed(by: disposeBag)
         
-        createButton.rx.tap.asDriver()
+        createButton.rx.tapView()
+            .debug("efe")
             .flatMap {[unowned self] in fieldsView.viewModel.onUser }
             .compactMap { $0 }
             .drive(viewModel.user)
             .disposed(by: disposeBag)
 
-        createButton.rx.tap
-            .bind(to: viewModel.tapCreate)
+        createButton.rx.tapView()
+            .emit(to: viewModel.tapCreate)
             .disposed(by: disposeBag)
         
-        closeButton.rx.tap
-            .bind(to: viewModel.close)
+        closeButton.rx.tapView()
+            .emit(to: viewModel.close)
             .disposed(by: disposeBag)
 
         viewModel.onLoader

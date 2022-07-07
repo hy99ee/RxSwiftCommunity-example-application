@@ -32,22 +32,3 @@ struct TextInputFormItem: FormItem {
     }
     
 }
-
-//final class Note {
-//    init(topic: String, text: String) {
-//        self.topic = topic
-//        self.text = text
-//    }
-//    
-//    var topic: String = "" {
-//        didSet {
-//            print("Topic changed to \(topic).")
-//        }
-//    }
-//    
-//    var text: String = "" {
-//        didSet {
-//            print("Text changed to \(text).")
-//        }
-//    }
-//}

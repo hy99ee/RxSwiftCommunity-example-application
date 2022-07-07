@@ -54,9 +54,6 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
 
 private extension CreateFieldsViewModel {
     func setupBindings() {
-
-        
-        
         Observable.combineLatest(
             nameText.checkWithCondition(),
             descriptionText.checkWithCondition()

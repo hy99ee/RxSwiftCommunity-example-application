@@ -7,7 +7,7 @@ class HomeViewTableViewCell: UITableViewCell {
 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .red
+        label.textColor = .systemGray
 
         return label
     }()
@@ -17,7 +17,7 @@ class HomeViewTableViewCell: UITableViewCell {
 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 20)
-        label.textColor = .red
+        label.textColor = .systemGray
 
         return label
     }()
@@ -36,7 +36,7 @@ class HomeViewTableViewCell: UITableViewCell {
 // MARK: UI
 private extension HomeViewTableViewCell {
     func configure() {
-        backgroundColor = .lightGray
+        backgroundColor = .white
 
         configureTitleLabel()
         configureDateLabel()

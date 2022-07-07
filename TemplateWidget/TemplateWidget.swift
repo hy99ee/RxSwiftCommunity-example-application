@@ -38,7 +38,7 @@ struct TemplateWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text(lastUserFromApp).bold().monospacedDigit()
+        Text(lastUserFromApp).bold()
     }
     
     private var lastUserFromApp: String {
