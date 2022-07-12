@@ -6,7 +6,9 @@ final class AppRepository: Repository<User> {
     override init() {
         super.init()
 
-        elements = []
+        elements = [
+            User.create()
+        ]
     }
     
     override func add(_ element: User) {

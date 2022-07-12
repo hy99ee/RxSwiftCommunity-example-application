@@ -51,8 +51,7 @@ extension CreateViewViewModel {
             .bind(to: saveTransaction.save)
             .disposed(by: disposeBag)
 
-        onTapCreate
-            .map { false }
+        saveTransaction.onIsLoad
             .bind(to: loader)
             .disposed(by: disposeBag)
 
@@ -60,11 +59,6 @@ extension CreateViewViewModel {
             .filter({ !$0 })
             .map { _ -> Void in }
             .bind(to: close)
-            .disposed(by: disposeBag)
-
-        saveTransaction.onIsLoad
-            .map { _ in true }
-            .bind(to: loader)
             .disposed(by: disposeBag)
     }
 }

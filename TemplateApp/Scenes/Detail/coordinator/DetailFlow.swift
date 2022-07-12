@@ -3,10 +3,31 @@ import RxFlow
 
 class DetailFlow {
     private let rootViewController: UIViewController
-    let viewController = DetailMainViewController()
+    private var viewController: DetailMainViewController!
 
     init(root rootViewController: UIViewController) {
         self.rootViewController = rootViewController
+    }
+    
+    private func createViewController(openUser user: User) -> DetailMainViewController {
+        let viewController = DetailMainViewController()
+        let view = DetailMainView()
+        let viewViewModel = DetailMainViewModel(user: user)
+        view.viewModel = viewViewModel
+        
+        viewController.detailView = view.configured()
+        
+        let barViewController = TopBarViewController()
+        let barView = TopBarView(type: .close)
+        let barViewViewModel = TopBarViewModel()
+        barView.viewModel = barViewViewModel
+        
+        barViewController.detailBarView = barView.configured()
+        barViewController.closeStep = CreateStep.close
+        
+        viewController.barViewController = barViewController.configured()
+
+        return viewController.configured()
     }
 }
 
@@ -19,30 +40,14 @@ extension DetailFlow: Flow {
 
         switch step {
         case let .start(user):
-
-            let view = DetailMainView()
-            let viewViewModel = DetailMainViewModel(user: user)
-            view.viewModel = viewViewModel
-            
-            viewController.detailView = view.configured()
-            
-            let barViewController = DetailBarViewController()
-            let barView = DetailBarView()
-            let barViewViewModel = DetailBarViewModel()
-            barView.viewModel = barViewViewModel
-            
-            barViewController.detailBarView = barView.configured()
-            barViewController.configure()
-            
-            viewController.barViewController = barViewController
-            viewController.configure()
+            viewController = createViewController(openUser: user)
 
             viewController.modalPresentationStyle = .fullScreen
             rootViewController.present(viewController, animated: true)
 
             return .multiple(flowContributors: [
                 .contribute(withNext: viewController),
-                .contribute(withNext: barViewController)
+                .contribute(withNext: viewController.barViewController)
             ])
             
         case .close:

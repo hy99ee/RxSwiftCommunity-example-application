@@ -43,9 +43,9 @@ class Repository<Element>: RepositoryType {
     func add(_ element: Element) {
         isLoad.onNext(true)
         // Request imitation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.elements.append(element)
-            self.isLoad.onNext(false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.elements.append(element)
+            self?.isLoad.onNext(false)
         }
     }
 

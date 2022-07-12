@@ -14,10 +14,13 @@ final class CreateViewController: UIViewController, Stepper {
 
     private let disposeBag = DisposeBag()
 
-    func configure() {
+    @discardableResult
+    func configured() -> Self {
         self.configureView()
         self.setupViewModelBindings()
         self.setupViewBindings()
+
+        return self
     }
 }
 
@@ -34,8 +37,7 @@ private extension CreateViewController {
 extension CreateViewController {
     private func setupViewModelBindings() {
         viewModel.onStepper
-            .subscribe(onNext: { [unowned self] in
-                steps.accept($0) })
+            .bind(to: steps)
             .disposed(by: disposeBag)
     }
     

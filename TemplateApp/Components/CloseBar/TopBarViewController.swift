@@ -4,26 +4,29 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-final class DetailBarViewController: UIViewController, Stepper {
+final class TopBarViewController: UIViewController, Stepper {
     let steps = PublishRelay<Step>()
-    private let emitSteps = PublishSubject<Step>()
-    
-    var detailBarView: DetailBarViewType!
+
+    var detailBarView: TopBarViewType!
+    var closeStep: Step!
+    var backStep: Step!
 
     private let disposeBag = DisposeBag()
 
-    func configure() {
-        configureView()
 
+    @discardableResult
+    func configured() -> Self {
+        configureView()
         setupBindings()
+        
+        return self
     }
 }
 
 //MARK: UI
-private extension DetailBarViewController {
+private extension TopBarViewController {
     func configureView() {
         view.snp.makeConstraints { maker in
-//            maker.top.leading.trailing.equalToSuperview()
             maker.height.equalTo(50)
         }
         view.addSubview(detailBarView)
@@ -32,11 +35,10 @@ private extension DetailBarViewController {
 }
 
 //MARK: Bindings
-private extension DetailBarViewController {
+private extension TopBarViewController {
     func setupBindings() {
         detailBarView.viewModel.onClose
-            .map({ _ -> Step in DetailtStep.close })
-            .emit(onNext: { [unowned self] in self.steps.accept($0) })
+            .emit(onNext: { [unowned self] in steps.accept(closeStep) })
             .disposed(by: disposeBag)
     }
 }

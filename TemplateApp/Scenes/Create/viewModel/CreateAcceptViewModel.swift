@@ -2,9 +2,10 @@ import RxCocoa
 import RxSwift
 import RxFlow
 
-protocol CreateViewModelType: StepableViewModel, CloserViewModel {}
 
-class CreateViewModel: CreateViewModelType {
+protocol CreateAcceptViewModelType: StepableViewModel, CloserViewModel {}
+
+class CreateAcceptViewModel: CreateAcceptViewModelType {
     let close: PublishRelay<Void>
     private let onClose: Signal<Void>
 
@@ -26,10 +27,10 @@ class CreateViewModel: CreateViewModelType {
 }
 
 //MARK: Bindings
-extension CreateViewModel {
+extension CreateAcceptViewModel {
     private func setupBindings() {
         onClose
-            .map({ _ -> Step in CreateStep.acceptCreate })
+            .map({ _ -> Step in CreateStep.close })
             .emit(to: stepper)
             .disposed(by: disposeBag)
     }

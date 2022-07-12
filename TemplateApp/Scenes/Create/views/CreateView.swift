@@ -177,7 +177,6 @@ extension CreateView {
             .disposed(by: disposeBag)
         
         createButton.rx.tapView()
-            .debug("efe")
             .flatMap {[unowned self] in fieldsView.viewModel.onUser }
             .compactMap { $0 }
             .drive(viewModel.user)

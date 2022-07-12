@@ -17,6 +17,9 @@
 		3B23EE5F2876DFE0007A475D /* TemplateWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EE5B2876DFDF007A475D /* TemplateWidget.intentdefinition */; };
 		3B23EE602876DFE0007A475D /* TemplateWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EE5B2876DFDF007A475D /* TemplateWidget.intentdefinition */; };
 		3B23EE632876DFE0007A475D /* TemplateWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3B23EE532876DFDF007A475D /* TemplateWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3B23EE6B287C8240007A475D /* CreateAcceptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EE6A287C8240007A475D /* CreateAcceptViewController.swift */; };
+		3B23EE6D287C8273007A475D /* CreateAcceptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EE6C287C8273007A475D /* CreateAcceptViewModel.swift */; };
+		3B23EE70287D5F60007A475D /* ViewControllerTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EE6F287D5F60007A475D /* ViewControllerTypes.swift */; };
 		3B392A48282E5E320055F6E9 /* CreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A40282E5E320055F6E9 /* CreateViewModel.swift */; };
 		3B392A49282E5E320055F6E9 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A42282E5E320055F6E9 /* CreateViewController.swift */; };
 		3B392A4A282E5E320055F6E9 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A44282E5E320055F6E9 /* CreateView.swift */; };
@@ -59,9 +62,9 @@
 		3BAA4DCA2847AC9100F22DB6 /* DetailStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC22847AC9100F22DB6 /* DetailStep.swift */; };
 		3BAA4DCB2847AC9100F22DB6 /* DetailMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC42847AC9100F22DB6 /* DetailMainViewController.swift */; };
 		3BAA4DCC2847AC9100F22DB6 /* DetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC62847AC9100F22DB6 /* DetailMainView.swift */; };
-		3BAA4DCE2847BB8300F22DB6 /* DetailBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DCD2847BB8300F22DB6 /* DetailBarView.swift */; };
-		3BAA4DD02847BB9900F22DB6 /* DetailBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DCF2847BB9900F22DB6 /* DetailBarViewModel.swift */; };
-		3BAA4DD22847BFEA00F22DB6 /* DetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DD12847BFEA00F22DB6 /* DetailBarViewController.swift */; };
+		3BAA4DCE2847BB8300F22DB6 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DCD2847BB8300F22DB6 /* TopBarView.swift */; };
+		3BAA4DD02847BB9900F22DB6 /* TopBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DCF2847BB9900F22DB6 /* TopBarViewModel.swift */; };
+		3BAA4DD22847BFEA00F22DB6 /* TopBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DD12847BFEA00F22DB6 /* TopBarViewController.swift */; };
 		3BCBA48B283685DA000A6A69 /* ViewsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */; };
 		3BCBA48D2836925D000A6A69 /* ViewModelsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */; };
 		3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */; };
@@ -106,6 +109,9 @@
 		3B23EE5E2876DFE0007A475D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B23EE682876E28D007A475D /* TemplateApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TemplateApp.entitlements; sourceTree = "<group>"; };
 		3B23EE692877075D007A475D /* TemplateWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TemplateWidgetExtension.entitlements; sourceTree = "<group>"; };
+		3B23EE6A287C8240007A475D /* CreateAcceptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAcceptViewController.swift; sourceTree = "<group>"; };
+		3B23EE6C287C8273007A475D /* CreateAcceptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAcceptViewModel.swift; sourceTree = "<group>"; };
+		3B23EE6F287D5F60007A475D /* ViewControllerTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTypes.swift; sourceTree = "<group>"; };
 		3B392A40282E5E320055F6E9 /* CreateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewModel.swift; sourceTree = "<group>"; };
 		3B392A42282E5E320055F6E9 /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		3B392A44282E5E320055F6E9 /* CreateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
@@ -150,9 +156,9 @@
 		3BAA4DC22847AC9100F22DB6 /* DetailStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStep.swift; sourceTree = "<group>"; };
 		3BAA4DC42847AC9100F22DB6 /* DetailMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMainViewController.swift; sourceTree = "<group>"; };
 		3BAA4DC62847AC9100F22DB6 /* DetailMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
-		3BAA4DCD2847BB8300F22DB6 /* DetailBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBarView.swift; sourceTree = "<group>"; };
-		3BAA4DCF2847BB9900F22DB6 /* DetailBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBarViewModel.swift; sourceTree = "<group>"; };
-		3BAA4DD12847BFEA00F22DB6 /* DetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBarViewController.swift; sourceTree = "<group>"; };
+		3BAA4DCD2847BB8300F22DB6 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
+		3BAA4DCF2847BB9900F22DB6 /* TopBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewModel.swift; sourceTree = "<group>"; };
+		3BAA4DD12847BFEA00F22DB6 /* TopBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewController.swift; sourceTree = "<group>"; };
 		3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsTypes.swift; sourceTree = "<group>"; };
 		3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelsTypes.swift; sourceTree = "<group>"; };
 		3BE3FB7D28327BA90007791A /* HomeViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewModel.swift; sourceTree = "<group>"; };
@@ -195,14 +201,50 @@
 			path = TemplateWidget;
 			sourceTree = "<group>";
 		};
-		3B392A34282E57DB0055F6E9 /* App */ = {
+		3B23EE6E287D5F2E007A475D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3B76C41A283502F500526F2C /* ManagerWorkerTypes.swift */,
+				3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */,
+				3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */,
+				3B23EE6F287D5F60007A475D /* ViewControllerTypes.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		3B23EE71287D708C007A475D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3B23EE73287D70F5007A475D /* CloseBar */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3B23EE72287D70AB007A475D /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				3B9CFA8E282E4D350037A8DB /* coordinator */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		3B23EE73287D70F5007A475D /* CloseBar */ = {
+			isa = PBXGroup;
+			children = (
+				3BAA4DD12847BFEA00F22DB6 /* TopBarViewController.swift */,
+				3BAA4DCF2847BB9900F22DB6 /* TopBarViewModel.swift */,
+				3BAA4DCD2847BB8300F22DB6 /* TopBarView.swift */,
+			);
+			path = CloseBar;
+			sourceTree = "<group>";
+		};
+		3B392A34282E57DB0055F6E9 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
 				3B392A50282E750E0055F6E9 /* data */,
 				3B392A4D282E74F50055F6E9 /* model */,
-				3B9CFA8E282E4D350037A8DB /* coordinator */,
 			);
-			path = App;
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		3B392A3E282E5E320055F6E9 /* Create */ = {
@@ -223,6 +265,7 @@
 				3B392A40282E5E320055F6E9 /* CreateViewModel.swift */,
 				3B42E5D72844AA6E00F78470 /* CreateViewViewModel.swift */,
 				3B42E5DC284605F600F78470 /* CreateFieldsViewModel.swift */,
+				3B23EE6C287C8273007A475D /* CreateAcceptViewModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -232,6 +275,7 @@
 			children = (
 				3B392A42282E5E320055F6E9 /* CreateViewController.swift */,
 				3B42E5D92846056E00F78470 /* CreateFieldsViewController.swift */,
+				3B23EE6A287C8240007A475D /* CreateAcceptViewController.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -313,7 +357,8 @@
 			isa = PBXGroup;
 			children = (
 				3B23EE682876E28D007A475D /* TemplateApp.entitlements */,
-				3B392A34282E57DB0055F6E9 /* App */,
+				3B23EE71287D708C007A475D /* Components */,
+				3B392A34282E57DB0055F6E9 /* Storage */,
 				3B9CFA6A282E4D350037A8DB /* Scenes */,
 				3B9CFA89282E4D350037A8DB /* Extensions */,
 				3B9CFA8B282E4D350037A8DB /* AppDelegate.swift */,
@@ -326,14 +371,13 @@
 		3B9CFA6A282E4D350037A8DB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3B23EE72287D70AB007A475D /* Root */,
 				3B9CFA7E282E4D350037A8DB /* About */,
 				3BAA4DBC2847AC9100F22DB6 /* Detail */,
 				3B392A3E282E5E320055F6E9 /* Create */,
 				3B9CFA6B282E4D350037A8DB /* Settings */,
 				3B9CFA76282E4D350037A8DB /* Home */,
-				3BCBA48A283685DA000A6A69 /* ViewsTypes.swift */,
-				3B76C41A283502F500526F2C /* ManagerWorkerTypes.swift */,
-				3BCBA48C2836925D000A6A69 /* ViewModelsTypes.swift */,
+				3B23EE6E287D5F2E007A475D /* Protocols */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -515,7 +559,6 @@
 			isa = PBXGroup;
 			children = (
 				3BAA4DBE2847AC9100F22DB6 /* DetailMainViewModel.swift */,
-				3BAA4DCF2847BB9900F22DB6 /* DetailBarViewModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -533,7 +576,6 @@
 			isa = PBXGroup;
 			children = (
 				3BAA4DC42847AC9100F22DB6 /* DetailMainViewController.swift */,
-				3BAA4DD12847BFEA00F22DB6 /* DetailBarViewController.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -542,7 +584,6 @@
 			isa = PBXGroup;
 			children = (
 				3BAA4DC62847AC9100F22DB6 /* DetailMainView.swift */,
-				3BAA4DCD2847BB8300F22DB6 /* DetailBarView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -722,8 +763,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BAA4DC92847AC9100F22DB6 /* DetailFlow.swift in Sources */,
-				3BAA4DD22847BFEA00F22DB6 /* DetailBarViewController.swift in Sources */,
-				3BAA4DD02847BB9900F22DB6 /* DetailBarViewModel.swift in Sources */,
+				3BAA4DD22847BFEA00F22DB6 /* TopBarViewController.swift in Sources */,
+				3BAA4DD02847BB9900F22DB6 /* TopBarViewModel.swift in Sources */,
 				3B9CFA98282E4D350037A8DB /* HomeViewModel.swift in Sources */,
 				3B392A56282EA6600055F6E9 /* Manager.swift in Sources */,
 				3BA8055728649D7D0080026C /* CreateFieldsCell.swift in Sources */,
@@ -745,6 +786,7 @@
 				3B9CFAA0282E4D350037A8DB /* User.swift in Sources */,
 				3BE3FB7E28327BA90007791A /* HomeViewViewModel.swift in Sources */,
 				3B42E5DA2846056E00F78470 /* CreateFieldsViewController.swift in Sources */,
+				3B23EE6B287C8240007A475D /* CreateAcceptViewController.swift in Sources */,
 				3B1D82B9285E469C00C24937 /* RxCocoa.swift in Sources */,
 				3B9CFA9E282E4D350037A8DB /* HomeFlow.swift in Sources */,
 				3BCBA48D2836925D000A6A69 /* ViewModelsTypes.swift in Sources */,
@@ -753,14 +795,16 @@
 				3B9CFA9A282E4D350037A8DB /* HomeView.swift in Sources */,
 				3B76C4172834DF2B00526F2C /* HomeViewTableViewCell.swift in Sources */,
 				3BA805592864A66D0080026C /* CreateFieldsModel.swift in Sources */,
-				3BAA4DCE2847BB8300F22DB6 /* DetailBarView.swift in Sources */,
+				3BAA4DCE2847BB8300F22DB6 /* TopBarView.swift in Sources */,
 				3B9CFA99282E4D350037A8DB /* HomeViewController.swift in Sources */,
 				3B392A4C282E5E320055F6E9 /* CreateStep.swift in Sources */,
 				3BAA4DCC2847AC9100F22DB6 /* DetailMainView.swift in Sources */,
 				3B9CFA95282E4D350037A8DB /* SettingsView.swift in Sources */,
+				3B23EE70287D5F60007A475D /* ViewControllerTypes.swift in Sources */,
 				3B392A49282E5E320055F6E9 /* CreateViewController.swift in Sources */,
 				3B9CFA94282E4D350037A8DB /* SettingsViewController.swift in Sources */,
 				3B392A4F282E75090055F6E9 /* AppRepository.swift in Sources */,
+				3B23EE6D287C8273007A475D /* CreateAcceptViewModel.swift in Sources */,
 				3B9CFAA4282E4D350037A8DB /* SceneDelegate.swift in Sources */,
 				3BCBA48B283685DA000A6A69 /* ViewsTypes.swift in Sources */,
 				3BAA4DCA2847AC9100F22DB6 /* DetailStep.swift in Sources */,

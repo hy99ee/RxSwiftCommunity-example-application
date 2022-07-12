@@ -106,9 +106,7 @@ extension HomeViewModel {
             .disposed(by: disposeBag)
                 
         onTapCreate
-            .do(onNext: { [weak self] in self?.loader.accept(false) })
             .map { HomeStep.toCreate }
-            .do(onNext: { [weak self] _ in self?.loader.accept(true) })
             .bind(to: stepper)
             .disposed(by: disposeBag)
                 

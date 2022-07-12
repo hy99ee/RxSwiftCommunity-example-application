@@ -4,11 +4,13 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-final class DetailMainViewController: UIViewController, Stepper, TopBarViewControllerType {
-
+final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewControllerType {
     let steps = PublishRelay<Step>()
+
+    var viewModel: CreateAcceptViewModelType!
     
-    var detailView: DetailMainViewType!
+    var createView: UIView!
+
     var barViewController: TopBarViewController!
 
     private let disposeBag = DisposeBag()
@@ -16,11 +18,12 @@ final class DetailMainViewController: UIViewController, Stepper, TopBarViewContr
     @discardableResult
     func configured() -> Self {
         view.backgroundColor = .white
-
+        barViewController.view.backgroundColor = .red
         configureBarView()
         configureView()
-        
+
         setupViewModelBindings()
+        setupBarBindings()
         setupViewBindings()
 
         return self
@@ -28,7 +31,7 @@ final class DetailMainViewController: UIViewController, Stepper, TopBarViewContr
 }
 
 //MARK: UI
-private extension DetailMainViewController {
+private extension CreateAcceptViewController {
     func configureBarView() {
         view.addSubview(barViewController.view)
         barViewController.detailBarView.snp.makeConstraints { maker in
@@ -37,8 +40,8 @@ private extension DetailMainViewController {
     }
     
     func configureView() {
-        view.addSubview(detailView)
-        detailView.snp.makeConstraints { maker in
+        view.addSubview(createView)
+        createView.snp.makeConstraints { maker in
             maker.top.equalTo(barViewController.view.snp_bottomMargin)
             maker.trailing.leading.bottom.equalToSuperview()
         }
@@ -46,14 +49,20 @@ private extension DetailMainViewController {
 }
 
 //MARK: Bindings
-private extension DetailMainViewController {
-    func setupViewModelBindings() {
-        
+extension CreateAcceptViewController {
+    private func setupViewModelBindings() {
+        viewModel.onStepper.asSignal(onErrorJustReturn: CreateStep.close)
+            .emit(to: steps)
+            .disposed(by: disposeBag)
     }
     
-    func setupViewBindings() {
+    private func setupBarBindings() {
+        barViewController.steps
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupViewBindings() {
 
     }
 }
-
-

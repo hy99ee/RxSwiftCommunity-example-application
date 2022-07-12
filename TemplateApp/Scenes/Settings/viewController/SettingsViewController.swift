@@ -37,8 +37,7 @@ final class SettingsViewController: UIViewController, Stepper {
 extension SettingsViewController {
     private func setupViewModelBindings() {
         viewModel.onStepper
-            .subscribe(onNext: { [unowned self] in
-                steps.accept($0) })
+            .bind(to: steps)
             .disposed(by: disposeBag)
  
         viewModel.onLoader

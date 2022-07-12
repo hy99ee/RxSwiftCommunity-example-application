@@ -57,7 +57,7 @@ private extension HomeViewController {
 private extension HomeViewController {
     func setupViewModelBindings() {
         viewModel.onStepper
-            .subscribe(onNext: { [unowned self] in steps.accept($0) })
+            .bind(to: steps)
             .disposed(by: disposeBag)
  
         viewModel.onLoader
