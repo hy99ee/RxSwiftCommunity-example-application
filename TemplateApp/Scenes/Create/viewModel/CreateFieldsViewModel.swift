@@ -15,9 +15,6 @@ extension Observable where Element == String {
 
 class CreateFieldsViewModel: CreateFieldsViewModelType {
     var model: Form!
-    
-//    let onIsValidUser: Driver<Bool>
-//    private let isValidUser: BehaviorRelay<Bool>
 
     let onUser: Driver<User?>
     private let user: BehaviorRelay<User?>
@@ -31,10 +28,8 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
         self.user = BehaviorRelay(value: nil)
         self.onUser = self.user.asDriver()
 
-
         self.nameText = PublishSubject()
         self.descriptionText = PublishSubject()
-
     }
     
     func configured() -> Self {
