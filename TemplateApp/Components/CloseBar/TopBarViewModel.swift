@@ -1,14 +1,12 @@
 import RxCocoa
 import RxSwift
 
-protocol TopBarViewModelType: CloserViewModel, ClosableViewModel {
-    var back: PublishRelay<Void> { get }
-}
+protocol TopBarViewModelType: CloserViewModel, ClosableViewModel, BackerViewModel, BackableViewModel {}
 
 class TopBarViewModel: TopBarViewModelType {
     let close: PublishRelay<Void>
     let onClose: Signal<Void>
-    
+
     let back: PublishRelay<Void>
     let onBack: Signal<Void>
 
@@ -17,6 +15,6 @@ class TopBarViewModel: TopBarViewModelType {
         onClose = close.asSignal()
         
         back = PublishRelay()
-        onBack = close.asSignal()
+        onBack = back.asSignal()
     }
 }

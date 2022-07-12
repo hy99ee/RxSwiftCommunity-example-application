@@ -18,12 +18,12 @@ class DetailFlow {
         viewController.detailView = view.configured()
         
         let barViewController = TopBarViewController()
-        let barView = TopBarView(type: .close)
+        let barView = TopBarView(types: [.close])
         let barViewViewModel = TopBarViewModel()
         barView.viewModel = barViewViewModel
         
         barViewController.detailBarView = barView.configured()
-        barViewController.closeStep = CreateStep.close
+        barViewController.closeStep = DetailtStep.close
         
         viewController.barViewController = barViewController.configured()
 

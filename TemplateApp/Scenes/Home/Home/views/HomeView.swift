@@ -17,7 +17,7 @@ class HomeView: UIView, HomeViewType {
 
     private let tapOffset = 10
     private lazy var createButton: UIView = {
-        let button = UIImageView(image: UIImage(systemName: "plus.app"))
+        let button = UIImageView(image: UIImage(systemName: "plus.circle"))
         let view = UIView()
         view.addSubview(button)
         button.snp.makeConstraints { maker in

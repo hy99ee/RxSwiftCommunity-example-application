@@ -6,6 +6,9 @@ import RxFlow
 protocol CreateAcceptViewModelType: StepableViewModel, CloserViewModel {}
 
 class CreateAcceptViewModel: CreateAcceptViewModelType {
+    private let user: User
+    private let saveTransaction: SaveTransaction
+
     let close: PublishRelay<Void>
     private let onClose: Signal<Void>
 
@@ -14,7 +17,10 @@ class CreateAcceptViewModel: CreateAcceptViewModelType {
 
     let disposeBag = DisposeBag()
 
-    init() {
+    init(user: User, save saveTransaction: SaveTransaction) {
+        self.saveTransaction = saveTransaction
+        self.user = user
+
         let stepper = PublishSubject<Step>()
         self.stepper = stepper.asObserver()
         self.onStepper = stepper.asObservable()

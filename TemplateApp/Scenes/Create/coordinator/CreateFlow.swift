@@ -3,9 +3,10 @@ import RxSwift
 import RxFlow
 
 class CreateFlow {
-    private lazy var startViewController: CreateViewController = initStartViewController()
-    private lazy var acceptViewController: CreateAcceptViewController = initAcceptViewController()
+    private lazy var startViewController: CreateViewController = createStartViewController()
+    private var acceptViewController: CreateAcceptViewController!
     private lazy var rootNavigationController = startViewController.navigationController
+
     private let saveTransaction: SaveTransaction
 
     private let disposeBag = DisposeBag()
@@ -14,33 +15,43 @@ class CreateFlow {
         self.saveTransaction = saveTransaction
     }
     
-    private func initStartViewController() -> CreateViewController {
+    private func createStartViewController() -> CreateViewController {
         startViewController = CreateViewController()
         let controllerViewModel = CreateViewModel()
         startViewController.viewModel = controllerViewModel
         
         let createView = CreateView()
-        let createViewViewModel = CreateViewViewModel(save: saveTransaction)
+        let createViewViewModel = CreateViewViewModel()
         createView.viewModel = createViewViewModel
-        createViewViewModel.bind(to: controllerViewModel).disposed(by: disposeBag)
+        controllerViewModel.bind(on: createViewViewModel).disposed(by: disposeBag)
 
         startViewController.createView = createView.configured()
+        
+        let barViewController = TopBarViewController()
+        let barView = TopBarView(types: [.close])
+        let barViewViewModel = TopBarViewModel()
+        barView.viewModel = barViewViewModel
+        barViewController.closeStep = CreateStep.close
+        barViewController.detailBarView = barView.configured()
+        
+        startViewController.barViewController = barViewController.configured()
 
         return startViewController.configured()
     }
     
-    private func initAcceptViewController() -> CreateAcceptViewController {
+    private func createAcceptViewController(user: User) -> CreateAcceptViewController {
         acceptViewController = CreateAcceptViewController()
-        let acceptViewModel = CreateAcceptViewModel()
+        let acceptViewModel = CreateAcceptViewModel(user: user, save: saveTransaction)
         acceptViewController.viewModel = acceptViewModel
-        acceptViewController.createView = UIView()
+        acceptViewController.createAcceptView = UIView()
 
         
         let barViewController = TopBarViewController()
-        let barView = TopBarView(type: .close)
+        let barView = TopBarView(types: [.close, .back])
         let barViewViewModel = TopBarViewModel()
         barView.viewModel = barViewViewModel
-        barViewController.closeStep = CreateStep.closeTop
+        barViewController.backStep = CreateStep.closeTop
+        barViewController.closeStep = CreateStep.close
         barViewController.detailBarView = barView.configured()
 
         acceptViewController.barViewController = barViewController.configured()
@@ -59,9 +70,10 @@ extension CreateFlow: Flow {
 
         switch step {
         case .start:
-            return .one(flowContributor: .contribute(withNextPresentable: startViewController, withNextStepper: startViewController))
-        case .acceptCreate:
-            rootNavigationController?.pushViewController(acceptViewController, animated: true)
+            return .one(flowContributor: .contribute(withNext: startViewController))
+        case let .saveStep(user):
+            let saveViewController = createAcceptViewController(user: user)
+            rootNavigationController?.pushViewController(saveViewController, animated: true)
 //            acceptViewController.modalPresentationStyle = .fullScreen
 //            startViewController.present(acceptViewController, animated: true)
             return .one(flowContributor: .contribute(withNext: acceptViewController))

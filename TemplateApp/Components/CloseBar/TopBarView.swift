@@ -10,15 +10,15 @@ enum TopBarViewConfigureType {
 
 protocol TopBarViewType where Self: UIView {
     var viewModel: TopBarViewModelType! { get }
-    var type: TopBarViewConfigureType { get }
+    var types: [TopBarViewConfigureType] { get }
 }
 
 class TopBarView: UIView, TopBarViewType {
     var viewModel: TopBarViewModelType!
-    var type: TopBarViewConfigureType
+    var types: [TopBarViewConfigureType]
     
-    init(type: TopBarViewConfigureType) {
-        self.type = type
+    init(types: [TopBarViewConfigureType]) {
+        self.types = types
     
         super.init(frame: .zero)
     }
@@ -39,7 +39,7 @@ class TopBarView: UIView, TopBarViewType {
     }()
     
     private lazy var backButton: UIView = {
-        let button = UIImageView(image: UIImage(systemName: "chevron.backward.circle.fill"))
+        let button = UIImageView(image: UIImage(systemName: "chevron.backward.circle"))
         let view = UIView()
         view.addSubview(button)
         button.snp.makeConstraints { maker in
@@ -51,13 +51,15 @@ class TopBarView: UIView, TopBarViewType {
 
     func configured() -> Self {
         
-        switch type {
-        case .close:
-            configureCloseButton()
-            setupCloseBindings()
-        case .back:
-            configureBackButton()
-            setupBackBindings()
+        types.forEach { type in
+            switch type {
+            case .close:
+                configureCloseButton()
+                setupCloseBindings()
+            case .back:
+                configureBackButton()
+                setupBackBindings()
+            }
         }
 
         return self
@@ -71,18 +73,18 @@ private extension TopBarView {
         closeButton.snp.makeConstraints { maker in
             maker.centerY.equalToSuperview()
             maker.trailing.equalToSuperview().inset(6)
-            maker.width.equalTo(26 + 2 * tapOffset)
-            maker.height.equalTo(26 + 2 * tapOffset)
+            maker.width.equalTo(30 + 2 * tapOffset)
+            maker.height.equalTo(30 + 2 * tapOffset)
         }
     }
     
     func configureBackButton() {
-        addSubview(closeButton)
-        closeButton.snp.makeConstraints { maker in
+        addSubview(backButton)
+        backButton.snp.makeConstraints { maker in
             maker.centerY.equalToSuperview()
             maker.leading.equalToSuperview().offset(6)
-            maker.width.equalTo(26 + 2 * tapOffset)
-            maker.height.equalTo(26 + 2 * tapOffset)
+            maker.width.equalTo(30 + 2 * tapOffset)
+            maker.height.equalTo(30 + 2 * tapOffset)
         }
     }
 }
@@ -97,7 +99,7 @@ private extension TopBarView {
     
     func setupBackBindings() {
         backButton.rx.tapView()
-            .emit(to: viewModel.close)
+            .emit(to: viewModel.back)
             .disposed(by: disposeBag)
     }
 }

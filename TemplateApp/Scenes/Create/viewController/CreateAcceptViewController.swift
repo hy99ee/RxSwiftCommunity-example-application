@@ -9,7 +9,7 @@ final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewCon
 
     var viewModel: CreateAcceptViewModelType!
     
-    var createView: UIView!
+    var createAcceptView: UIView!
 
     var barViewController: TopBarViewController!
 
@@ -18,7 +18,7 @@ final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewCon
     @discardableResult
     func configured() -> Self {
         view.backgroundColor = .white
-        barViewController.view.backgroundColor = .red
+
         configureBarView()
         configureView()
 
@@ -40,8 +40,8 @@ private extension CreateAcceptViewController {
     }
     
     func configureView() {
-        view.addSubview(createView)
-        createView.snp.makeConstraints { maker in
+        view.addSubview(createAcceptView)
+        createAcceptView.snp.makeConstraints { maker in
             maker.top.equalTo(barViewController.view.snp_bottomMargin)
             maker.trailing.leading.bottom.equalToSuperview()
         }

@@ -4,11 +4,10 @@ import RxSwift
 final class FormViewController: UITableViewController {
     
     // MARK: Creating a Form View
-    
     var viewModel: CreateFieldsViewModelType!
     
     init() {
-        super.init(style: .grouped)
+        super.init(style: .plain)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -16,7 +15,6 @@ final class FormViewController: UITableViewController {
     }
     
     // MARK: Managing the View
-    
     private enum ReuseIdentifiers: String {
         case textInput
     }

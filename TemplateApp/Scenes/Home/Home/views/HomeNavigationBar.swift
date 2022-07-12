@@ -15,10 +15,10 @@ class HomeNavigationItem: UINavigationItem, HomeNavigationItemType {
     
     private let disposeBag = DisposeBag()
     
-    private let settingImageView = UIImageView(image: UIImage(systemName: "info.circle"))
+    private let settingImageView = UIImageView(image: UIImage(systemName: "gear"))
     private var settingsBarButtonItem: UIBarButtonItem!
     
-    private let aboutImageView = UIImageView(image: UIImage(systemName: "gear"))
+    private let aboutImageView = UIImageView(image: UIImage(systemName: "info.circle"))
     private var aboutBarButtonItem: UIBarButtonItem!
     
     init() {
@@ -47,11 +47,11 @@ class HomeNavigationItem: UINavigationItem, HomeNavigationItemType {
 // MARK: UI
 private extension HomeNavigationItem {
     func configure() {
-        leftBarButtonItem = aboutBarButtonItem
-        rightBarButtonItem = settingsBarButtonItem
+        rightBarButtonItem = aboutBarButtonItem
+        leftBarButtonItem = settingsBarButtonItem
         
-        settingImageView.snp.makeConstraints { $0.width.height.equalTo(25) }
-        aboutImageView.snp.makeConstraints { $0.height.equalTo(25); $0.width.equalTo(27) }
+        aboutImageView.snp.makeConstraints { $0.width.height.equalTo(30) }
+        settingImageView.snp.makeConstraints { $0.height.equalTo(30); $0.width.equalTo(32) }
     }
 }
 

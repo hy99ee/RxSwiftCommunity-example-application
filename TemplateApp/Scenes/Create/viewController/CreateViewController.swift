@@ -4,21 +4,26 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-final class CreateViewController: UIViewController, Stepper {
+final class CreateViewController: UIViewController, Stepper, TopBarViewControllerType {
 
     let steps = PublishRelay<Step>()
 
     var viewModel: CreateViewModelType!
     
     var createView: CreateViewType!
+    
+    var barViewController: TopBarViewController!
 
     private let disposeBag = DisposeBag()
 
     @discardableResult
     func configured() -> Self {
-        self.configureView()
-        self.setupViewModelBindings()
-        self.setupViewBindings()
+        configureBarView()
+        configureView()
+        
+        setupViewModelBindings()
+        setupViewBindings()
+        setupBarBindings()
 
         return self
     }
@@ -26,10 +31,20 @@ final class CreateViewController: UIViewController, Stepper {
 
 //MARK: UI
 private extension CreateViewController {
-     func configureView() {
-         view.backgroundColor = .white
-         self.view.addSubview(createView)
-         createView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+    func configureBarView() {
+        view.addSubview(barViewController.view)
+        barViewController.detailBarView.snp.makeConstraints { maker in
+            maker.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    func configureView() {
+        view.backgroundColor = .red
+        view.addSubview(createView)
+        createView.snp.makeConstraints { maker in
+            maker.top.equalTo(barViewController.view.snp_bottomMargin)
+            maker.trailing.leading.bottom.equalToSuperview()
+        }
     }
 }
 
@@ -37,6 +52,12 @@ private extension CreateViewController {
 extension CreateViewController {
     private func setupViewModelBindings() {
         viewModel.onStepper
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupBarBindings() {
+        barViewController.steps
             .bind(to: steps)
             .disposed(by: disposeBag)
     }

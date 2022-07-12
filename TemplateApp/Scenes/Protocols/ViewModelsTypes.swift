@@ -13,12 +13,12 @@ extension StepperViewModel {
     }
 }
 
-protocol UserSelecterViewModel {
+protocol UserViewModel {
     var user: AnyObserver<User> { get }
 }
-extension UserSelecterViewModel {
-    func bind(on selectableViewModelType: SelectableViewModel) -> Disposable {
-        selectableViewModelType.onSelected
+extension UserViewModel {
+    func bind(on selectableViewModelType: OnUserViewModel) -> Disposable {
+        selectableViewModelType.onUser
             .bind(to: user)
     }
 }
@@ -33,9 +33,26 @@ extension CloserViewModel {
     }
 }
 
-protocol NextTapperViewModel {
-    var tapNext: AnyObserver<Void> { get }
+protocol BackerViewModel {
+    var back: PublishRelay<Void> { get }
 }
+extension BackerViewModel {
+    func bind(on closableViewModelType: BackableViewModel) -> Disposable {
+        closableViewModelType.onBack
+            .emit(to: back)
+    }
+}
+
+protocol NextTapperViewModel {
+    var tapNext: PublishRelay<Void> { get }
+}
+extension NextTapperViewModel {
+    func bind(on nextTapableViewModel: NextTapableViewModel) -> Disposable {
+        nextTapableViewModel.onTapNext
+            .emit(to: tapNext)
+    }
+}
+
 
 //MARK: - Obseravable view model types
 protocol StepableViewModel {
@@ -48,12 +65,12 @@ extension StepableViewModel {
     }
 }
 
-protocol SelectableViewModel {
-    var onSelected: Observable<User> { get }
+protocol OnUserViewModel {
+    var onUser: Observable<User> { get }
 }
-extension SelectableViewModel {
-    func bind(to selecterViewModelType: UserSelecterViewModel) -> Disposable {
-        self.onSelected
+extension OnUserViewModel {
+    func bind(to selecterViewModelType: UserViewModel) -> Disposable {
+        self.onUser
             .bind(to: selecterViewModelType.user)
     }
 }
@@ -65,6 +82,26 @@ extension ClosableViewModel {
     func bind(to closerViewModelType: CloserViewModel) -> Disposable {
         self.onClose
             .emit(to: closerViewModelType.close)
+    }
+}
+
+protocol BackableViewModel {
+    var onBack: Signal<Void> { get }
+}
+extension BackableViewModel {
+    func bind(to backerViewModelType: BackerViewModel) -> Disposable {
+        self.onBack
+            .emit(to: backerViewModelType.back)
+    }
+}
+
+protocol NextTapableViewModel {
+    var onTapNext: Signal<Void> { get }
+}
+extension NextTapableViewModel {
+    func bind(to nextTapperViewModelType: NextTapperViewModel) -> Disposable {
+        self.onTapNext
+            .emit(to: nextTapperViewModelType.tapNext)
     }
 }
 

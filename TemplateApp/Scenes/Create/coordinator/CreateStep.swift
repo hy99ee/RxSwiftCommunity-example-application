@@ -2,7 +2,7 @@ import RxFlow
 
 enum CreateStep: Step {
     case start
-    case acceptCreate
+    case saveStep(user: User)
     case closeTop
     case close
 }

@@ -15,9 +15,6 @@ extension Observable where Element == String {
 
 class CreateFieldsViewModel: CreateFieldsViewModelType {
     var model: Form!
-    
-//    let onIsValidUser: Driver<Bool>
-//    private let isValidUser: BehaviorRelay<Bool>
 
     let onUser: Driver<User?>
     private let user: BehaviorRelay<User?>
