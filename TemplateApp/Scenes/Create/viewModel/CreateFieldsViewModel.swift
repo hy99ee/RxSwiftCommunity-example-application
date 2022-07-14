@@ -28,10 +28,8 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
         self.user = BehaviorRelay(value: nil)
         self.onUser = self.user.asDriver()
 
-
         self.nameText = PublishSubject()
         self.descriptionText = PublishSubject()
-
     }
     
     func configured() -> Self {
