@@ -13,12 +13,9 @@ class CreateViewViewModel: CreateViewViewModelType {
 
     let close: PublishRelay<Void>
     let onClose: Signal<Void>
-    
-    private let loader: BehaviorRelay<Bool>
-    let onLoader: Driver<Bool>
 
     let disposeBag = DisposeBag()
-    
+
     init() {
         self.tapNext = PublishRelay()
         self.onTapNext = tapNext.asSignal()
@@ -26,9 +23,6 @@ class CreateViewViewModel: CreateViewViewModelType {
         self.close = PublishRelay()
         self.onClose = close.asSignal()
 
-        self.loader = BehaviorRelay(value: false)
-        self.onLoader = loader.asDriver()
-        
         let user = PublishSubject<User>()
         self.user = user.asObserver()
         self.onUser = user.asObservable()
@@ -37,7 +31,7 @@ class CreateViewViewModel: CreateViewViewModelType {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension CreateViewViewModel {
     private func setupBindings() {
 //        onUser

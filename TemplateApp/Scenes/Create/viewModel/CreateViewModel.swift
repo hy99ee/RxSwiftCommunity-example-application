@@ -32,7 +32,7 @@ class CreateViewModel: CreateViewModelType {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension CreateViewModel {
     private func setupBindings() {
         onClose

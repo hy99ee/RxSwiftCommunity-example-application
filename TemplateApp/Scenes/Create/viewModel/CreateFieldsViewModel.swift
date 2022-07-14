@@ -31,20 +31,19 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
         self.nameText = PublishSubject()
         self.descriptionText = PublishSubject()
     }
-    
+
     func configured() -> Self {
         model = Form(sections: [
             FormSection(items: [
                 bindingsForName(TextInputFormItem(placeholder: "Add title")),
                 bindingsForDescription(TextInputFormItem(placeholder: "Add description"))
-                ])
             ])
-        
+        ])
+
         setupBindings()
 
         return self
     }
-
 }
 
 private extension CreateFieldsViewModel {
@@ -63,7 +62,7 @@ private extension CreateFieldsViewModel {
         .bind(to: user)
         .disposed(by: disposeBag)
     }
-    
+
     func bindingsForName(_ item: TextInputFormItem) -> TextInputFormItem {
         item.text.asObservable()
             .distinctUntilChanged()
@@ -72,7 +71,7 @@ private extension CreateFieldsViewModel {
 
         return item
     }
-    
+
     func bindingsForDescription(_ item: TextInputFormItem) -> TextInputFormItem {
         item.text.asObservable()
             .distinctUntilChanged()

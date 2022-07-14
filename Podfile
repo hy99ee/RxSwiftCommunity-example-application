@@ -32,7 +32,7 @@ def utility_pods
     pod 'SwiftLint', '0.45.1'
 end
 
-
+# presets
 def default_pods
     ui_pods
     rx_pods
@@ -48,4 +48,5 @@ end
 # init()
 target 'TemplateApp' do
     temp_pods
+    utility_pods
 end

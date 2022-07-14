@@ -29,7 +29,7 @@ final class CreateViewController: UIViewController, Stepper, TopBarViewControlle
     }
 }
 
-//MARK: UI
+// MARK: UI
 private extension CreateViewController {
     func configureBarView() {
         view.addSubview(barViewController.view)
@@ -39,7 +39,7 @@ private extension CreateViewController {
     }
     
     func configureView() {
-        view.backgroundColor = .red
+        view.backgroundColor = .white
         view.addSubview(createView)
         createView.snp.makeConstraints { maker in
             maker.top.equalTo(barViewController.view.snp_bottomMargin)
@@ -48,20 +48,20 @@ private extension CreateViewController {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension CreateViewController {
     private func setupViewModelBindings() {
         viewModel.onStepper
             .bind(to: steps)
             .disposed(by: disposeBag)
     }
-    
+
     private func setupBarBindings() {
         barViewController.steps
             .bind(to: steps)
             .disposed(by: disposeBag)
     }
-    
+
     private func setupViewBindings() {
 
     }

@@ -2,17 +2,6 @@ import RxFlow
 import RxCocoa
 import RxSwift
 
-//MARK: - Observer view model types
-protocol StepperViewModel {
-    var stepper: AnyObserver<Step> { get }
-}
-extension StepperViewModel {
-    func bind(on stepableViewModel: StepableViewModel) -> Disposable {
-        stepableViewModel.onStepper
-            .bind(to: stepper)
-    }
-}
-
 protocol UserViewModel {
     var user: AnyObserver<User> { get }
 }
@@ -27,19 +16,29 @@ protocol CloserViewModel {
     var close: PublishRelay<Void> { get }
 }
 extension CloserViewModel {
-    func bind(on closableViewModelType: ClosableViewModel) -> Disposable {
-        closableViewModelType.onClose
+    func bind(on onCloseViewModelType: ClosableViewModel) -> Disposable {
+        onCloseViewModelType.onClose
             .emit(to: close)
     }
 }
 
-protocol BackerViewModel {
+protocol ToBackViewModel {
     var back: PublishRelay<Void> { get }
 }
-extension BackerViewModel {
-    func bind(on closableViewModelType: BackableViewModel) -> Disposable {
+extension ToBackViewModel {
+    func bind(on closableViewModelType: OnBackViewModel) -> Disposable {
         closableViewModelType.onBack
             .emit(to: back)
+    }
+}
+
+protocol CreateTapViewModel {
+    var tapCreate: PublishRelay<Void> { get }
+}
+extension CreateTapViewModel {
+    func bind(onCreate onTapCreateView: onTapCreateView) -> Disposable {
+        onTapCreateView.onTapCreate
+            .emit(to: tapCreate)
     }
 }
 
@@ -47,21 +46,20 @@ protocol NextTapperViewModel {
     var tapNext: PublishRelay<Void> { get }
 }
 extension NextTapperViewModel {
-    func bind(on nextTapableViewModel: NextTapableViewModel) -> Disposable {
+    func bind(on nextTapableViewModel: OnNextTapViewModel) -> Disposable {
         nextTapableViewModel.onTapNext
             .emit(to: tapNext)
     }
 }
 
-
-//MARK: - Obseravable view model types
+// MARK: - Obseravable view model types
 protocol StepableViewModel {
     var onStepper: Observable<Step> { get }
 }
 extension StepableViewModel {
-    func bind(to stepperViewModelType: StepperViewModel) -> Disposable {
+    func bind(to stepper: Stepper) -> Disposable {
         self.onStepper
-            .bind(to: stepperViewModelType.stepper)
+            .bind(to: stepper.steps)
     }
 }
 
@@ -85,26 +83,26 @@ extension ClosableViewModel {
     }
 }
 
-protocol BackableViewModel {
+protocol OnBackViewModel {
     var onBack: Signal<Void> { get }
 }
-extension BackableViewModel {
-    func bind(to backerViewModelType: BackerViewModel) -> Disposable {
+extension OnBackViewModel {
+    func bind(to backerViewModelType: ToBackViewModel) -> Disposable {
         self.onBack
             .emit(to: backerViewModelType.back)
     }
 }
 
-protocol NextTapableViewModel {
+protocol OnNextTapViewModel {
     var onTapNext: Signal<Void> { get }
 }
-extension NextTapableViewModel {
+extension OnNextTapViewModel {
     func bind(to nextTapperViewModelType: NextTapperViewModel) -> Disposable {
         self.onTapNext
             .emit(to: nextTapperViewModelType.tapNext)
     }
 }
 
-protocol LoadableViewModel {
+protocol OnLoadViewModel {
     var onLoader: Driver<Bool> { get }
 }

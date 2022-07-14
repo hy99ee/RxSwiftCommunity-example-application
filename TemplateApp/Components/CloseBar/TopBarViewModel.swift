@@ -1,7 +1,7 @@
 import RxCocoa
 import RxSwift
 
-protocol TopBarViewModelType: CloserViewModel, ClosableViewModel, BackerViewModel, BackableViewModel {}
+protocol TopBarViewModelType: CloserViewModel, ClosableViewModel, ToBackViewModel, OnBackViewModel {}
 
 class TopBarViewModel: TopBarViewModelType {
     let close: PublishRelay<Void>

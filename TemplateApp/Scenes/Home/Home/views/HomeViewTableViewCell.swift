@@ -1,5 +1,5 @@
-import UIKit
 import SnapKit
+import UIKit
 
 class HomeViewTableViewCell: UITableViewCell {
     let dateLabel: UILabel = {
@@ -11,7 +11,7 @@ class HomeViewTableViewCell: UITableViewCell {
 
         return label
     }()
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
 
@@ -21,16 +21,14 @@ class HomeViewTableViewCell: UITableViewCell {
 
         return label
     }()
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         configure()
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
 
 // MARK: UI
@@ -41,7 +39,7 @@ private extension HomeViewTableViewCell {
         configureTitleLabel()
         configureDateLabel()
     }
-    
+
     func configureTitleLabel() {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { maker in
@@ -49,12 +47,12 @@ private extension HomeViewTableViewCell {
             maker.leading.equalToSuperview().inset(50)
         }
     }
-    
+
     func configureDateLabel() {
-        contentView.addSubview(dateLabel)
-        dateLabel.snp.makeConstraints { maker in
-            maker.top.bottom.equalToSuperview()
-            maker.trailing.equalToSuperview().inset(50)
-        }
+//        contentView.addSubview(dateLabel)
+//        dateLabel.snp.makeConstraints { maker in
+//            maker.top.bottom.equalToSuperview()
+//            maker.trailing.equalToSuperview().inset(50)
+//        }
     }
 }

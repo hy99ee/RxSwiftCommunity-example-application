@@ -7,9 +7,7 @@ import SnapKit
 final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewControllerType {
     let steps = PublishRelay<Step>()
 
-    var viewModel: CreateAcceptViewModelType!
-    
-    var createAcceptView: UIView!
+    var createAcceptView: CreateAcceptViewType!
 
     var barViewController: TopBarViewController!
 
@@ -22,7 +20,6 @@ final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewCon
         configureBarView()
         configureView()
 
-        setupViewModelBindings()
         setupBarBindings()
         setupViewBindings()
 
@@ -30,7 +27,7 @@ final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewCon
     }
 }
 
-//MARK: UI
+// MARK: UI
 private extension CreateAcceptViewController {
     func configureBarView() {
         view.addSubview(barViewController.view)
@@ -38,7 +35,7 @@ private extension CreateAcceptViewController {
             maker.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
     }
-    
+
     func configureView() {
         view.addSubview(createAcceptView)
         createAcceptView.snp.makeConstraints { maker in
@@ -48,21 +45,17 @@ private extension CreateAcceptViewController {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension CreateAcceptViewController {
-    private func setupViewModelBindings() {
-        viewModel.onStepper.asSignal(onErrorJustReturn: CreateStep.close)
-            .emit(to: steps)
-            .disposed(by: disposeBag)
-    }
-    
     private func setupBarBindings() {
         barViewController.steps
             .bind(to: steps)
             .disposed(by: disposeBag)
     }
-    
-    private func setupViewBindings() {
 
+    private func setupViewBindings() {
+        createAcceptView.viewModel.onStepper
+            .bind(to: steps)
+            .disposed(by: disposeBag)
     }
 }

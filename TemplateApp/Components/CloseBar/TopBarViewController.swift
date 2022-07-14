@@ -18,12 +18,12 @@ final class TopBarViewController: UIViewController, Stepper {
     func configured() -> Self {
         configureView()
         setupBindings()
-        
+
         return self
     }
 }
 
-//MARK: UI
+// MARK: UI
 private extension TopBarViewController {
     func configureView() {
         view.snp.makeConstraints { maker in
@@ -34,17 +34,17 @@ private extension TopBarViewController {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 private extension TopBarViewController {
     func setupBindings() {
         detailBarView.viewModel.onClose
-            .emit(onNext: { [unowned self] in steps.accept(closeStep) })
+            .map { [unowned self] in closeStep }
+            .emit(to: steps)
             .disposed(by: disposeBag)
-        
+
         detailBarView.viewModel.onBack
-            .emit(onNext: { [unowned self] in steps.accept(backStep) })
+            .map { [unowned self] in backStep }
+            .emit(to: steps)
             .disposed(by: disposeBag)
     }
 }
-
-

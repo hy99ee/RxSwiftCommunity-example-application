@@ -1,5 +1,5 @@
-import UIKit
 import RxFlow
+import UIKit
 
 class SettingsFlow {
     private let viewController: SettingsViewController
@@ -29,8 +29,6 @@ extension SettingsFlow: ToAppFlowNavigation {}
 
 private extension SettingsFlow {
     func navigateTo() -> FlowContributors {
-        return .none
+        .none
     }
 }
-
-

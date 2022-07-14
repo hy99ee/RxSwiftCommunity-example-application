@@ -1,8 +1,8 @@
 import RxCocoa
-import RxSwift
 import RxFlow
+import RxSwift
 
-protocol SettingsViewModelType: StepableViewModel, LoadableViewModel, NextTapperViewModel {}
+protocol SettingsViewModelType: StepableViewModel, OnLoadViewModel, NextTapperViewModel {}
 
 class SettingsViewModel: SettingsViewModelType {
     var user: User?
@@ -12,12 +12,12 @@ class SettingsViewModel: SettingsViewModelType {
 
     private let stepper: AnyObserver<Step>
     let onStepper: Observable<Step>
-    
+
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
-    
+
     let disposeBag = DisposeBag()
-    
+
     init(user: User?) {
         self.user = user
 
@@ -33,7 +33,7 @@ class SettingsViewModel: SettingsViewModelType {
 
         setupBindings()
     }
-    
+
     private func requestUser() -> Signal<Step> {
         user = User(
             id: Int.random(in: ClosedRange(uncheckedBounds: (lower: 0, upper: 100))),
@@ -48,7 +48,7 @@ class SettingsViewModel: SettingsViewModelType {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension SettingsViewModel {
     private func setupBindings() {
         onTapNext
