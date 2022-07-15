@@ -1,10 +1,11 @@
-import UIKit
 import RxCocoa
 import RxSwift
+import UIKit
 
 final class TextInputTableViewCell: UITableViewCell {
     private var formItem: FormItem!
     private let disposeBag = DisposeBag()
+
     func configured(with item: FormItem) -> Self {
         self.formItem = item
 
@@ -13,8 +14,8 @@ final class TextInputTableViewCell: UITableViewCell {
 
         return self
     }
-    
-    lazy private var editableTextField = UITextField()
+
+    private lazy var editableTextField = UITextField()
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         editableTextField.becomeFirstResponder()
@@ -24,7 +25,7 @@ final class TextInputTableViewCell: UITableViewCell {
 // MARK: UI
 private extension TextInputTableViewCell {
     func configure() {
-        editableTextField.textColor = .gray
+        editableTextField.textColor = .darkText
         editableTextField.placeholder = formItem.placeholder
         contentView.addSubview(editableTextField)
         editableTextField.snp.makeConstraints { maker in
@@ -44,4 +45,3 @@ private extension TextInputTableViewCell {
             .disposed(by: disposeBag)
     }
 }
-

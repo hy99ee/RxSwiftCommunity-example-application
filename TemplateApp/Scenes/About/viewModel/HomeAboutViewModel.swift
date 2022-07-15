@@ -1,6 +1,6 @@
 import RxCocoa
-import RxSwift
 import RxFlow
+import RxSwift
 
 class HomeAboutViewModel {
     let mover: AnyObserver<Void>
@@ -8,12 +8,12 @@ class HomeAboutViewModel {
 
     private let stepper: AnyObserver<Step>
     let onStepper: Observable<Step>
-    
+
     private let loader: BehaviorRelay<Bool>
     let onLoader: Driver<Bool>
-    
+
     let disposeBag = DisposeBag()
-    
+
     init() {
         let moverSubj = PublishSubject<Void>()
         mover = moverSubj.asObserver()
@@ -28,7 +28,7 @@ class HomeAboutViewModel {
 
         setupBindings()
     }
-    
+
     private func createStep() -> Driver<Step> {
         Driver
             .just(HomeStep.toSettings)
@@ -36,7 +36,7 @@ class HomeAboutViewModel {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension HomeAboutViewModel {
     private func setupBindings() {
         onMover

@@ -1,10 +1,13 @@
 import RxCocoa
-import RxSwift
 import RxFlow
+import RxSwift
 
-protocol CreateViewModelType: StepableViewModel, CloserViewModel {}
+protocol CreateViewModelType: StepableViewModel, CloserViewModel, UserViewModel {}
 
 class CreateViewModel: CreateViewModelType {
+    let user: AnyObserver<User>
+    private let onUser: Observable<User>
+
     let close: PublishRelay<Void>
     private let onClose: Signal<Void>
 
@@ -18,6 +21,10 @@ class CreateViewModel: CreateViewModelType {
         self.stepper = stepper.asObserver()
         self.onStepper = stepper.asObservable()
 
+        let user = PublishSubject<User>()
+        self.user = user.asObserver()
+        self.onUser = user.asObservable()
+
         self.close = PublishRelay()
         self.onClose = close.asSignal()
 
@@ -25,12 +32,17 @@ class CreateViewModel: CreateViewModelType {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension CreateViewModel {
     private func setupBindings() {
         onClose
             .map({ _ -> Step in CreateStep.close })
             .emit(to: stepper)
+            .disposed(by: disposeBag)
+
+        onUser
+            .map({ CreateStep.saveStep(user: $0) })
+            .bind(to: stepper)
             .disposed(by: disposeBag)
     }
 }

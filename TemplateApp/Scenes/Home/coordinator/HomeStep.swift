@@ -5,7 +5,7 @@ enum HomeStep: Step {
     case start
 
     case toUser(user: User)
-    case toCloseUser
+    case toDismissTop
     case toAbout
     case toSettings
     case toCreate
@@ -18,7 +18,7 @@ extension HomeStep {
             return "Created"
         case let .toUser(user):
             return "Open user with name \(user.name)"
-        case .toCloseUser:
+        case .toDismissTop:
             return "Close open user"
         case .toAbout:
             return "Navigate to about"

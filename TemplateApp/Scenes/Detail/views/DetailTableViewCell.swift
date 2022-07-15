@@ -1,8 +1,8 @@
 import SnapKit
 import UIKit
 
-class HomeViewTableViewCell: UITableViewCell {
-    let dateLabel: UILabel = {
+class DetailViewTableViewCell: UITableViewCell {
+    lazy var dateLabel: UILabel = {
         let label = UILabel()
 
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -12,7 +12,7 @@ class HomeViewTableViewCell: UITableViewCell {
         return label
     }()
 
-    let titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
 
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -27,17 +27,15 @@ class HomeViewTableViewCell: UITableViewCell {
 
         configure()
     }
-
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
 
 // MARK: UI
-private extension HomeViewTableViewCell {
+private extension DetailViewTableViewCell {
     func configure() {
         backgroundColor = .white
 
         configureTitleLabel()
-        configureDateLabel()
     }
 
     func configureTitleLabel() {
@@ -46,13 +44,5 @@ private extension HomeViewTableViewCell {
             maker.top.bottom.equalToSuperview()
             maker.leading.equalToSuperview().inset(50)
         }
-    }
-
-    func configureDateLabel() {
-//        contentView.addSubview(dateLabel)
-//        dateLabel.snp.makeConstraints { maker in
-//            maker.top.bottom.equalToSuperview()
-//            maker.trailing.equalToSuperview().inset(50)
-//        }
     }
 }

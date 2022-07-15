@@ -1,11 +1,16 @@
-import UIKit
 import RxSwift
+import UIKit
 
-class HomeViewTableView: UITableView {
+protocol HomeViewTableViewType where Self: UITableView {
+    var viewModel: HomeViewTableViewModelType! { get }
+    var pullToRefresh: UIRefreshControl { get }
+}
+
+class HomeViewTableView: UITableView, HomeViewTableViewType {
     var viewModel: HomeViewTableViewModelType!
-    
+
     let pullToRefresh = UIRefreshControl()
-    
+
     private let disposeBag = DisposeBag()
 
     func configured() -> Self {
@@ -15,7 +20,7 @@ class HomeViewTableView: UITableView {
         translatesAutoresizingMaskIntoConstraints = false
         refreshControl = pullToRefresh
         backgroundColor = .white
-        
+
         pullToRefresh.tintColor = .black
 
         setupBindings()
@@ -37,22 +42,22 @@ private extension HomeViewTableView {
             .disposed(by: disposeBag)
 
         viewModel.loadTransaction.onElements
-            .bind(to: self.rx.items(cellIdentifier: "HomeCell", cellType: HomeViewTableViewCell.self)) { indexPath, title, cell in
+            .bind(to: self.rx.items(cellIdentifier: "HomeCell", cellType: HomeViewTableViewCell.self)) { _, title, cell in
                 cell.titleLabel.text = title.name
                 cell.dateLabel.text = String(title.age)
             }
             .disposed(by: disposeBag)
 
         self.rx.modelSelected(User.self)
-            .withLatestFrom(viewModel.loadTransaction.onIsLoad) {($0, $1)}
+            .withLatestFrom(viewModel.loadTransaction.onIsLoad) { ($0, $1) }
             .filter({ !$0.1 })
             .map({ $0.0 })
             .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .bind(to: viewModel.user)
             .disposed(by: disposeBag)
-        
+
         self.rx.itemSelected
-            .subscribe( onNext: { self.deselectRow(at: $0, animated: true) })
+            .subscribe( onNext: { [unowned self] in self.deselectRow(at: $0, animated: true) })
             .disposed(by: disposeBag)
 
         viewModel.loadTransaction.onIsLoad

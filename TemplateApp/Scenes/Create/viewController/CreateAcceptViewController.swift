@@ -4,22 +4,23 @@ import RxSwift
 import SnapKit
 import UIKit
 
-final class HomeAboutViewController: UINavigationController, Stepper, TopBarViewControllerType {
+final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewControllerType {
     let steps = PublishRelay<Step>()
 
-    var viewModel: HomeAboutViewModel!
-
-    var homeAboutView: HomeAboutView!
+    var createAcceptView: CreateAcceptViewType!
 
     var barViewController: TopBarViewController!
 
     private let disposeBag = DisposeBag()
 
+    @discardableResult
     func configured() -> Self {
+        view.backgroundColor = .white
+
         configureBarView()
         configureView()
 
-        setupViewModelBindings()
+        setupBarBindings()
         setupViewBindings()
 
         return self
@@ -27,14 +28,14 @@ final class HomeAboutViewController: UINavigationController, Stepper, TopBarView
 }
 
 // MARK: UI
-private extension HomeAboutViewController {
+private extension CreateAcceptViewController {
     func configureBarView() {
         barViewController.addWithConstraints(parent: view)
     }
 
     func configureView() {
-        view.addSubview(homeAboutView)
-        homeAboutView.snp.makeConstraints { maker in
+        view.addSubview(createAcceptView)
+        createAcceptView.snp.makeConstraints { maker in
             maker.top.equalTo(barViewController.view.snp_bottomMargin)
             maker.trailing.leading.bottom.equalToSuperview()
         }
@@ -42,10 +43,16 @@ private extension HomeAboutViewController {
 }
 
 // MARK: Bindings
-private extension HomeAboutViewController {
-    private func setupViewModelBindings() {
+extension CreateAcceptViewController {
+    private func setupBarBindings() {
+        barViewController.steps
+            .bind(to: steps)
+            .disposed(by: disposeBag)
     }
 
     private func setupViewBindings() {
+        createAcceptView.viewModel.onStepper
+            .bind(to: steps)
+            .disposed(by: disposeBag)
     }
 }

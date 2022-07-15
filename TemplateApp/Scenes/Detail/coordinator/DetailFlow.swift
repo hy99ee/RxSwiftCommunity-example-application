@@ -1,9 +1,9 @@
-import UIKit
 import RxFlow
+import UIKit
 
 class DetailFlow {
     private let rootViewController: UIViewController
-    let viewController = DetailMainViewController()
+    private var viewController: DetailMainViewController!
 
     init(root rootViewController: UIViewController) {
         self.rootViewController = rootViewController
@@ -19,35 +19,19 @@ extension DetailFlow: Flow {
 
         switch step {
         case let .start(user):
+            viewController = createViewController(openUser: user)
 
-            let view = DetailMainView()
-            let viewViewModel = DetailMainViewModel(user: user)
-            view.viewModel = viewViewModel
-            
-            viewController.detailView = view.configured()
-            
-            let barViewController = DetailBarViewController()
-            let barView = DetailBarView()
-            let barViewViewModel = DetailBarViewModel()
-            barView.viewModel = barViewViewModel
-            
-            barViewController.detailBarView = barView.configured()
-            barViewController.configure()
-            
-            viewController.barViewController = barViewController
-            viewController.configure()
-
-            viewController.modalPresentationStyle = .fullScreen
+//            viewController.modalPresentationStyle = .fullScreen
             rootViewController.present(viewController, animated: true)
 
             return .multiple(flowContributors: [
                 .contribute(withNext: viewController),
-                .contribute(withNext: barViewController)
+                .contribute(withNext: viewController.barViewController)
             ])
-            
+
         case .close:
             self.viewController.presentedViewController?.dismiss(animated: true)
-            return .end(forwardToParentFlowWithStep: HomeStep.toCloseUser)
+            return .end(forwardToParentFlowWithStep: HomeStep.toDismissTop)
         }
     }
 }
@@ -55,8 +39,27 @@ extension DetailFlow: ToAppFlowNavigation {}
 
 private extension DetailFlow {
     func navigateToSomePlace() -> FlowContributors {
-        return .none
+        .none
+    }
+
+    func createViewController(openUser user: User) -> DetailMainViewController {
+        let viewController = DetailMainViewController()
+        let view = DetailTableView()
+        let viewViewModel = DetailMainViewModel(user: user)
+        view.viewModel = viewViewModel
+
+        viewController.detailView = view.configured()
+
+        let barViewController = TopBarViewController()
+        let barView = TopBarView(types: [.close])
+        let barViewViewModel = TopBarViewModel()
+        barView.viewModel = barViewViewModel
+
+        barViewController.detailBarView = barView.configured()
+        barViewController.closeStep = DetailtStep.close
+
+        viewController.barViewController = barViewController.configured()
+
+        return viewController.configured()
     }
 }
-
-

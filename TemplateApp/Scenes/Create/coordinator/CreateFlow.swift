@@ -1,38 +1,91 @@
-import UIKit
-import RxSwift
 import RxFlow
+import RxSwift
+import UIKit
 
 class CreateFlow {
-    private let viewController: CreateViewController
+    private lazy var startViewController: CreateViewController = createStartViewController()
+    private var acceptViewController: CreateAcceptViewController!
+    private lazy var rootNavigationController = startViewController.navigationController
+
+    private let saveTransaction: SaveTransaction
 
     private let disposeBag = DisposeBag()
 
     init(save saveTransaction: SaveTransaction) {
-        viewController = CreateViewController()
+        self.saveTransaction = saveTransaction
+    }
+
+    private func createStartViewController() -> CreateViewController {
+        startViewController = CreateViewController()
         let controllerViewModel = CreateViewModel()
-        viewController.viewModel = controllerViewModel
-        
+        startViewController.viewModel = controllerViewModel
+
         let createView = CreateView()
-        let createViewViewModel = CreateViewViewModel(save: saveTransaction)
+        let createViewViewModel = CreateViewViewModel()
         createView.viewModel = createViewViewModel
-        createViewViewModel.bind(to: controllerViewModel).disposed(by: disposeBag)
-        
-        viewController.createView = createView.configured()
-        viewController.configure()
+        controllerViewModel.bind(on: createViewViewModel).disposed(by: disposeBag)
+
+        startViewController.createView = createView.configured()
+
+        let barViewController = TopBarViewController()
+        let barView = TopBarView(types: [.close])
+        let barViewViewModel = TopBarViewModel()
+        barView.viewModel = barViewViewModel
+        barViewController.closeStep = CreateStep.close
+        barViewController.detailBarView = barView.configured()
+
+        startViewController.barViewController = barViewController.configured()
+
+        return startViewController.configured()
+    }
+
+    private func createAcceptViewController(user: User) -> CreateAcceptViewController {
+        acceptViewController = CreateAcceptViewController()
+        let acceptViewModel = CreateAcceptViewModel(user: user, save: saveTransaction)
+        acceptViewModel.bind(to: acceptViewController).disposed(by: disposeBag)
+        let acceptView = CreateAcceptView()
+        acceptView.viewModel = acceptViewModel
+
+        acceptViewController.createAcceptView = acceptView.configured()
+
+        let barViewController = TopBarViewController()
+        let barView = TopBarView(types: [.close, .back])
+        let barViewViewModel = TopBarViewModel()
+        barView.viewModel = barViewViewModel
+        barViewController.backStep = CreateStep.closeTop
+        barViewController.closeStep = CreateStep.close
+        barViewController.detailBarView = barView.configured()
+
+        acceptViewController.barViewController = barViewController.configured()
+
+        return acceptViewController.configured()
     }
 }
 
-
 // MARK: - RxFlow
 extension CreateFlow: Flow {
-    var root: Presentable { viewController }
+    var root: Presentable { startViewController }
 
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? CreateStep else { return navigateFromAppFlow(step) }
 
         switch step {
         case .start:
-            return .one(flowContributor: .contribute(withNextPresentable: viewController, withNextStepper: viewController))
+            return .one(flowContributor: .contribute(withNext: startViewController))
+
+        case let .saveStep(user):
+
+            let saveViewController = createAcceptViewController(user: user)
+            rootNavigationController?.pushViewController(saveViewController, animated: true)
+//            acceptViewController.modalPresentationStyle = .fullScreen
+//            startViewController.present(acceptViewController, animated: true)
+            return .one(flowContributor: .contribute(withNext: acceptViewController))
+
+        case .closeTop:
+//            startViewController.presentedViewController?.dismiss(animated: true)
+            rootNavigationController?.popViewController(animated: true)
+            return .none
+
         case .close:
             return navigateToRoot()
         }
@@ -42,8 +95,6 @@ extension CreateFlow: ToAppFlowNavigation {}
 
 private extension CreateFlow {
     func navigateTo() -> FlowContributors {
-        return .none
+        .none
     }
 }
-
-

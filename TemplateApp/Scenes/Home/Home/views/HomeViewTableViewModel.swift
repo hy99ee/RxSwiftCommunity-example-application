@@ -1,20 +1,20 @@
 import RxSwift
 
-protocol HomeViewTableViewModelType: RefreshHandlerType, UserSelecterViewModel, SelectableViewModel {}
+protocol HomeViewTableViewModelType: RefreshHandlerType, UserViewModel, OnUserViewModel {}
 
 class HomeViewTableViewModel: HomeViewTableViewModelType {
-    let onSelected: Observable<User>
+    let onUser: Observable<User>
     let user: AnyObserver<User>
 
     var refreshTransaction: RefreshTransaction
     var loadTransaction: LoadTransaction
-    
+
     init(handler refreshHandler: TableViewHandler) {
         self.loadTransaction = refreshHandler.loadTransaction
         self.refreshTransaction = refreshHandler.refreshTransaction
-        
+
         let selected = PublishSubject<User>()
         self.user = selected.asObserver()
-        self.onSelected = selected.asObservable()
+        self.onUser = selected.asObservable()
     }
 }

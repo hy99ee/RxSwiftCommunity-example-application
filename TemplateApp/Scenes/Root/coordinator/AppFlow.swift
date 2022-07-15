@@ -1,13 +1,13 @@
-import UIKit
-import RxSwift
 import RxFlow
+import RxSwift
+import UIKit
 
 class AppFlow {
     static let shared = AppFlow()
     let rootViewController: UINavigationController
-    
+
     private let manager: Manager<Repository<User>>
-    
+
     private let disposeBag = DisposeBag()
 
     private init() {
@@ -40,7 +40,7 @@ extension AppFlow: Flow {
 // MARK: - Navigation cases
 private extension AppFlow {
     func openRoot() -> FlowContributors {
-        guard let _ = rootViewController.popToRootViewController(animated: true) else { return openHome() }
+        guard rootViewController.popToRootViewController(animated: true) != nil else { return openHome() }
 
         return .none
     }
@@ -52,8 +52,10 @@ private extension AppFlow {
             self.rootViewController.pushViewController(root, animated: true)
         }
 
-        return .one(flowContributor: .contribute(withNextPresentable: homeFlow,
-                                                 withNextStepper: OneStepper(withSingleStep: HomeStep.start)))
+        return .one(flowContributor: .contribute(
+            withNextPresentable: homeFlow,
+            withNextStepper: OneStepper(withSingleStep: HomeStep.start)
+        ))
     }
 
     func openCreate() -> FlowContributors {
@@ -61,15 +63,14 @@ private extension AppFlow {
         let createFlow = CreateFlow(save: saveTransaction)
         hideNavigationBar()
         Flows.use(createFlow, when: .created) { [unowned self] root in
-//
-            
             self.rootViewController.pushViewController(root, animated: true)
         }
 
-        return .one(flowContributor: .contribute(withNextPresentable: createFlow,
-                                                 withNextStepper: OneStepper(withSingleStep: CreateStep.start)))
+        return .one(flowContributor: .contribute(
+            withNextPresentable: createFlow,
+            withNextStepper: OneStepper(withSingleStep: CreateStep.start)
+        ))
     }
-    
     func openSettings() -> FlowContributors {
         let settingsFlow = SettingsFlow()
 
@@ -77,8 +78,12 @@ private extension AppFlow {
             self.rootViewController.present(root, animated: true)
         }
 
-        return .one(flowContributor: .contribute(withNextPresentable: settingsFlow,
-                                                 withNextStepper: OneStepper(withSingleStep: SettingsStep.start(user: manager.first))))
+        return .one(
+            flowContributor: .contribute(
+            withNextPresentable: settingsFlow,
+            withNextStepper: OneStepper(withSingleStep: SettingsStep.start(user: manager.first))
+            )
+        )
     }
 }
 
@@ -88,31 +93,20 @@ private extension AppFlow {
         transition.duration = 0.7
         transition.type = CATransitionType.moveIn
         transition.subtype = CATransitionSubtype.fromBottom
-        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
 
         return transition
     }
-    
-    func hideNavigationBar() {
 
+    func hideNavigationBar() {
         rootViewController.navigationBar.layer.add(navigationBarTransition, forKey: kCATransition)
 
         rootViewController.setNavigationBarHidden(true, animated: false)
     }
-    
+
     func showNavigationBar() {
         rootViewController.navigationBar.layer.add(navigationBarTransition, forKey: kCATransition)
 
         rootViewController.setNavigationBarHidden(false, animated: false)
-  
     }
-    
-//    func showNavigationBar() {
-//
-//        CATransaction.begin()
-//        CATransaction.setAnimationDuration(2)
-//        CATransaction.setCompletionBlock {
-//            self.navigationBar.layer.removeFromSuperlayer()
-//        }
-//    }
 }

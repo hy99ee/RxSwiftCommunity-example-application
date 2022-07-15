@@ -1,47 +1,63 @@
-import UIKit
+import RxCocoa
 import RxFlow
 import RxSwift
-import RxCocoa
 import SnapKit
+import UIKit
 
-final class CreateViewController: UIViewController, Stepper {
-
+final class CreateViewController: UIViewController, Stepper, TopBarViewControllerType {
     let steps = PublishRelay<Step>()
 
     var viewModel: CreateViewModelType!
-    
+
     var createView: CreateViewType!
+
+    var barViewController: TopBarViewController!
 
     private let disposeBag = DisposeBag()
 
-    func configure() {
-        self.configureView()
-        self.setupViewModelBindings()
-        self.setupViewBindings()
+    @discardableResult
+    func configured() -> Self {
+        configureBarView()
+        configureView()
+
+        setupViewModelBindings()
+        setupViewBindings()
+        setupBarBindings()
+
+        return self
     }
 }
 
-//MARK: UI
+// MARK: UI
 private extension CreateViewController {
-     func configureView() {
-         view.backgroundColor = .white
-         self.view.addSubview(createView)
-         createView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+    func configureBarView() {
+        barViewController.addWithConstraints(parent: view)
+    }
+
+    func configureView() {
+        view.backgroundColor = .white
+        view.addSubview(createView)
+        createView.snp.makeConstraints { maker in
+            maker.top.equalTo(barViewController.view.snp_bottomMargin)
+            maker.trailing.leading.bottom.equalToSuperview()
+        }
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension CreateViewController {
     private func setupViewModelBindings() {
         viewModel.onStepper
-            .subscribe(onNext: { [unowned self] in
-                steps.accept($0) })
+            .bind(to: steps)
             .disposed(by: disposeBag)
     }
-    
-    private func setupViewBindings() {
 
+    private func setupBarBindings() {
+        barViewController.steps
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+    }
+
+    private func setupViewBindings() {
     }
 }
-
-

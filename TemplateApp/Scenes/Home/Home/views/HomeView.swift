@@ -1,14 +1,14 @@
-import UIKit
 import RxCocoa
 import RxSwift
+import UIKit
 
 protocol HomeViewType: onTapCreateView, LoadingProcessView where Self: UIView {
-    var tableView: HomeViewTableView! { get }
+    var tableView: HomeViewTableViewType! { get }
 }
 
 class HomeView: UIView, HomeViewType {
     var viewModel: HomeViewViewModelType!
-    var tableView: HomeViewTableView!
+    var tableView: HomeViewTableViewType!
 
     let onTapCreate: Signal<Void>
     private let tapCreate: PublishRelay<Void>
@@ -17,7 +17,7 @@ class HomeView: UIView, HomeViewType {
 
     private let tapOffset = 10
     private lazy var createButton: UIView = {
-        let button = UIImageView(image: UIImage(systemName: "plus.app"))
+        let button = UIImageView(image: UIImage(systemName: "plus.circle"))
         let view = UIView()
         view.addSubview(button)
         button.snp.makeConstraints { maker in
@@ -27,24 +27,13 @@ class HomeView: UIView, HomeViewType {
         return view
     }()
 
-    lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
-        guard let event = event.element else { return }
-        self?.loadingViews.forEach({ view in view.isHidden = !event })
-    })
-
     lazy var welcomeLabel: UILabel = {
         let label = UILabel()
 
         return label
     }()
-    
-    lazy var loadingView: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        indicator.color = .black
-        
-        return indicator
-    }()
+
+    lazy var loadingView = loadingIndicator
 
     var loadingViews: [UIView] = []
 
@@ -66,17 +55,17 @@ class HomeView: UIView, HomeViewType {
     }
 }
 
-//MARK: View
+// MARK: View
 private extension HomeView {
     func configure() {
         configureWelcomeLabel()
         configureLoadingView()
         configureTableView()
         configureCreateButtonView()
-        
+
         setupBindings()
     }
-    
+
     func configureCreateButtonView() {
         addSubview(createButton)
         createButton.snp.makeConstraints { maker in
@@ -86,7 +75,7 @@ private extension HomeView {
             maker.width.equalTo(42 + 2 * tapOffset)
         }
     }
-    
+
     func configureWelcomeLabel() {
         addSubview(welcomeLabel)
         welcomeLabel.snp.makeConstraints { maker in
@@ -95,38 +84,27 @@ private extension HomeView {
         }
         loadingViews.append(welcomeLabel)
     }
-    
-    func configureLoadingView() {
-        addSubview(loadingView)
-        loadingView.snp.makeConstraints { maker in
-            maker.centerX.equalToSuperview()
-            maker.centerY.equalToSuperview().offset(50)
-        }
-        loadingView.startAnimating()
-    }
 
     func configureTableView() {
         addSubview(tableView)
         tableView.snp.makeConstraints { maker in
             maker.edges.equalToSuperview()
         }
-
     }
-
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension HomeView {
     private func setupBindings() {
         createButton.rx.tapView()
             .emit(to: tapCreate)
             .disposed(by: disposeBag)
-        
+
         createButton.rx.tapView()
             .map({ _ -> CGFloat in 0.3 })
             .emit(to: createButton.rx.alpha)
             .disposed(by: disposeBag)
-                
+
         createButton.rx.tapView()
             .delay(.milliseconds(250))
             .map({ _ -> CGFloat in 1 })

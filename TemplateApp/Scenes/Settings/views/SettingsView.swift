@@ -1,12 +1,12 @@
-import UIKit
 import RxCocoa
 import RxSwift
+import UIKit
 
 protocol SettingViewType: onTapNextView, LoadingProcessView where Self: UIView { }
 
 class SettingsView: UIView, SettingViewType {
     private let nextText: String = "Home"
-    
+
     let onTapNext: Signal<Void>
     private let tapNext: PublishRelay<Void>
 
@@ -18,13 +18,8 @@ class SettingsView: UIView, SettingViewType {
         return label
     }()
 
-    lazy var loadingView: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        
+    lazy var loadingView = loadingIndicator
 
-        return indicator
-    }()
     var loadingViews: [UIView] = []
 
     private lazy var nextButton: UIButton = {
@@ -37,11 +32,6 @@ class SettingsView: UIView, SettingViewType {
 
         return button
     }()
-    
-    lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] in
-        self?.nextButton.isHidden = !$0.element!
-        self?.welcomeLabel.isHidden = !$0.element!
-    })
 
     convenience init() {
         self.init(frame: .zero)
@@ -50,7 +40,7 @@ class SettingsView: UIView, SettingViewType {
     override init(frame: CGRect) {
         tapNext = PublishRelay<Void>()
         onTapNext = tapNext.asSignal()
-        
+
         super.init(frame: frame)
 
         configure()
@@ -61,15 +51,15 @@ class SettingsView: UIView, SettingViewType {
     }
 }
 
-//MARK: Configure views
+// MARK: Configure views
 private extension SettingsView {
     func configure() {
         backgroundColor = .red
-        
+
         configureWelcomeLabel()
         configureLoginButton()
         configureLoadingView()
-        
+
         setupBindings()
     }
 
@@ -80,18 +70,7 @@ private extension SettingsView {
             maker.centerY.equalToSuperview().offset(50)
         }
     }
-    
-    func configureLoadingView() {
-        addSubview(loadingView)
-        
-        loadingView.snp.makeConstraints { maker in
-            maker.centerX.equalToSuperview()
-            maker.centerY.equalToSuperview().offset(50)
-        }
-        
-        loadingView.startAnimating()
-    }
-    
+
     func configureLoginButton() {
         addSubview(nextButton)
         nextButton.snp.makeConstraints { maker in
@@ -102,18 +81,18 @@ private extension SettingsView {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension SettingsView {
     private func setupBindings() {
         nextButton.rx.tap
             .bind(to: tapNext)
             .disposed(by: disposeBag)
-                
+
         nextButton.rx.tap
             .map({ _ -> CGFloat in 0.75 })
             .bind(to: nextButton.rx.alpha)
             .disposed(by: disposeBag)
-                
+
         nextButton.rx.tap
             .delay(.milliseconds(250), scheduler: MainScheduler.instance)
             .map({ _ -> CGFloat in 1 })

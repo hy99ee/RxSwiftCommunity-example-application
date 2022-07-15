@@ -13,7 +13,7 @@ class HomeAboutView: UIView, HomeAboutViewType {
 
         return button
     }()
-    
+
     convenience init() {
         self.init(frame: .zero)
     }
@@ -27,13 +27,13 @@ class HomeAboutView: UIView, HomeAboutViewType {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func configure() {
         backgroundColor = .green
 
         configureCloseButton()
     }
-    
+
     func configureCloseButton() {
         addSubview(closeButton)
         closeButton.snp.makeConstraints { maker in

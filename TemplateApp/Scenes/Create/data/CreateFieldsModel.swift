@@ -1,9 +1,9 @@
-import RxSwift
 import RxCocoa
-import Foundation
+import RxSwift
 
 final class Form {
     let sections: [FormSection]
+
     init(sections: [FormSection]) {
         self.sections = sections
     }
@@ -11,6 +11,7 @@ final class Form {
 
 final class FormSection {
     let items: [FormItem]
+
     init(items: [FormItem]) {
         self.items = items
     }
@@ -24,11 +25,10 @@ protocol FormItem {
 struct TextInputFormItem: FormItem {
     let text: PublishSubject<String>
     let placeholder: String?
-    
+
     init(placeholder: String = "Enter text ...") {
         self.placeholder = placeholder
-        
+
         self.text = PublishSubject()
     }
-    
 }

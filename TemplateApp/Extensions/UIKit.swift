@@ -18,3 +18,11 @@ extension UINavigationItem {
         }
     }
 }
+
+extension UIView {
+    func appendTo(_ array: inout [UIView]) -> Self {
+        array.append(self)
+
+        return self
+    }
+}

@@ -1,12 +1,12 @@
 import RxSwift
 
-protocol RepositoryType{
+protocol RepositoryType {
     associatedtype Element
-    
+
     func add(_ item: Element)
     func remove(at: Int)
     func refresh()
-    
+
     var elements: [Element] { get }
 
     var onUpdate: Observable<Void> { get }
@@ -18,7 +18,7 @@ class Repository<Element>: RepositoryType {
 
     let onUpdate: Observable<Void>
     private let update: AnyObserver<Void>
-    
+
     let onIsLoad: Observable<Bool>
     private let isLoad: AnyObserver<Bool>
 
@@ -43,9 +43,9 @@ class Repository<Element>: RepositoryType {
     func add(_ element: Element) {
         isLoad.onNext(true)
         // Request imitation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.elements.append(element)
-            self.isLoad.onNext(false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.elements.append(element)
+            self?.isLoad.onNext(false)
         }
     }
 
@@ -54,7 +54,7 @@ class Repository<Element>: RepositoryType {
         // Request imitation
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self = self else { return }
-            if(self.elements.count > index) {
+            if self.elements.count > index {
                 self.elements.remove(at: index)
                 self.isLoad.onNext(false)
             }

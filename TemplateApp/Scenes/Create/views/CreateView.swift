@@ -1,9 +1,9 @@
-import UIKit
 import RxCocoa
 import RxSwift
 import SnapKit
+import UIKit
 
-protocol CreateViewType: onTapCreateView, LoadingProcessView where Self: UIView {
+protocol CreateViewType: onTapNextView where Self: UIView {
     var viewModel: CreateViewViewModelType! { get }
 }
 
@@ -12,12 +12,12 @@ class CreateView: UIView, CreateViewType {
 
     private let nextText = "Create"
     private let closeText = "Close"
-    
-    let onTapCreate: Signal<Void>
-    private let tapCreate: PublishRelay<Void>
+
+    let onTapNext: Signal<Void>
+    private let tapNext: PublishRelay<Void>
 
     let disposeBag = DisposeBag()
-    
+
     private let tapOffset = 10
 
     private lazy var fieldsView: FormViewController = {
@@ -28,24 +28,14 @@ class CreateView: UIView, CreateViewType {
         return viewController
     }()
 
-    private(set) var loadingViews: [UIView] = []
-
     lazy var welcomeLabel: UILabel = {
         let label = UILabel()
 
         return label
     }()
-    
-    lazy var loadingView: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        indicator.tintColor = .black
 
-        return indicator
-    }()
-    
     private lazy var createButton: UIView = {
-        let button = UIImageView(image: UIImage(systemName: "checkmark.square"))
+        let button = UIImageView(image: UIImage(systemName: "greaterthan.circle"))
         let view = UIView()
         view.addSubview(button)
         button.snp.makeConstraints { maker in
@@ -54,9 +44,9 @@ class CreateView: UIView, CreateViewType {
         }
         return view
     }()
-    
+
     private lazy var closeButton: UIView = {
-        let button = UIImageView(image: UIImage(systemName: "chevron.backward.square"))
+        let button = UIImageView(image: UIImage(systemName: "xmark.circle"))
         let view = UIView()
         view.addSubview(button)
         button.snp.makeConstraints { maker in
@@ -66,27 +56,22 @@ class CreateView: UIView, CreateViewType {
 
         return view
     }()
-    
-    lazy var viewsLoadingProcess = AnyObserver<Bool>(eventHandler: { [weak self] event in
-        guard let event = event.element else { return }
-        self?.loadingViews.forEach({ view in view.isHidden = !event })
-    })
 
     convenience init() {
         self.init(frame: .zero)
     }
 
     override init(frame: CGRect) {
-        tapCreate = PublishRelay<Void>()
-        onTapCreate = tapCreate.asSignal()
-        
+        tapNext = PublishRelay<Void>()
+        onTapNext = tapNext.asSignal()
+
         super.init(frame: frame)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func configured() -> Self {
         configure()
         setupBindings()
@@ -95,18 +80,17 @@ class CreateView: UIView, CreateViewType {
     }
 }
 
-//MARK: Configure UI
+// MARK: Configure UI
 private extension CreateView {
     func configure() {
         backgroundColor = .white
-        
+
         configureCreateButton()
         configureCloseButton()
         configureFieldsView()
         configureWelcomeLabel()
-        configureLoadingView()
     }
-    
+
     func configureCreateButton() {
         addSubview(createButton)
         createButton.snp.makeConstraints { maker in
@@ -115,7 +99,6 @@ private extension CreateView {
             maker.height.equalTo(40 + 2 * tapOffset)
             maker.width.equalTo(42 + 2 * tapOffset)
         }
-        loadingViews.append(createButton)
     }
 
     func configureCloseButton() {
@@ -126,7 +109,6 @@ private extension CreateView {
             maker.height.equalTo(40 + 2 * tapOffset)
             maker.width.equalTo(42 + 2 * tapOffset)
         }
-        loadingViews.append(closeButton)
     }
 
     func configureFieldsView() {
@@ -135,7 +117,6 @@ private extension CreateView {
             maker.top.leading.trailing.equalTo(safeAreaLayoutGuide)
             maker.bottom.equalTo(createButton.snp.top)
         }
-        loadingViews.append(fieldsView.view)
     }
 
     func configureWelcomeLabel() {
@@ -144,59 +125,31 @@ private extension CreateView {
             maker.centerX.equalToSuperview()
             maker.centerY.equalToSuperview().offset(50)
         }
-        loadingViews.append(welcomeLabel)
-    }
-    
-    func configureLoadingView() {
-        addSubview(loadingView)
-        
-        loadingView.snp.makeConstraints { maker in
-            maker.centerX.equalToSuperview()
-            maker.centerY.equalToSuperview().offset(50)
-        }
-        
-        loadingView.startAnimating()
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 extension CreateView {
     private func setupBindings() {
         self.rx.tapView()
-            .emit (onNext: { [weak self] in self?.endEditing(true) })
+            .map { true }
+            .emit(onNext: { [weak self] in self?.endEditing($0) })
             .disposed(by: disposeBag)
-        
+
         fieldsView.viewModel.onUser
-            .map{ $0 == nil ? false : true }
+            .map { $0 == nil ? false : true }
             .drive(createButton.rx.isUserInteractionEnabled)
             .disposed(by: disposeBag)
 
         fieldsView.viewModel.onUser
-            .map{ $0 == nil ? 0.5 : 1 }
+            .map { $0 == nil ? 0.5 : 1 }
             .drive(createButton.rx.alpha)
             .disposed(by: disposeBag)
-        
+
         createButton.rx.tapView()
-            .debug("efe")
-            .flatMap {[unowned self] in fieldsView.viewModel.onUser }
+            .withLatestFrom(fieldsView.viewModel.onUser)
             .compactMap { $0 }
-            .drive(viewModel.user)
-            .disposed(by: disposeBag)
-
-        createButton.rx.tapView()
-            .emit(to: viewModel.tapCreate)
-            .disposed(by: disposeBag)
-        
-        closeButton.rx.tapView()
-            .emit(to: viewModel.close)
-            .disposed(by: disposeBag)
-
-        viewModel.onLoader
-            .drive(viewsLoadingProcess)
-            .disposed(by: disposeBag)
-
-        viewModel.onLoader
-            .drive(loadingView.rx.isHidden)
+            .emit(to: viewModel.user)
             .disposed(by: disposeBag)
     }
 }

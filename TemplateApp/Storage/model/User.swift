@@ -14,4 +14,8 @@ struct User {
             age: 99
         )
     }
+
+    func sequence() -> [String] {
+        [String(self.id), self.name, self.description, String(self.age)]
+    }
 }

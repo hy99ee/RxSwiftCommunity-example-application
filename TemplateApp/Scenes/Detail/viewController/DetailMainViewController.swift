@@ -1,39 +1,37 @@
-import UIKit
+import RxCocoa
 import RxFlow
 import RxSwift
-import RxCocoa
 import SnapKit
+import UIKit
 
-final class DetailMainViewController: UIViewController, Stepper {
-
+final class DetailMainViewController: UIViewController, Stepper, TopBarViewControllerType {
     let steps = PublishRelay<Step>()
-    
+
     var detailView: DetailMainViewType!
-    var barViewController: DetailBarViewController!
+    var barViewController: TopBarViewController!
 
     private let disposeBag = DisposeBag()
 
-    func configure() {
+    @discardableResult
+    func configured() -> Self {
         view.backgroundColor = .white
 
         configureBarView()
         configureView()
-        
+
         setupViewModelBindings()
         setupViewBindings()
+
+        return self
     }
 }
 
-//MARK: UI
+// MARK: UI
 private extension DetailMainViewController {
     func configureBarView() {
-        view.addSubview(barViewController.view)
-        barViewController.detailBarView.snp.makeConstraints { maker in
-            maker.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            
-        }
+        barViewController.addWithConstraints(parent: view)
     }
-    
+
     func configureView() {
         view.addSubview(detailView)
         detailView.snp.makeConstraints { maker in
@@ -43,15 +41,11 @@ private extension DetailMainViewController {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 private extension DetailMainViewController {
     func setupViewModelBindings() {
-        
     }
-    
-    func setupViewBindings() {
 
+    func setupViewBindings() {
     }
 }
-
-
