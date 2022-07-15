@@ -1,36 +1,48 @@
+import RxCocoa
 import RxFlow
 import RxSwift
-import RxCocoa
 import SnapKit
 import UIKit
 
-final class HomeAboutViewController: UINavigationController, Stepper {
+final class HomeAboutViewController: UINavigationController, Stepper, TopBarViewControllerType {
     let steps = PublishRelay<Step>()
 
     var viewModel: HomeAboutViewModel!
 
-    var homeView: HomeAboutView!
+    var homeAboutView: HomeAboutView!
+
+    var barViewController: TopBarViewController!
 
     private let disposeBag = DisposeBag()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    func configured() -> Self {
+        configureBarView()
         configureView()
 
         setupViewModelBindings()
         setupViewBindings()
+
+        return self
+    }
+}
+
+// MARK: UI
+private extension HomeAboutViewController {
+    func configureBarView() {
+        barViewController.addWithConstraints(parent: view)
     }
 
-    private func configureView() {
-        homeView = HomeAboutView()
-        self.view.addSubview(homeView)
-        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    func configureView() {
+        view.addSubview(homeAboutView)
+        homeAboutView.snp.makeConstraints { maker in
+            maker.top.equalTo(barViewController.view.snp_bottomMargin)
+            maker.trailing.leading.bottom.equalToSuperview()
+        }
     }
 }
 
 // MARK: Bindings
-extension HomeAboutViewController {
+private extension HomeAboutViewController {
     private func setupViewModelBindings() {
     }
 

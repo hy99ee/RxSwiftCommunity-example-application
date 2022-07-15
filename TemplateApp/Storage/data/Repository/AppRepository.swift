@@ -10,7 +10,7 @@ final class AppRepository: Repository<User> {
             User.create()
         ]
     }
-    
+
     override func add(_ element: User) {
         super.add(element)
 

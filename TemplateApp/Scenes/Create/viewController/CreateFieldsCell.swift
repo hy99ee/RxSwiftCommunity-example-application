@@ -1,6 +1,6 @@
-import UIKit
 import RxCocoa
 import RxSwift
+import UIKit
 
 final class TextInputTableViewCell: UITableViewCell {
     private var formItem: FormItem!
@@ -14,7 +14,7 @@ final class TextInputTableViewCell: UITableViewCell {
 
         return self
     }
-    
+
     private lazy var editableTextField = UITextField()
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -13,7 +13,7 @@ class TopBarViewModel: TopBarViewModelType {
     init() {
         close = PublishRelay()
         onClose = close.asSignal()
-        
+
         back = PublishRelay()
         onBack = back.asSignal()
     }

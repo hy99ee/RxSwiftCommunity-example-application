@@ -23,6 +23,7 @@
 		3B23EE7528801243007A475D /* CreateAcceptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EE7428801243007A475D /* CreateAcceptView.swift */; };
 		3B23EEAE28801D58007A475D /* config.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3B23EE9528801D58007A475D /* config.yml */; };
 		3B23EEAF28801D58007A475D /* run in Resources */ = {isa = PBXBuildFile; fileRef = 3B23EE9628801D58007A475D /* run */; };
+		3B23EEB128807353007A475D /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EEB028807352007A475D /* DetailTableViewCell.swift */; };
 		3B392A48282E5E320055F6E9 /* CreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A40282E5E320055F6E9 /* CreateViewModel.swift */; };
 		3B392A49282E5E320055F6E9 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A42282E5E320055F6E9 /* CreateViewController.swift */; };
 		3B392A4A282E5E320055F6E9 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A44282E5E320055F6E9 /* CreateView.swift */; };
@@ -64,7 +65,7 @@
 		3BAA4DC92847AC9100F22DB6 /* DetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC12847AC9100F22DB6 /* DetailFlow.swift */; };
 		3BAA4DCA2847AC9100F22DB6 /* DetailStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC22847AC9100F22DB6 /* DetailStep.swift */; };
 		3BAA4DCB2847AC9100F22DB6 /* DetailMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC42847AC9100F22DB6 /* DetailMainViewController.swift */; };
-		3BAA4DCC2847AC9100F22DB6 /* DetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC62847AC9100F22DB6 /* DetailMainView.swift */; };
+		3BAA4DCC2847AC9100F22DB6 /* DetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DC62847AC9100F22DB6 /* DetailTableView.swift */; };
 		3BAA4DCE2847BB8300F22DB6 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DCD2847BB8300F22DB6 /* TopBarView.swift */; };
 		3BAA4DD02847BB9900F22DB6 /* TopBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DCF2847BB9900F22DB6 /* TopBarViewModel.swift */; };
 		3BAA4DD22847BFEA00F22DB6 /* TopBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA4DD12847BFEA00F22DB6 /* TopBarViewController.swift */; };
@@ -117,6 +118,7 @@
 		3B23EE7428801243007A475D /* CreateAcceptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAcceptView.swift; sourceTree = "<group>"; };
 		3B23EE9528801D58007A475D /* config.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = config.yml; sourceTree = "<group>"; };
 		3B23EE9628801D58007A475D /* run */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
+		3B23EEB028807352007A475D /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		3B392A40282E5E320055F6E9 /* CreateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewModel.swift; sourceTree = "<group>"; };
 		3B392A42282E5E320055F6E9 /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		3B392A44282E5E320055F6E9 /* CreateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
@@ -160,7 +162,7 @@
 		3BAA4DC12847AC9100F22DB6 /* DetailFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailFlow.swift; sourceTree = "<group>"; };
 		3BAA4DC22847AC9100F22DB6 /* DetailStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStep.swift; sourceTree = "<group>"; };
 		3BAA4DC42847AC9100F22DB6 /* DetailMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMainViewController.swift; sourceTree = "<group>"; };
-		3BAA4DC62847AC9100F22DB6 /* DetailMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
+		3BAA4DC62847AC9100F22DB6 /* DetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTableView.swift; sourceTree = "<group>"; };
 		3BAA4DCD2847BB8300F22DB6 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		3BAA4DCF2847BB9900F22DB6 /* TopBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewModel.swift; sourceTree = "<group>"; };
 		3BAA4DD12847BFEA00F22DB6 /* TopBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewController.swift; sourceTree = "<group>"; };
@@ -606,7 +608,8 @@
 		3BAA4DC52847AC9100F22DB6 /* views */ = {
 			isa = PBXGroup;
 			children = (
-				3BAA4DC62847AC9100F22DB6 /* DetailMainView.swift */,
+				3BAA4DC62847AC9100F22DB6 /* DetailTableView.swift */,
+				3B23EEB028807352007A475D /* DetailTableViewCell.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -843,7 +846,8 @@
 				3BAA4DCE2847BB8300F22DB6 /* TopBarView.swift in Sources */,
 				3B9CFA99282E4D350037A8DB /* HomeViewController.swift in Sources */,
 				3B392A4C282E5E320055F6E9 /* CreateStep.swift in Sources */,
-				3BAA4DCC2847AC9100F22DB6 /* DetailMainView.swift in Sources */,
+				3B23EEB128807353007A475D /* DetailTableViewCell.swift in Sources */,
+				3BAA4DCC2847AC9100F22DB6 /* DetailTableView.swift in Sources */,
 				3B9CFA95282E4D350037A8DB /* SettingsView.swift in Sources */,
 				3B23EE70287D5F60007A475D /* ViewControllerTypes.swift in Sources */,
 				3B392A49282E5E320055F6E9 /* CreateViewController.swift in Sources */,

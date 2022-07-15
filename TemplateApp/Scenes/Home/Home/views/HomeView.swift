@@ -3,12 +3,12 @@ import RxSwift
 import UIKit
 
 protocol HomeViewType: onTapCreateView, LoadingProcessView where Self: UIView {
-    var tableView: HomeViewTableView! { get }
+    var tableView: HomeViewTableViewType! { get }
 }
 
 class HomeView: UIView, HomeViewType {
     var viewModel: HomeViewViewModelType!
-    var tableView: HomeViewTableView!
+    var tableView: HomeViewTableViewType!
 
     let onTapCreate: Signal<Void>
     private let tapCreate: PublishRelay<Void>

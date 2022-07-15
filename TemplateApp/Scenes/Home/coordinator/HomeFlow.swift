@@ -1,6 +1,6 @@
-import UIKit
-import RxSwift
 import RxFlow
+import RxSwift
+import UIKit
 
 final class HomeFlow: ToAppFlowNavigation {
     private let viewController: HomeViewController
@@ -8,7 +8,7 @@ final class HomeFlow: ToAppFlowNavigation {
     var rootViewController: UINavigationController!
 
     private let disposeBag = DisposeBag()
-    
+
     init(manager: Manager<Repository<User>>) {
         let loadTransaction = (manager.onElements, manager.onIsLoad)
         let refreshTransaction = (manager.refresh, manager.onIsLoad)
@@ -54,7 +54,7 @@ extension HomeFlow: Flow {
         case let .toUser(user):
             return navigateToOpenUser(user)
 
-        case .toCloseUser:
+        case .toDismissTop:
             return navigateToCloseUser()
 
         case .toAbout:
@@ -74,24 +74,44 @@ private extension HomeFlow {
     func navigateToOpenUser(_ user: User) -> FlowContributors {
         let detailFlow = DetailFlow(root: viewController)
 
-        return .one(flowContributor: .contribute(withNextPresentable: detailFlow,
-                                                 withNextStepper: OneStepper(withSingleStep: DetailtStep.start(user: user))))
+        return .one(flowContributor: .contribute(
+            withNextPresentable: detailFlow,
+            withNextStepper: OneStepper(withSingleStep: DetailtStep.start(user: user))
+        ))
     }
-    
+
     func navigateToCloseUser() -> FlowContributors {
         self.viewController.presentedViewController?.dismiss(animated: true)
-        
+
         return .none
     }
-    
+
     func navigateToAbout() -> FlowContributors {
+        let about = createAboutController()
+        self.viewController.present(about, animated: true)
+
+        return .one(flowContributor: .contribute(withNext: about.barViewController))
+    }
+
+    func createAboutController() -> HomeAboutViewController {
         let viewController = HomeAboutViewController()
         let viewModel = HomeAboutViewModel()
+        let view = HomeAboutView()
         viewController.viewModel = viewModel
+        viewController.homeAboutView = view
 
-        self.viewController.present(viewController, animated: true)
+        let barViewController = TopBarViewController()
+        let barView = TopBarView(types: [.close])
+        let barViewViewModel = TopBarViewModel()
+        barView.viewModel = barViewViewModel
 
-        return .none
+        barViewController.detailBarView = barView.configured()
+        barViewController.closeStep = HomeStep.toDismissTop
+
+        viewController.barViewController = barViewController.configured()
+
+        viewController.modalPresentationStyle = .fullScreen
+
+        return viewController.configured()
     }
 }
-

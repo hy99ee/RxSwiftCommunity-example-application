@@ -7,7 +7,7 @@ protocol CreateViewViewModelType: UserViewModel, OnUserViewModel, NextTapperView
 class CreateViewViewModel: CreateViewViewModelType {
     let user: AnyObserver<User>
     let onUser: Observable<User>
-    
+
     let tapNext: PublishRelay<Void>
     let onTapNext: Signal<Void>
 
@@ -34,22 +34,5 @@ class CreateViewViewModel: CreateViewViewModelType {
 // MARK: Bindings
 extension CreateViewViewModel {
     private func setupBindings() {
-//        onUser
-//            .bind(to: user)
-//            .disposed(by: disposeBag)
-
-//        onUser
-//            .bind(to: saveTransaction.save)
-//            .disposed(by: disposeBag)
-
-//        saveTransaction.onIsLoad
-//            .bind(to: loader)
-//            .disposed(by: disposeBag)
-
-//        saveTransaction.onIsLoad
-//            .filter({ !$0 })
-//            .map { _ -> Void in }
-//            .bind(to: close)
-//            .disposed(by: disposeBag)
     }
 }

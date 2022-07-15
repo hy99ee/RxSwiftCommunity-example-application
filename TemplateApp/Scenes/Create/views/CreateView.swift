@@ -1,7 +1,7 @@
-import UIKit
 import RxCocoa
 import RxSwift
 import SnapKit
+import UIKit
 
 protocol CreateViewType: onTapNextView where Self: UIView {
     var viewModel: CreateViewViewModelType! { get }
@@ -12,7 +12,7 @@ class CreateView: UIView, CreateViewType {
 
     private let nextText = "Create"
     private let closeText = "Close"
-    
+
     let onTapNext: Signal<Void>
     private let tapNext: PublishRelay<Void>
 
@@ -64,7 +64,7 @@ class CreateView: UIView, CreateViewType {
     override init(frame: CGRect) {
         tapNext = PublishRelay<Void>()
         onTapNext = tapNext.asSignal()
-        
+
         super.init(frame: frame)
     }
 
@@ -90,7 +90,7 @@ private extension CreateView {
         configureFieldsView()
         configureWelcomeLabel()
     }
-    
+
     func configureCreateButton() {
         addSubview(createButton)
         createButton.snp.makeConstraints { maker in

@@ -1,7 +1,7 @@
-import UIKit
 import RxCocoa
 import RxSwift
 import SnapKit
+import UIKit
 
 enum TopBarViewConfigureType {
     case close
@@ -16,16 +16,16 @@ protocol TopBarViewType where Self: UIView {
 class TopBarView: UIView, TopBarViewType {
     var viewModel: TopBarViewModelType!
     var types: [TopBarViewConfigureType]
-    
+
     init(types: [TopBarViewConfigureType]) {
         self.types = types
-    
+
         super.init(frame: .zero)
     }
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private let disposeBag = DisposeBag()
-    
+
     private let tapOffset = 10
     private lazy var closeButton: UIView = {
         let button = UIImageView(image: UIImage(systemName: "xmark.circle"))
@@ -37,7 +37,7 @@ class TopBarView: UIView, TopBarViewType {
         }
         return view
     }()
-    
+
     private lazy var backButton: UIView = {
         let button = UIImageView(image: UIImage(systemName: "chevron.backward.circle"))
         let view = UIView()
@@ -50,12 +50,14 @@ class TopBarView: UIView, TopBarViewType {
     }()
 
     func configured() -> Self {
-        
+        self.backgroundColor = .white
+
         types.forEach { type in
             switch type {
             case .close:
                 configureCloseButton()
                 setupCloseBindings()
+
             case .back:
                 configureBackButton()
                 setupBackBindings()
@@ -77,7 +79,7 @@ private extension TopBarView {
             maker.height.equalTo(30 + 2 * tapOffset)
         }
     }
-    
+
     func configureBackButton() {
         addSubview(backButton)
         backButton.snp.makeConstraints { maker in
@@ -89,18 +91,17 @@ private extension TopBarView {
     }
 }
 
-//MARK: Bindings
+// MARK: Bindings
 private extension TopBarView {
     func setupCloseBindings() {
         closeButton.rx.tapView()
             .emit(to: viewModel.close)
             .disposed(by: disposeBag)
     }
-    
+
     func setupBackBindings() {
         backButton.rx.tapView()
             .emit(to: viewModel.back)
             .disposed(by: disposeBag)
     }
 }
-

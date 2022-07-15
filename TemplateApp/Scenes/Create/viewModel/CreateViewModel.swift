@@ -1,6 +1,6 @@
 import RxCocoa
-import RxSwift
 import RxFlow
+import RxSwift
 
 protocol CreateViewModelType: StepableViewModel, CloserViewModel, UserViewModel {}
 

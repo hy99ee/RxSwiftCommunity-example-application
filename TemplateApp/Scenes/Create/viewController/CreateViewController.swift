@@ -1,17 +1,16 @@
-import UIKit
+import RxCocoa
 import RxFlow
 import RxSwift
-import RxCocoa
 import SnapKit
+import UIKit
 
 final class CreateViewController: UIViewController, Stepper, TopBarViewControllerType {
-
     let steps = PublishRelay<Step>()
 
     var viewModel: CreateViewModelType!
-    
+
     var createView: CreateViewType!
-    
+
     var barViewController: TopBarViewController!
 
     private let disposeBag = DisposeBag()
@@ -20,7 +19,7 @@ final class CreateViewController: UIViewController, Stepper, TopBarViewControlle
     func configured() -> Self {
         configureBarView()
         configureView()
-        
+
         setupViewModelBindings()
         setupViewBindings()
         setupBarBindings()
@@ -32,12 +31,9 @@ final class CreateViewController: UIViewController, Stepper, TopBarViewControlle
 // MARK: UI
 private extension CreateViewController {
     func configureBarView() {
-        view.addSubview(barViewController.view)
-        barViewController.detailBarView.snp.makeConstraints { maker in
-            maker.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-        }
+        barViewController.addWithConstraints(parent: view)
     }
-    
+
     func configureView() {
         view.backgroundColor = .white
         view.addSubview(createView)
@@ -63,8 +59,5 @@ extension CreateViewController {
     }
 
     private func setupViewBindings() {
-
     }
 }
-
-

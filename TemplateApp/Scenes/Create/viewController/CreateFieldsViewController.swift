@@ -15,7 +15,7 @@ final class FormViewController: UITableViewController {
     private enum ReuseIdentifiers: String {
         case textInput
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 44
@@ -29,11 +29,11 @@ final class FormViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.model.sections.count
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.model.sections[section].items.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = model(at: indexPath)
         if let formItem = object as? TextInputFormItem {

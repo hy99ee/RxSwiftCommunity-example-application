@@ -1,6 +1,6 @@
-import RxSwift
 import RxCocoa
 import RxFlow
+import RxSwift
 
 protocol CreateFieldsViewModelType {
     var onUser: Driver<User?> { get }
@@ -8,7 +8,7 @@ protocol CreateFieldsViewModelType {
 }
 
 extension Observable where Element == String {
-    func checkWithCondition(_ condition: @escaping (Element) -> Bool  = { !$0.isEmpty } ) -> Observable<Element?> {
+    func checkWithCondition(_ condition: @escaping (Element) -> Bool  = { !$0.isEmpty }) -> Observable<Element?> {
         self.map { condition($0) ? $0 : nil }
     }
 }
@@ -18,12 +18,12 @@ class CreateFieldsViewModel: CreateFieldsViewModelType {
 
     let onUser: Driver<User?>
     private let user: BehaviorRelay<User?>
-    
+
     private let nameText: PublishSubject<String>
     private let descriptionText: PublishSubject<String>
-    
+
     private let disposeBag = DisposeBag()
-    
+
     init() {
         self.user = BehaviorRelay(value: nil)
         self.onUser = self.user.asDriver()

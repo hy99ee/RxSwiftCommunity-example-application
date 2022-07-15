@@ -1,5 +1,5 @@
-import UIKit
 import RxFlow
+import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -22,4 +22,3 @@ extension SceneDelegate: ToAppFlowNavigation {
         }
     }
 }
-

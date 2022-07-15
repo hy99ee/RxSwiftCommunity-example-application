@@ -1,6 +1,6 @@
-import UIKit
-import RxSwift
 import RxFlow
+import RxSwift
+import UIKit
 
 class CreateFlow {
     private lazy var startViewController: CreateViewController = createStartViewController()
@@ -72,6 +72,7 @@ extension CreateFlow: Flow {
         switch step {
         case .start:
             return .one(flowContributor: .contribute(withNext: startViewController))
+
         case let .saveStep(user):
 
             let saveViewController = createAcceptViewController(user: user)
@@ -97,4 +98,3 @@ private extension CreateFlow {
         .none
     }
 }
-

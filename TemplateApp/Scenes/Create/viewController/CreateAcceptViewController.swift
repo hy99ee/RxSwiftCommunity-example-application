@@ -1,8 +1,8 @@
-import UIKit
+import RxCocoa
 import RxFlow
 import RxSwift
-import RxCocoa
 import SnapKit
+import UIKit
 
 final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewControllerType {
     let steps = PublishRelay<Step>()
@@ -30,10 +30,7 @@ final class CreateAcceptViewController: UIViewController, Stepper, TopBarViewCon
 // MARK: UI
 private extension CreateAcceptViewController {
     func configureBarView() {
-        view.addSubview(barViewController.view)
-        barViewController.detailBarView.snp.makeConstraints { maker in
-            maker.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-        }
+        barViewController.addWithConstraints(parent: view)
     }
 
     func configureView() {

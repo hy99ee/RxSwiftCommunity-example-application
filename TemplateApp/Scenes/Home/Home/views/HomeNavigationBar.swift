@@ -1,6 +1,6 @@
-import UIKit
 import RxCocoa
 import RxSwift
+import UIKit
 
 protocol HomeNavigationItemType: onTapNextView where Self: UINavigationItem {
     var onTapAbout: Signal<Void> { get }
@@ -59,10 +59,9 @@ private extension HomeNavigationItem {
         aboutImageView.rx.tapView()
             .emit(to: tapAbout)
             .disposed(by: disposeBag)
- 
+
         settingImageView.rx.tapView()
             .emit(to: tapNext)
             .disposed(by: disposeBag)
- 
     }
 }

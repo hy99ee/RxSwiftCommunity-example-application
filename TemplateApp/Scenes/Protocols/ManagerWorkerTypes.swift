@@ -17,6 +17,7 @@ protocol RefreshHandlerType: LoadHandlerType {
 class TableViewHandler: RefreshHandlerType {
     let refreshTransaction: RefreshTransaction
     let loadTransaction: LoadTransaction
+
     init(
         load loadTransaction: LoadTransaction,
         refresh refreshTransaction: RefreshTransaction

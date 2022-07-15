@@ -1,6 +1,6 @@
 import RxCocoa
-import RxSwift
 import RxFlow
+import RxSwift
 
 protocol HomeViewModelType: StepableViewModel, OnLoadViewModel, NextTapperViewModel, UserViewModel, CloserViewModel {
     var tapAbout: AnyObserver<Void> { get }
@@ -86,7 +86,7 @@ extension HomeViewModel {
             .disposed(by: disposeBag)
 
         close
-            .map({ _ -> Step in HomeStep.toCloseUser })
+            .map({ _ -> Step in HomeStep.toDismissTop })
             .bind(to: stepper)
             .disposed(by: disposeBag)
 
