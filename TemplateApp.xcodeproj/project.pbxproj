@@ -24,6 +24,7 @@
 		3B23EEAE28801D58007A475D /* config.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3B23EE9528801D58007A475D /* config.yml */; };
 		3B23EEAF28801D58007A475D /* run in Resources */ = {isa = PBXBuildFile; fileRef = 3B23EE9628801D58007A475D /* run */; };
 		3B23EEB128807353007A475D /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B23EEB028807352007A475D /* DetailTableViewCell.swift */; };
+		3B2FCD0A288EF66C00781325 /* CreateUser.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B2FCD09288EF66C00781325 /* CreateUser.xcassets */; };
 		3B392A48282E5E320055F6E9 /* CreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A40282E5E320055F6E9 /* CreateViewModel.swift */; };
 		3B392A49282E5E320055F6E9 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A42282E5E320055F6E9 /* CreateViewController.swift */; };
 		3B392A4A282E5E320055F6E9 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B392A44282E5E320055F6E9 /* CreateView.swift */; };
@@ -119,6 +120,7 @@
 		3B23EE9528801D58007A475D /* config.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = config.yml; sourceTree = "<group>"; };
 		3B23EE9628801D58007A475D /* run */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run; sourceTree = "<group>"; };
 		3B23EEB028807352007A475D /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		3B2FCD09288EF66C00781325 /* CreateUser.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CreateUser.xcassets; path = ../../../../../../../Downloads/CreateUser.xcassets; sourceTree = "<group>"; };
 		3B392A40282E5E320055F6E9 /* CreateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewModel.swift; sourceTree = "<group>"; };
 		3B392A42282E5E320055F6E9 /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		3B392A44282E5E320055F6E9 /* CreateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				3B392A41282E5E320055F6E9 /* viewController */,
 				3B392A43282E5E320055F6E9 /* views */,
 				3B392A45282E5E320055F6E9 /* coordinator */,
+				3B2FCD09288EF66C00781325 /* CreateUser.xcassets */,
 			);
 			path = Create;
 			sourceTree = "<group>";
@@ -728,6 +731,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2FCD0A288EF66C00781325 /* CreateUser.xcassets in Resources */,
 				3B23EEAE28801D58007A475D /* config.yml in Resources */,
 				3B23EEAF28801D58007A475D /* run in Resources */,
 			);

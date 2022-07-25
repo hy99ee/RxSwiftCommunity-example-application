@@ -26,6 +26,10 @@ class CreateAcceptView: UIView, CreateAcceptViewType {
         return button
     }()
 
+    private lazy var userFace = UIImageView(image: UIImage(named: "User"))
+    private lazy var userName = UILabel()
+    private lazy var userAge = UILabel()
+
     lazy var loadingView = loadingIndicator
 
     init() {
@@ -50,7 +54,9 @@ private extension CreateAcceptView {
     func configure() {
         self.backgroundColor = .white
 
+        configureUserFace()
         configureCreateButton()
+        configureUserTitles()
         configureLoadingView()
     }
 
@@ -59,6 +65,26 @@ private extension CreateAcceptView {
         saveButton.snp.makeConstraints { maker in
             maker.leading.trailing.equalToSuperview().inset(30)
             maker.bottom.equalToSuperview().inset(50)
+        }
+    }
+
+    func configureUserFace() {
+        self.addSubview(userFace)
+        userFace.snp.makeConstraints { maker in
+            maker.centerX.centerY.equalToSuperview()
+        }
+    }
+
+    func configureUserTitles() {
+        self.addSubview(userName)
+        self.addSubview(userAge)
+        userName.snp.makeConstraints { maker in
+            maker.bottom.equalTo(userFace.snp.topMargin)
+            maker.centerX.equalToSuperview()
+        }
+        userAge.snp.makeConstraints { maker in
+            maker.top.equalTo(userFace.snp.bottomMargin)
+            maker.centerX.equalToSuperview()
         }
     }
 }
@@ -85,6 +111,14 @@ private extension CreateAcceptView {
 
         viewModel.onLoader
             .drive(loadingView.rx.isAnimating)
+            .disposed(by: disposeBag)
+
+        viewModel.onUserName
+            .drive(userName.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.onUserDescription
+            .drive(userAge.rx.text)
             .disposed(by: disposeBag)
     }
 }

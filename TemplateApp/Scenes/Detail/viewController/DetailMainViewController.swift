@@ -29,7 +29,7 @@ final class DetailMainViewController: UIViewController, Stepper, TopBarViewContr
 // MARK: UI
 private extension DetailMainViewController {
     func configureBarView() {
-        barViewController.addWithConstraints(parent: view)
+        barViewController.addWithConstraints(parent: view, topOffest: 5)
     }
 
     func configureView() {

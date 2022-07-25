@@ -22,12 +22,13 @@ final class TopBarViewController: UIViewController, Stepper {
         return self
     }
 
-    func addWithConstraints(parent parentView: UIView) {
+    func addWithConstraints(parent parentView: UIView, topOffest: Int = 0) {
         self.view.addSubview(detailBarView)
         parentView.addSubview(self.view)
 
         detailBarView.snp.makeConstraints { maker in
-            maker.top.leading.trailing.equalTo(parentView.safeAreaLayoutGuide)
+            maker.top.equalTo(parentView.safeAreaLayoutGuide).offset(topOffest)
+            maker.leading.trailing.equalTo(parentView.safeAreaLayoutGuide)
             maker.height.equalTo(height)
         }
         self.view.snp.makeConstraints { maker in

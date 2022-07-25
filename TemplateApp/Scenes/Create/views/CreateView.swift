@@ -45,18 +45,6 @@ class CreateView: UIView, CreateViewType {
         return view
     }()
 
-    private lazy var closeButton: UIView = {
-        let button = UIImageView(image: UIImage(systemName: "xmark.circle"))
-        let view = UIView()
-        view.addSubview(button)
-        button.snp.makeConstraints { maker in
-            maker.top.leading.equalToSuperview().offset(tapOffset)
-            maker.bottom.trailing.equalToSuperview().inset(tapOffset)
-        }
-
-        return view
-    }()
-
     convenience init() {
         self.init(frame: .zero)
     }
@@ -86,7 +74,6 @@ private extension CreateView {
         backgroundColor = .white
 
         configureCreateButton()
-        configureCloseButton()
         configureFieldsView()
         configureWelcomeLabel()
     }
@@ -95,17 +82,7 @@ private extension CreateView {
         addSubview(createButton)
         createButton.snp.makeConstraints { maker in
             maker.trailing.equalToSuperview().inset(15)
-            maker.bottom.equalToSuperview().inset(5)
-            maker.height.equalTo(40 + 2 * tapOffset)
-            maker.width.equalTo(42 + 2 * tapOffset)
-        }
-    }
-
-    func configureCloseButton() {
-        addSubview(closeButton)
-        closeButton.snp.makeConstraints { maker in
-            maker.leading.equalToSuperview().offset(15)
-            maker.bottom.equalToSuperview().inset(5)
+            maker.bottom.equalToSuperview().inset(40)
             maker.height.equalTo(40 + 2 * tapOffset)
             maker.width.equalTo(42 + 2 * tapOffset)
         }
